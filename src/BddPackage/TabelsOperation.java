@@ -1,4 +1,4 @@
-package BddPakage;
+package BddPackage;
 
 import Models.Tables;
 

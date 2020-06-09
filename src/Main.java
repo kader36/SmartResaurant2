@@ -8,10 +8,14 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        System.setProperty("prism.text","t2k");
+        System.setProperty("prism.lcdtext","false");
+        //Views/storekeeper/StoreManagement.fxml this for add product and product category
+        //Views/KitchenChef/FoodMainController.fxml this for add food and food product
+        Parent root = FXMLLoader.load(getClass().getResource("Views/KitchenChef/FoodMainController.fxml"));
         primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 300, 275));
-        primaryStage.show();
+        primaryStage.setScene(new Scene(root));
+        primaryStage.show();;
     }
 
 
