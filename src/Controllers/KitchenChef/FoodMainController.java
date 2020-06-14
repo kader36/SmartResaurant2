@@ -45,8 +45,15 @@ public class FoodMainController implements Initializable {
             File file = new File(food.getImage_path());
             Image image = new Image(file.toURI().toString());
             imageView.setImage(image);
+            imageView.setId(String.valueOf(food.getId()));
+            imageView.setOnMouseClicked((e) -> {
+                UpdateFood(Integer.valueOf(imageView.getId()));
+
+            });
             imageView.setFitHeight(170);
             imageView.setFitWidth(200);
+
+
             Label foodName = new Label(food.getName());
             Label price = new Label("Price : " +food.getPrice());
             foodName.setPrefHeight(40);
@@ -56,7 +63,25 @@ public class FoodMainController implements Initializable {
             price.setPrefWidth(200);
             price.setStyle("-fx-alignment: center;");
             vBox.getChildren().addAll(imageView,foodName,price);
+            vBox.setId(food.getName());
+
             flowPane.getChildren().add(vBox);
+
+
+
+        }
+
+    }
+
+    private void UpdateFood(int idfood) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/KitchenChef/UpdateFoodView.fxml"));
+            AnchorPane temp = loader.load();
+            UpdateFoodController controller = loader.getController();
+            controller.Init(mainPain,idfood);
+            mainPain.getChildren().setAll(temp);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -81,7 +106,7 @@ public class FoodMainController implements Initializable {
     @FXML
     void homePage(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/KitchenChef/FoodMainController.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/KitchenChef/FoodMainView.fxml"));
             AnchorPane temp = loader.load();
             FoodMainController controller = loader.getController();
             controller.Init(mainPain);

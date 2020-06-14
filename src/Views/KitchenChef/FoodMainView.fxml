@@ -38,21 +38,21 @@
                   <Font name="High Tower Text" size="14.0" />
                </font>
             </Text>
-            <JFXButton contentDisplay="RIGHT" layoutX="40.0" layoutY="223.0" onAction="#homePage" prefHeight="50.0" prefWidth="182.0" ripplerFill="#f2b9b9" text="  الرئيسية" textAlignment="RIGHT" textFill="WHITE">
+            <JFXButton alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="40.0" layoutY="223.0" onAction="#homePage" prefHeight="50.0" prefWidth="182.0" ripplerFill="#f2b9b9" text="  الرئيسية" textAlignment="RIGHT" textFill="WHITE">
                <font>
                   <Font size="23.0" />
                </font></JFXButton>
-            <JFXButton contentDisplay="RIGHT" layoutX="40.0" layoutY="283.0" onAction="#addFoodPage" prefHeight="50.0" prefWidth="182.0" ripplerFill="#f2b9b9" text="اضافة وجبة" textAlignment="RIGHT" textFill="WHITE">
+            <JFXButton alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="40.0" layoutY="283.0" onAction="#addFoodPage" prefHeight="50.0" prefWidth="182.0" ripplerFill="#f2b9b9" text="اضافة وجبة" textAlignment="RIGHT" textFill="WHITE">
                <font>
                   <Font size="23.0" />
                </font>
             </JFXButton>
-            <JFXButton contentDisplay="RIGHT" layoutX="50.0" layoutY="406.0" prefHeight="50.0" prefWidth="182.0" ripplerFill="#f2b9b9" text="الوجبات المتاحة" textAlignment="RIGHT" textFill="WHITE">
+            <JFXButton alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="50.0" layoutY="408.0" prefHeight="50.0" prefWidth="182.0" ripplerFill="#f2b9b9" text="الوجبات المتاحة" textAlignment="RIGHT" textFill="WHITE">
                <font>
                   <Font size="23.0" />
                </font>
             </JFXButton>
-            <JFXButton contentDisplay="RIGHT" layoutX="50.0" layoutY="353.0" onAction="#CategoryFoodPage" prefHeight="50.0" prefWidth="182.0" ripplerFill="#f2b9b9" text="أصناف الوجبات" textAlignment="RIGHT" textFill="WHITE">
+            <JFXButton alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="40.0" layoutY="353.0" onAction="#CategoryFoodPage" prefHeight="50.0" prefWidth="182.0" ripplerFill="#f2b9b9" text="أصناف الوجبات" textAlignment="RIGHT" textFill="WHITE">
                <font>
                   <Font size="23.0" />
                </font>

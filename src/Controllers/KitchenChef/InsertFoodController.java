@@ -1,19 +1,23 @@
 package Controllers.KitchenChef;
 
+import BddPackage.FoodCategoryOperation;
 import BddPackage.FoodOperation;
 import BddPackage.IngredientsFoodOperation;
 import BddPackage.ProductOperation;
 import Controllers.ValidateController;
 import Models.Food;
+import Models.FoodCategory;
 import Models.IngredientsFood;
 import Models.Product;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
@@ -21,6 +25,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 
@@ -33,6 +38,8 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class InsertFoodController implements Initializable {
+    @FXML
+    private JFXComboBox<String> ComboCategoryFood;
     @FXML
     private AnchorPane mainPane;
 
@@ -72,12 +79,16 @@ public class InsertFoodController implements Initializable {
     private BufferedImage image;
     private IngredientsFoodOperation ingredientsFoodOperation;
     private FoodOperation foodOperation;
+    private FoodCategoryOperation foodCategoryOperation;
     private ProductOperation productOperation;
     private ArrayList<Product> listProduct;
+    private ArrayList<FoodCategory> listCategoryFood;
     private ObservableList<String> data_list= FXCollections.observableArrayList();
+    private ObservableList<String> data_combo= FXCollections.observableArrayList();
     private ArrayList<IngredientsFood> listIngredients;
     private ObservableList<IngredientsFood> dataIngredients= FXCollections.observableArrayList();
-    private String imagePath = "/home/nail/IdeaProjects/RestaurantTest/src/FoodImage/";
+    private String imagePath = "/home/nail/IdeaProjects/SmartResaurant/src/FoodImage";
+
 
 
 
@@ -93,11 +104,27 @@ public class InsertFoodController implements Initializable {
         listIngredients = new ArrayList<>();
         productOperation = new ProductOperation();
         listProduct = productOperation.getAll();
+        foodCategoryOperation = new FoodCategoryOperation();
+        listCategoryFood = foodCategoryOperation.getAll();
         chargeListViewProduvt();
+        ChargeComboCategoryFood();
         col_Product_name.setCellValueFactory(new PropertyValueFactory<>("Product_name"));
         col_Product_quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        tableFoodProduct.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
+                    IngredientsFood oldIngredientsFood = tableFoodProduct.getSelectionModel().getSelectedItem();
+                    listViewProduct.getSelectionModel().select(oldIngredientsFood.getProduct_name());
+                    txt_quantity_Product.setText(String.valueOf(oldIngredientsFood.getQuantity()));
+                }
+            }
+        });
 
     }
+
+
+
     public void Init(AnchorPane mainPane){
         this.mainPane = mainPane;
     }
@@ -110,19 +137,30 @@ public class InsertFoodController implements Initializable {
         listViewProduct.setItems(data_list);
 
     }
+    private void ChargeComboCategoryFood() {
+        for (int i = 0; i < listCategoryFood.size(); i++) {
+            data_combo.add(listCategoryFood.get(i).getName());
+        }
+        ComboCategoryFood.setItems(data_combo);
+    }
 
     @FXML
     void AddFood(ActionEvent event) {
-        if (!txt_description.getText().equals("") && !txt_food_name.getText().equals("") && !txt_food_Price.getText().equals("") && img_food != null){
-            Food food = new Food();
-            food.setId_category(1);
-            food.setName(txt_food_name.getText());
-            food.setDescription(txt_description.getText());
-            food.setPrice(Integer.valueOf(txt_food_Price.getText()));
-            food.setImage_path(imagePath+txt_food_name.getText()+".jpg");
-            foodOperation.insert(food);
-            chargeIngredientFoodTable(foodOperation.lastID());
-            saveToFile(txt_food_name.getText());
+        if (!ComboCategoryFood.getValue().isEmpty()) {
+            System.out.println(ComboCategoryFood.getValue());
+            if (!txt_description.getText().equals("") && !txt_food_name.getText().equals("") && !txt_food_Price.getText().equals("") && img_food != null
+               && !tableFoodProduct.getItems().isEmpty()) {
+                Food food = new Food();
+                food.setId_category(getCategoryFoodID(ComboCategoryFood.getValue()));
+                food.setName(txt_food_name.getText());
+                food.setDescription(txt_description.getText());
+                food.setPrice(Integer.valueOf(txt_food_Price.getText()));
+                food.setImage_path(imagePath + txt_food_name.getText() + ".jpg");
+                foodOperation.insert(food);
+                chargeIngredientFoodTable(foodOperation.lastID());
+                saveToFile(txt_food_name.getText());
+                txtVide();
+            }
         }
     }
 
@@ -139,8 +177,28 @@ public class InsertFoodController implements Initializable {
     }
 
     @FXML
+    void insertProduct(ActionEvent event) {
+        String productName  = listViewProduct.getSelectionModel().getSelectedItem();
+        if (!txt_quantity_Product.getText().equals("") && productName != null){
+            IngredientsFood ingredientsFood = new IngredientsFood(productName,Integer.parseInt(txt_quantity_Product.getText()));
+            listIngredients.add(ingredientsFood);
+            refresh();
+        }
+    }
+    @FXML
+    void updateProduct(ActionEvent event) {
+     String productName = listViewProduct.getSelectionModel().getSelectedItem();
+     int index;
+     if (productName !=null && !txt_quantity_Product.getText().isEmpty()){
+         index = indexIngredientFoodList(productName);
+         listIngredients.get(index).setQuantity(Integer.parseInt(txt_quantity_Product.getText()));
+         listIngredients.get(index).setProduct_name(productName);
+         refresh();
+     }
+    }
+
+    @FXML
     void deleteProduct(ActionEvent event) {
-        int index = 0;
         IngredientsFood ingredientsFood = tableFoodProduct.getSelectionModel().getSelectedItem();
         if (ingredientsFood != null){
             for (int i = 0; i < listIngredients.size(); i++) {
@@ -149,34 +207,36 @@ public class InsertFoodController implements Initializable {
                     refresh();
                     break;
                 }
-                index++;
             }
         }
-        System.out.println(index);
     }
-
-
-
-    @FXML
-    void insertProduct(ActionEvent event) {
-        String productName  = listViewProduct.getSelectionModel().getSelectedItem();
-        if (!txt_quantity_Product.equals("") && productName != null){
-            IngredientsFood ingredientsFood = new IngredientsFood(productName,Integer.parseInt(txt_quantity_Product.getText()));
-            listIngredients.add(ingredientsFood);
-            refresh();
+    private int indexIngredientFoodList(String productName){
+        int index = 0;
+        for (int i = 0; i < listIngredients.size(); i++) {
+            if (listIngredients.get(i).getProduct_name().equals(productName)){
+                index = i;
+                break;
+            }
         }
+        return index;
     }
 
     private void refresh() {
         dataIngredients.setAll(listIngredients);
         tableFoodProduct.setItems(dataIngredients);
     }
-
-    @FXML
-    void updateProduct(ActionEvent event) {
-        String productName  = listViewProduct.getSelectionModel().getSelectedItem();
+    private void txtVide(){
+        tableFoodProduct.setItems(null);
+        txt_quantity_Product.setText("");
+        txt_food_name.setText("");
+        txt_description.setText("");
+        txt_food_Price.setText("");
+        image = null;
+        img_food.setImage(null);
 
     }
+
+
     @FXML
     void uploadImage(ActionEvent event) {
 
@@ -200,12 +260,22 @@ public class InsertFoodController implements Initializable {
         int idProduct = 0;
 
         for (Product aListProduct : listProduct) {
-            if (aListProduct.getName() == productName) {
+            if (aListProduct.getName().equals(productName)) {
                 idProduct = aListProduct.getId();
                 break;
             }
         }
         return idProduct;
+    }
+    private int getCategoryFoodID(String category){
+        int idCategory = 0;
+        for (int i = 0; i < listCategoryFood.size(); i++) {
+            if (listCategoryFood.get(i).getName().equals(category)){
+                idCategory = listCategoryFood.get(i).getId();
+                break;
+            }
+        }
+        return idCategory;
     }
     private   void saveToFile(String imageFoodName) {
         // path of the folder to save image in it .
