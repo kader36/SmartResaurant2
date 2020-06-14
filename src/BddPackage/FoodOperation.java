@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class FoodOperation  extends BDD<Food>{
+public class FoodOperation  extends BDD<Food> {
     @Override
     public boolean insert(Food o) {
         boolean ins = false;
@@ -32,8 +32,7 @@ public class FoodOperation  extends BDD<Food>{
     @Override
     public boolean update(Food o1, Food o2) {
         boolean upd = false;
-        String query = "UPDATE `FOOD` SET`ID_Food_Category`=?,`FOOD_NAME`=?,\n" +
-                "    `DESCRIPTION`=?,`FOOD_PRICE`=?,`FOOD_IMAGE`=? WHERE `ID_FOOD` = ?";
+        String query = "UPDATE `FOOD` SET `ID_Food_Category`= ?,`FOOD_NAME`= ?,`DESCRIPTION`= ?,`FOOD_PRICE`= ?,`FOOD_IMAGE`= ? WHERE `ID_FOOD`= ?";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             preparedStmt.setInt(   1,o2.getId_category());
@@ -106,5 +105,26 @@ public class FoodOperation  extends BDD<Food>{
         }
 
         return idlastFood;
+    }
+    public Food getFoodByID(int idFood){
+        Food food = new Food();
+        String query = "select  *from `FOOD` WHERE `ID_FOOD` = ? ";
+        try {
+            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            preparedStmt.setInt(   1,idFood);
+
+            ResultSet resultSet = preparedStmt.executeQuery();
+            while (resultSet.next()){
+                food.setId(resultSet.getInt(            "ID_FOOD"));
+                food.setId_category(resultSet.getInt(   "ID_Food_Category"));
+                food.setName(resultSet.getString(       "FOOD_NAME"));
+                food.setDescription(resultSet.getString("DESCRIPTION"));
+                food.setPrice(resultSet.getInt(         "FOOD_PRICE"));
+                food.setImage_path(resultSet.getString( "FOOD_IMAGE"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return food;
     }
 }

@@ -12,7 +12,7 @@ public class Main extends Application {
         System.setProperty("prism.lcdtext","false");
         //Views/storekeeper/StoreManagement.fxml this for add product and product category
         //Views/KitchenChef/FoodMainController.fxml this for add food and food product
-        Parent root = FXMLLoader.load(getClass().getResource("Views/KitchenChef/FoodMainController.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("Views/KitchenChef/FoodMainView.fxml"));
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();;
