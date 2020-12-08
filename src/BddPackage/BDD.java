@@ -15,9 +15,10 @@ abstract class BDD<Object> {
 
     public Connection connect(){
         // db parameters
-        String url = "jdbc:mysql://localhost:3306/ResturantDB?useSSL=false";
+        String url = "jdbc:mysql://localhost:3307/ResturantDB?useSSL=false";
         String user = "root";
         String password = "";
+        String unicode= "?useUnicode=yes&characterEncoding=UTF-8";
 
         try {
             conn = DriverManager.getConnection(url, user, password);

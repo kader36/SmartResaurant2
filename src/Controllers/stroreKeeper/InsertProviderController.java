@@ -46,7 +46,9 @@ public class InsertProviderController implements Initializable {
     }
 
 
+    public void Init(){
 
+    }
     public void close(ActionEvent actionEvent) {
         Stage stage = (Stage) colseButton.getScene().getWindow();
         // do what you have to do
@@ -62,7 +64,6 @@ public class InsertProviderController implements Initializable {
                provider.setFirst_name(txt_first_name.getText());
                provider.setLast_name(txt_last_name.getText());
                provider.setPhone_number(txt_phone_number.getText());
-               provider.setEmail(txt_email.getText());
                provider.setAdress(txt_adress.getText());
                providerOperation.insert(provider);
                txtVide();
@@ -72,7 +73,9 @@ public class InsertProviderController implements Initializable {
     }
 
     private void txtVide() {
+/*
         ProductOperationController.Vide(txt_adress, txt_email, txt_first_name, txt_last_name, txt_phone_number);
+*/
     }
 
     private boolean validatEmail(String email) {

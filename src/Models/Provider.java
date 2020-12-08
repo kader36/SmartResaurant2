@@ -5,25 +5,23 @@ public class Provider {
     private String first_name;
     private String last_name;
     private String  phone_number;
-    private String email;
+    private String job;
     private String adress;
-    public Provider(){}
+    private String creditor;
+    private String creditor_to;
 
-    public Provider(int id, String first_name, String last_name, String phone_number, String email, String adress) {
-        this.id = id;
-        this.first_name = first_name;
-        this.last_name = last_name;
-        this.phone_number = phone_number;
-        this.email = email;
-        this.adress = adress;
+    public Provider() {
     }
-    public Provider(String first_name, String last_name, String phone_number, String email, String adress) {
+
+    public Provider(int id, String first_name, String last_name, String phone_number, String job, String adress, String creditor, String creditor_to) {
         this.id = id;
         this.first_name = first_name;
         this.last_name = last_name;
         this.phone_number = phone_number;
-        this.email = email;
+        this.job = job;
         this.adress = adress;
+        this.creditor = creditor;
+        this.creditor_to = creditor_to;
     }
 
     public int getId() {
@@ -58,12 +56,12 @@ public class Provider {
         this.phone_number = phone_number;
     }
 
-    public String getEmail() {
-        return email;
+    public String getJob() {
+        return job;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setJob(String job) {
+        this.job = job;
     }
 
     public String getAdress() {
@@ -72,5 +70,21 @@ public class Provider {
 
     public void setAdress(String adress) {
         this.adress = adress;
+    }
+
+    public String getCreditor() {
+        return creditor;
+    }
+
+    public void setCreditor(String creditor) {
+        this.creditor = creditor;
+    }
+
+    public String getCreditor_to() {
+        return creditor_to;
+    }
+
+    public void setCreditor_to(String creditor_to) {
+        this.creditor_to = creditor_to;
     }
 }

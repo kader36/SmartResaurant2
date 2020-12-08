@@ -4,18 +4,23 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.lang.reflect.Field;
+import java.nio.charset.Charset;
+
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        System.setProperty("prism.text","t2k");
+     /*   System.setProperty("prism.text","t2k");
         System.setProperty("prism.lcdtext","false");
-        //Views/storekeeper/StoreManagement.fxml this for add product and product category
-        //Views/KitchenChef/FoodMainController.fxml this for add food and food product
-        Parent root = FXMLLoader.load(getClass().getResource("Views/KitchenChef/FoodMainView.fxml"));
+      */  //System.setProperty("file.encoding", "UTF-8");
+
+        Parent root = FXMLLoader.load(getClass().getResource("Views/MainScreen.fxml"));
         primaryStage.setTitle("Hello World");
+        root.getStylesheets().add("Style.css");
         primaryStage.setScene(new Scene(root));
-        primaryStage.show();;
+        primaryStage.setMaximized(true);
+        primaryStage.show();
     }
 
 
