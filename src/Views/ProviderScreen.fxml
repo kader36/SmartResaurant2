@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #F8F8F8;" stylesheets="@css/style.css" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.stroreKeeper.ProviderController">
+<BorderPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #F8F8F8;" stylesheets="@css/style.css" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.stroreKeeper.ProviderController">
    <center>
       <AnchorPane styleClass="container" BorderPane.alignment="CENTER">
          <children>
@@ -148,7 +148,7 @@
                         </HBox>
                         <HBox spacing="15.0">
                            <children>
-                              <Button maxHeight="30.0" maxWidth="84.0" minHeight="30.0" minWidth="84.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="84.0" styleClass="printer-button" text="طباعة " textFill="WHITE">
+                              <Button maxHeight="30.0" maxWidth="84.0" minHeight="30.0" minWidth="84.0" mnemonicParsing="false" onAction="#reportProvidersList" prefHeight="30.0" prefWidth="84.0" styleClass="printer-button" text="طباعة " textFill="WHITE">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
@@ -163,7 +163,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Button>
-                              <Button maxHeight="30.0" maxWidth="117.0" minHeight="30.0" minWidth="117.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="117.0" styleClass="extract-button" text="استخراج Exel" textFill="#828282">
+                              <Button maxHeight="30.0" maxWidth="117.0" minHeight="30.0" minWidth="117.0" mnemonicParsing="false" onAction="#exportCsvProvider" prefHeight="30.0" prefWidth="117.0" styleClass="extract-button" text="استخراج Exel" textFill="#828282">
                                  <graphic>
                                     <ImageView fitHeight="16.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -175,7 +175,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Button>
-                              <Button maxHeight="30.0" maxWidth="117.0" minHeight="30.0" minWidth="117.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="117.0" styleClass="extract-button" text="إستخراج PDF" textFill="#828282">
+                              <Button maxHeight="30.0" maxWidth="117.0" minHeight="30.0" minWidth="117.0" mnemonicParsing="false" onAction="#exportPDFOfProviderList" prefHeight="30.0" prefWidth="117.0" styleClass="extract-button" text="إستخراج PDF" textFill="#828282">
                                  <graphic>
                                     <ImageView fitHeight="16.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -233,7 +233,7 @@
                            </HBox.margin></ComboBox>
                         <VBox prefHeight="200.0" prefWidth="100.0">
                            <children>
-                              <TextField fx:id="txt_search" maxHeight="32.0" maxWidth="210.0" minHeight="32.0" minWidth="210.0" prefHeight="32.0" prefWidth="210.0" promptText="بحث" style="-fx-font-family: HSDream-Regular;" styleClass="input-popup">
+                              <TextField fx:id="txt_search" maxHeight="32.0" maxWidth="210.0" minHeight="32.0" minWidth="210.0" onAction="#searchProvider" prefHeight="32.0" prefWidth="210.0" promptText="بحث" style="-fx-font-family: HSDream-Regular;" styleClass="input-popup">
                                  <font>
                                     <Font name="HSDream-Regular" size="15.0" />
                                  </font>
@@ -264,7 +264,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Button>
-                        <Button maxHeight="35.0" maxWidth="150.0" minHeight="35.0" minWidth="150.0" mnemonicParsing="false" onAction="#addNewProvider" prefHeight="35.0" prefWidth="150.0" styleClass="add-new-item" text="اضافة مورد جديد " textFill="WHITE">
+                        <Button fx:id="addProvider" maxHeight="35.0" maxWidth="150.0" minHeight="35.0" minWidth="150.0" mnemonicParsing="false" onAction="#addNewProvider" prefHeight="35.0" prefWidth="150.0" styleClass="add-new-item" text="اضافة مورد جديد " textFill="WHITE">
                            <font>
                               <Font size="16.0" />
                            </font>
@@ -285,7 +285,7 @@
                            <children>
                               <VBox prefHeight="101.0" prefWidth="81.0">
                                  <children>
-                                    <Button contentDisplay="RIGHT" maxHeight="35.0" maxWidth="81.0" minHeight="35.0" minWidth="81.0" mnemonicParsing="false" onAction="#showHideProviderOperation" prefHeight="35.0" prefWidth="81.0" styleClass="more-button" text="المزيد" textFill="#42b3c5">
+                                    <Button fx:id="moreOptionsProvider" contentDisplay="RIGHT" maxHeight="35.0" maxWidth="81.0" minHeight="35.0" minWidth="81.0" mnemonicParsing="false" onAction="#showHideProviderOperation" prefHeight="35.0" prefWidth="81.0" styleClass="more-button" text="المزيد" textFill="#42b3c5">
                                        <font>
                                           <Font size="16.0" />
                                        </font>

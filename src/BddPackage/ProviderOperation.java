@@ -81,6 +81,7 @@ public class ProviderOperation extends BDD<Provider> {
         }
         return list;
     }
+
     public ArrayList<Provider> getAllBy(String orderBY){
         ArrayList<Provider> list = new ArrayList<>();
         String query = "SELECT * FROM `PROVIDER` ORDER BY "+orderBY+" ASC ";

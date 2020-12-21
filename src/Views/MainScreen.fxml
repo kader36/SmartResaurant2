@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="600.0" prefWidth="1000.0" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Controller">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="600.0" prefWidth="1000.0" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Controller">
    <center>
       <AnchorPane fx:id="mainPane" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #FFF;" BorderPane.alignment="CENTER">
          <children>
@@ -115,6 +115,26 @@
                            </HBox.margin>
                         </ImageView>
                         <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#loadBillScreen" prefHeight="39.0" styleClass="btn-menu" text="قائمة الفواتير" textOverrun="CLIP">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="60.0" prefHeight="40.0" prefWidth="300.0" styleClass="parent-menu-item">
+                     <children>
+                        <ImageView fitHeight="32.0" fitWidth="16.0" opacity="0.8" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../Images/file-plus.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets left="30.0" top="9.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#loadProductScreen" prefHeight="39.0" styleClass="btn-menu" text="قائمة السلع" textOverrun="CLIP">
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>

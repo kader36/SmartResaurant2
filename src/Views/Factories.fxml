@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #F8F8F8;" stylesheets="@css/style.css" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.stroreKeeper.BillListController">
+<BorderPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #F8F8F8;" stylesheets="@css/style.css" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.stroreKeeper.BillListController">
    <top>
       <AnchorPane prefHeight="70.0" prefWidth="900.0" style="-fx-background-color: FFF;" styleClass="bar-top" BorderPane.alignment="CENTER">
          <children>
@@ -163,7 +163,7 @@
                         </HBox>
                         <HBox spacing="15.0">
                            <children>
-                              <Button maxHeight="30.0" maxWidth="84.0" minHeight="30.0" minWidth="84.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="84.0" styleClass="printer-button" text="طباعة " textFill="WHITE">
+                              <Button maxHeight="30.0" maxWidth="84.0" minHeight="30.0" minWidth="84.0" mnemonicParsing="false" onAction="#reportListBill" prefHeight="30.0" prefWidth="84.0" styleClass="printer-button" text="طباعة " textFill="WHITE">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
@@ -177,7 +177,7 @@
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor></Button>
-                              <Button maxHeight="30.0" maxWidth="117.0" minHeight="30.0" minWidth="117.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="117.0" styleClass="extract-button" text="استخراج Exel" textFill="#828282">
+                              <Button maxHeight="30.0" maxWidth="117.0" minHeight="30.0" minWidth="117.0" mnemonicParsing="false" onAction="#exportCsvListBill" prefHeight="30.0" prefWidth="117.0" styleClass="extract-button" text="استخراج Exel" textFill="#828282">
                                  <graphic>
                                     <ImageView fitHeight="16.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -188,7 +188,7 @@
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor></Button>
-                              <Button maxHeight="30.0" maxWidth="117.0" minHeight="30.0" minWidth="117.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="117.0" styleClass="extract-button" text="إستخراج PDF" textFill="#828282">
+                              <Button maxHeight="30.0" maxWidth="117.0" minHeight="30.0" minWidth="117.0" mnemonicParsing="false" onAction="#exportPdfLstBill" prefHeight="30.0" prefWidth="117.0" styleClass="extract-button" text="إستخراج PDF" textFill="#828282">
                                  <graphic>
                                     <ImageView fitHeight="16.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -244,7 +244,7 @@
                            </HBox.margin></ComboBox>
                         <VBox prefHeight="200.0" prefWidth="100.0">
                            <children>
-                              <TextField maxHeight="32.0" maxWidth="210.0" minHeight="32.0" minWidth="210.0" prefHeight="32.0" prefWidth="210.0" promptText="بحث" styleClass="search-input">
+                              <TextField fx:id="txtSearchField" maxHeight="32.0" maxWidth="210.0" minHeight="32.0" minWidth="210.0" onAction="#txtSearchBill" prefHeight="32.0" prefWidth="210.0" promptText="بحث" styleClass="search-input">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
@@ -307,7 +307,7 @@
                               </Button>
                               <VBox fx:id="vboxBillOption" prefHeight="200.0" prefWidth="100.0" styleClass="container-edit-delete">
                                  <children>
-                                    <Button mnemonicParsing="false" styleClass="button-edit-delete" text="تعديل">
+                                    <Button mnemonicParsing="false" onAction="#editBill" styleClass="button-edit-delete" text="تعديل">
                                        <VBox.margin>
                                           <Insets top="7.0" />
                                        </VBox.margin>
@@ -325,7 +325,7 @@
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button mnemonicParsing="false" styleClass="button-edit-delete" text="حذف">
+                                    <Button mnemonicParsing="false" onAction="#deleteBill" styleClass="button-edit-delete" text="حذف">
                                        <VBox.margin>
                                           <Insets bottom="7.0" />
                                        </VBox.margin>

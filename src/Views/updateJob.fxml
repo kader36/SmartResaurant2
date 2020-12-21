@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<DialogPane fx:id="mainPane" maxHeight="400.0" maxWidth="440.0" minHeight="400.0" minWidth="440.0" prefHeight="400.0" prefWidth="440.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.stroreKeeper.ProviderJobController">
+<DialogPane fx:id="mainPane" maxHeight="400.0" maxWidth="440.0" minHeight="400.0" minWidth="440.0" prefHeight="400.0" prefWidth="440.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.stroreKeeper.ProviderJobController">
    <content>
       <BorderPane maxHeight="400.0" maxWidth="440.0" minHeight="400.0" minWidth="440.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="400.0" prefWidth="440.0" style="-fx-background-color: #F8F8F8;" stylesheets="@css/style.css">
          <center>
@@ -22,7 +22,7 @@
                <children>
                   <VBox alignment="CENTER" layoutX="394.0" layoutY="189.0" maxHeight="1.7976931348623157E308" maxWidth="440.0" minWidth="440.0" prefWidth="440.0" spacing="20.0" style="-fx-background-color: FFF;" styleClass="container-table" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <ImageView fitHeight="25.0" fitWidth="14.0" onMouseClicked="#closeInsertJobDialog" opacity="0.8" pickOnBounds="true" preserveRatio="true" styleClass="image-close-pop">
+                        <ImageView fitHeight="25.0" fitWidth="14.0" onMouseClicked="#closeUpdateJobDialog" opacity="0.8" pickOnBounds="true" preserveRatio="true" styleClass="image-close-pop">
                            <image>
                               <Image url="@../Images/delete.png" />
                            </image>
@@ -75,6 +75,7 @@
                               <Insets top="10.0" />
                            </VBox.margin>
                         </Button>
+                        <Label fx:id="errUpdateJob" textFill="#eb0d0d" />
                         <HBox alignment="CENTER_RIGHT">
                            <children>
                               <HBox maxWidth="160.0" minWidth="160.0" prefWidth="160.0" spacing="15.0" HBox.hgrow="ALWAYS" />

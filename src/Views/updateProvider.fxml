@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<DialogPane minHeight="460.0" minWidth="440.0" prefHeight="460.0" prefWidth="440.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.stroreKeeper.ProviderController">
+<DialogPane minHeight="460.0" minWidth="440.0" prefHeight="460.0" prefWidth="440.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.stroreKeeper.ProviderController">
    <content>
       <BorderPane maxHeight="460.0" maxWidth="440.0" minHeight="460.0" minWidth="440.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="460.0" prefWidth="440.0" style="-fx-background-color: #F8F8F8;" stylesheets="@css/style.css">
          <center>
@@ -23,7 +23,7 @@
                <children>
                   <VBox alignment="CENTER" layoutX="394.0" layoutY="189.0" maxHeight="1.7976931348623157E308" maxWidth="440.0" minWidth="440.0" prefWidth="440.0" spacing="20.0" style="-fx-background-color: FFF;" styleClass="container-table" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <ImageView fitHeight="25.0" fitWidth="14.0" onMouseClicked="#close" opacity="0.8" pickOnBounds="true" preserveRatio="true" styleClass="image-close-pop">
+                        <ImageView fitHeight="25.0" fitWidth="14.0" onMouseClicked="#closeUpdateProvider" opacity="0.8" pickOnBounds="true" preserveRatio="true" styleClass="image-close-pop">
                            <image>
                               <Image url="@../Images/delete.png" />
                            </image>
@@ -87,6 +87,7 @@
                               <Insets top="-10.0" />
                            </VBox.margin>
                         </TextField>
+                        <Label fx:id="errUpdateProvider" textFill="#eb0d0d" />
                         <Button fx:id="updateButton" maxHeight="30.0" maxWidth="110.0" minHeight="30.0" minWidth="110.0" mnemonicParsing="false" onAction="#updateProviderAction" prefHeight="30.0" prefWidth="110.0" styleClass="add-product" text="تعديل مورد" textFill="WHITE">
                            <graphic>
                               <ImageView fitHeight="16.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">

@@ -60,11 +60,11 @@ public class Controller implements Initializable {
     @FXML
     void loadBillScreen(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/ProductsScreen.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Factories.fxml"));
 
             BorderPane temp = loader.load();
-            ProductController productController = loader.getController();
-            productController.Init(temp);
+            BillListController billController = loader.getController();
+            billController.Init(temp);
             mainPane.getChildren().setAll(temp);
         } catch (IOException e) {
             e.printStackTrace();
@@ -74,7 +74,7 @@ public class Controller implements Initializable {
     @FXML
     void loadProductScreen(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Factories.fxml.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/ProductsScreen.fxml"));
             BorderPane temp = loader.load();
             ProductController productController = loader.getController();
             productController.Init(temp);

@@ -1,5 +1,6 @@
 package BddPackage;
 
+import Models.Bill;
 import Models.StoreBillProduct;
 
 import java.sql.PreparedStatement;
@@ -25,6 +26,24 @@ public class StoreBillProductOperation extends BDD<StoreBillProduct> {
 
         return ins;
     }
+
+//    public boolean insert(Bill o, String providerName) {
+//        boolean ins = false;
+//        String query = "INSERT INTO `STORE_BILL_PRODUCT`(`ID_STORE_BILL`, `ID_PRODUCT`, `PRICE`, `PRODUCT_QUANTITY`) VALUES (?,?,?,?)";
+//        try {
+//            PreparedStatement preparedStmt = conn.prepareStatement(query);
+//            preparedStmt.setInt(   1,o.getId_stor_bill());
+//            preparedStmt.setInt(   2,o.getId_product());
+//            preparedStmt.setInt(   3,o.getPrice());
+//            preparedStmt.setInt(   4,o.getProduct_quantity());
+//            int insert = preparedStmt.executeUpdate();
+//            if(insert != -1) ins = true;
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return ins;
+//    }
 
     @Override
     public boolean update(StoreBillProduct o1, StoreBillProduct o2) {
