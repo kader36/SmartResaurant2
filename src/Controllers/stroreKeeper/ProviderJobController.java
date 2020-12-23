@@ -50,6 +50,7 @@ public class ProviderJobController implements Initializable {
 
     @FXML
     private VBox vboxOptionJob;
+
     @FXML
     private TextField txt_job;
 
@@ -67,7 +68,6 @@ public class ProviderJobController implements Initializable {
 
     @FXML
     private Label errUpdateJob;
-
 
 
     private ProviderJob providerJob = new ProviderJob();
@@ -186,7 +186,7 @@ public class ProviderJobController implements Initializable {
         if (!txt_job_upt.getText().isEmpty() && !providerJob.getName().equals(txt_job_upt.getText())) {
             providerJobOperation.update(new ProviderJob(txt_job_upt.getText()), providerJob);
             close(updateJobButton);
-        }else {
+        } else {
             errUpdateJob.setText("ادخل اسم الوظيفة الجديدة");
         }
     }

@@ -3,7 +3,7 @@ package Models;
 public class Product {
     private int id;
     private String name;
-    private int  id_category;
+    private int id_category;
     private String category_name;
     private String storage_Unit;
     private int less_quantity;

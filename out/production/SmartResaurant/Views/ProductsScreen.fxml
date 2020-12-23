@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #F8F8F8;" stylesheets="@css/style.css" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.stroreKeeper.ProductController">
+<BorderPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #F8F8F8;" stylesheets="@css/style.css" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.stroreKeeper.ProductController">
    <top>
       <AnchorPane prefHeight="70.0" prefWidth="900.0" style="-fx-background-color: FFF;" styleClass="bar-top" BorderPane.alignment="CENTER">
          <children>
@@ -153,7 +153,7 @@
                               </HBox>
                               <HBox spacing="15.0">
                                  <children>
-                                    <Button maxHeight="28.0" maxWidth="80.0" minHeight="30.0" minWidth="80.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="80.0" styleClass="printer-button" text="طباعة " textFill="WHITE">
+                                    <Button maxHeight="28.0" maxWidth="80.0" minHeight="30.0" minWidth="80.0" mnemonicParsing="false" onAction="#reportTableProduct" prefHeight="30.0" prefWidth="80.0" styleClass="printer-button" text="طباعة " textFill="WHITE">
                                        <font>
                                           <Font size="15.0" />
                                        </font>
@@ -171,7 +171,7 @@
                                           <Insets />
                                        </HBox.margin>
                                     </Button>
-                                    <Button maxHeight="30.0" maxWidth="100.0" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" styleClass="extract-button" text="استخراج Exel" textFill="#828282">
+                                    <Button maxHeight="30.0" maxWidth="100.0" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" onAction="#exportCsvTableProduct" prefHeight="30.0" prefWidth="100.0" styleClass="extract-button" text="استخراج Exel" textFill="#828282">
                                        <graphic>
                                           <ImageView fitHeight="16.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -186,7 +186,7 @@
                                           <Insets left="-10.0" />
                                        </HBox.margin>
                                     </Button>
-                                    <Button maxHeight="30.0" maxWidth="100.0" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" styleClass="extract-button" text="إستخراج PDF" textFill="#828282">
+                                    <Button maxHeight="30.0" maxWidth="100.0" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" onAction="#exportPdfTableProduct" prefHeight="30.0" prefWidth="100.0" styleClass="extract-button" text="إستخراج PDF" textFill="#828282">
                                        <graphic>
                                           <ImageView fitHeight="16.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -367,7 +367,7 @@
                               <Insets top="-80.0" />
                            </HBox.margin>
                         </Label>
-                        <Label styleClass="number-list" text="2513" textFill="#777777">
+                        <Label fx:id="totProducts" styleClass="number-list" text="2513" textFill="#777777">
                            <font>
                               <Font size="26.0" />
                            </font>
@@ -386,14 +386,14 @@
                               <Insets top="-80.0" />
                            </HBox.margin>
                         </Label>
-                        <ComboBox fx:id="comboByCategory" maxHeight="32.0" maxWidth="97.0" minHeight="32.0" minWidth="97.0" prefHeight="32.0" prefWidth="97.0" promptText="الكل" styleClass="search-input">
+                        <ComboBox fx:id="comboListCategory" maxHeight="32.0" maxWidth="97.0" minHeight="32.0" minWidth="97.0" prefHeight="32.0" prefWidth="97.0" promptText="الكل" styleClass="search-input">
                            <HBox.margin>
                               <Insets top="-80.0" />
                            </HBox.margin>
                         </ComboBox>
                         <VBox prefHeight="200.0" prefWidth="100.0">
                            <children>
-                              <TextField fx:id="txt_search" maxHeight="32.0" maxWidth="210.0" minHeight="32.0" minWidth="210.0" prefHeight="32.0" prefWidth="210.0" promptText="بحث" style="-fx-font-family: HSDream-Regular;" styleClass="input-popup">
+                              <TextField fx:id="txt_search" maxHeight="32.0" maxWidth="210.0" minHeight="32.0" minWidth="210.0" onAction="#searchProduct" prefHeight="32.0" prefWidth="210.0" promptText="بحث" style="-fx-font-family: HSDream-Regular;" styleClass="input-popup">
                                  <font>
                                     <Font name="HSDream-Regular" size="15.0" />
                                  </font>

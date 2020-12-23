@@ -3,6 +3,7 @@ package Controllers.stroreKeeper;
 import BddPackage.ProviderJobOperation;
 import BddPackage.ProviderOperation;
 import Controllers.ValidateController;
+import Models.Product;
 import Models.Provider;
 import Models.ProviderJob;
 import com.mysql.jdbc.Connection;
@@ -40,7 +41,9 @@ import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.view.JasperViewer;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -351,7 +354,7 @@ public class ProviderController implements Initializable {
             updateProviderSucc = true;
             closeDialog(updateButton);
         } else {
-            errUpdateProvider.setText("املأ جميع الحقول");
+            errUpdateProvider.setText("الرجاء ملأ جميع الحقول");
         }
     }
 
@@ -548,9 +551,9 @@ public class ProviderController implements Initializable {
 
     @FXML
     void reportProvidersList(ActionEvent event) {
-        Platform.runLater(() -> {
+        // TODO must change report path
         try {
-            String report = "E:\\Projects\\JavaProjects\\SmartResaurant-master\\SmartResaurant-master\\src\\Views\\storekeeper\\reportProvider.jrxml";
+            String report = "E:\\SmartResaurant\\src\\Views\\storekeeper\\reportProvider.jrxml";
             JasperDesign jasperDesign = JRXmlLoader.load(report);
             String sqlCmd = "select * from provider order by id_provider";
             JRDesignQuery jrDesignQuery = new JRDesignQuery();
@@ -559,18 +562,17 @@ public class ProviderController implements Initializable {
             JasperReport jasperReport = null;
             jasperReport = JasperCompileManager.compileReport(jasperDesign);
             Connection connection = null;
-            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null,connection);
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, connection);
             JasperViewer.viewReport(jasperPrint);
         } catch (JRException e) {
             e.printStackTrace();
         }
-        });
     }
 
     @FXML
     void exportPDFOfProviderList(ActionEvent event) {
         try {
-
+            // TODO must change report path
             // choose directory of PDF
             Node node = (Node) event.getSource();
             Stage stage = (Stage) node.getScene().getWindow();
@@ -582,7 +584,7 @@ public class ProviderController implements Initializable {
                 return;
             workspace = selectedDirectory.getAbsolutePath();
             //
-            String report = "E:\\Projects\\JavaProjects\\SmartResaurant-master\\SmartResaurant-master\\src\\Views\\storekeeper\\reportProvider.jrxml";
+            String report = "E:\\SmartResaurant\\src\\Views\\storekeeper\\reportProvider.jrxml";
             JasperDesign jasperDesign = JRXmlLoader.load(report);
             String sqlCmd = "select * from provider";
             JRDesignQuery jrDesignQuery = new JRDesignQuery();
@@ -592,7 +594,7 @@ public class ProviderController implements Initializable {
             jasperReport = JasperCompileManager.compileReport(jasperDesign);
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null);
             // Export to PDF.
-            JasperExportManager.exportReportToPdfFile(jasperPrint,workspace+"/list of providers.pdf");
+            JasperExportManager.exportReportToPdfFile(jasperPrint, workspace + "/list of providers.pdf");
         } catch (JRException e) {
             e.printStackTrace();
         }
@@ -601,30 +603,62 @@ public class ProviderController implements Initializable {
     @FXML
     void exportCsvProvider(ActionEvent event) {
         try {
-
-            // choose directory of PDF
             Node node = (Node) event.getSource();
             Stage stage = (Stage) node.getScene().getWindow();
-
+            // choose directory of CSV
             DirectoryChooser directoryChooser = new DirectoryChooser();
             File selectedDirectory = directoryChooser.showDialog(stage);
             String workspace;
             if (selectedDirectory == null)
                 return;
             workspace = selectedDirectory.getAbsolutePath();
-            //
-            String report = "E:\\Projects\\JavaProjects\\SmartResaurant-master\\SmartResaurant-master\\src\\Views\\storekeeper\\reportProvider.jrxml";
-            JasperDesign jasperDesign = JRXmlLoader.load(report);
-            String sqlCmd = "select * from provider";
-            JRDesignQuery jrDesignQuery = new JRDesignQuery();
-            jrDesignQuery.setText(sqlCmd);
-            jasperDesign.setQuery(jrDesignQuery);
-            JasperReport jasperReport = null;
-            jasperReport = JasperCompileManager.compileReport(jasperDesign);
-            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null);
-            // Export to CSV
-            JasperExportManager.exportReportToPdfFile(jasperPrint,workspace+"/list of providers.csv");
-        } catch (JRException e) {
+            // Export to CSV.
+            PrintWriter pw = new PrintWriter(workspace + "/list of provider.csv");
+            StringBuilder sb = new StringBuilder();
+            sb.append("رقم التسجيل");
+            sb.append(",");
+            sb.append("الإسم");
+            sb.append(",");
+            sb.append("اللقب");
+            sb.append(",");
+            sb.append("الوظيفة");
+            sb.append(",");
+            sb.append("العنوان");
+            sb.append(",");
+            sb.append("رقم الهاتف");
+            sb.append(",");
+            sb.append("دائن");
+            sb.append(",");
+            sb.append("مدان بـ");
+            sb.append("\r\n");
+            list_Providers = providerOperation.getAll();
+            for (Provider provider : list_Providers) {
+                sb.append(provider.getId());
+                sb.append(",");
+                sb.append(provider.getFirst_name());
+                sb.append(",");
+                sb.append(provider.getLast_name());
+                sb.append(",");
+                sb.append(provider.getJob());
+                sb.append(",");
+                sb.append(provider.getAdress());
+                sb.append(",");
+                sb.append(provider.getPhone_number());
+                sb.append(",");
+                sb.append(provider.getCreditor_to());
+                sb.append(",");
+                sb.append(provider.getCreditor());
+                sb.append("\r\n");
+            }
+            pw.write(sb.toString());
+            pw.close();
+            Alert alertWarning = new Alert(Alert.AlertType.INFORMATION);
+            alertWarning.setHeaderText("تأكيد");
+            alertWarning.setContentText("تم استخراج المعلومات بواسطة Excel بنجاح");
+            Button okButton = (Button) alertWarning.getDialogPane().lookupButton(ButtonType.OK);
+            okButton.setText("حسنا");
+            alertWarning.showAndWait();
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }
