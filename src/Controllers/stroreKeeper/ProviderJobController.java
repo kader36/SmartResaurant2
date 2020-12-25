@@ -205,7 +205,7 @@ public class ProviderJobController implements Initializable {
         if (providerJob != null) {
             Alert alertConfirmation = new Alert(Alert.AlertType.CONFIRMATION);
             alertConfirmation.setHeaderText("تأكيد الحذف");
-            alertConfirmation.setContentText("هل انت متأكد من حذف المورد  ");
+            alertConfirmation.setContentText("هل انت متأكد من حذف الوظيفة  ");
             Button okButton = (Button) alertConfirmation.getDialogPane().lookupButton(ButtonType.OK);
             okButton.setText("موافق");
 

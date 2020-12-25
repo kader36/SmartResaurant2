@@ -72,7 +72,9 @@ public class ProductOperation extends BDD<Product> {
     @Override
     public ArrayList<Product> getAll() {
         ArrayList<Product> list = new ArrayList<>();
-        String query = "SELECT `ID_PRODUCT`, `ID_PRODUCT_CATEGORY`, `CATEGORY_NAME`, `PRODUCT_NAME`, `STORAGE_UNIT`, `QUANTITY`, `LESS_QUANTITY` FROM `PRODUCT`,`PRODUCT_CATEGORY` WHERE PRODUCT.ID_PRODUCT_CATEGORY = PRODUCT_CATEGORY.ID_CATEGORY";
+        String query = "SELECT `ID_PRODUCT`, `ID_PRO" +
+                "" +
+                "DUCT_CATEGORY`, `CATEGORY_NAME`, `PRODUCT_NAME`, `STORAGE_UNIT`, `QUANTITY`, `LESS_QUANTITY` FROM `PRODUCT`,`PRODUCT_CATEGORY` WHERE PRODUCT.ID_PRODUCT_CATEGORY = PRODUCT_CATEGORY.ID_CATEGORY";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             ResultSet resultSet = preparedStmt.executeQuery();

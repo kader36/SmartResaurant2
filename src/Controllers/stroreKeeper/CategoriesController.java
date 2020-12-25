@@ -95,7 +95,36 @@ public class CategoriesController implements Initializable {
 
     @FXML
     void deleteCategory(ActionEvent event) {
+        vboxOptionCategory.setVisible(false);
+        visibleCategory = false;
+        productCategory = productCategoryTable.getSelectionModel().getSelectedItem();
+        if (productCategory != null) {
+            Alert alertConfirmation = new Alert(Alert.AlertType.CONFIRMATION);
+            alertConfirmation.setHeaderText("تأكيد الحذف");
+            alertConfirmation.setContentText("هل انت متأكد من حذف الصنف ");
+            Button okButton = (Button) alertConfirmation.getDialogPane().lookupButton(ButtonType.OK);
+            okButton.setText("موافق");
 
+            Button cancel = (Button) alertConfirmation.getDialogPane().lookupButton(ButtonType.CANCEL);
+            cancel.setText("الغاء");
+
+            alertConfirmation.showAndWait().ifPresent(response -> {
+                if (response == ButtonType.CANCEL) {
+                    alertConfirmation.close();
+                } else if (response == ButtonType.OK) {
+                    productCategoryOperation.delete(productCategory);
+                    refresh();
+                }
+            });
+        } else {
+            System.out.println("it's null");
+            Alert alertWarning = new Alert(Alert.AlertType.WARNING);
+            alertWarning.setHeaderText("تحذير ");
+            alertWarning.setContentText("يرجى اختيار الصنف المراد حذفه");
+            Button okButton = (Button) alertWarning.getDialogPane().lookupButton(ButtonType.OK);
+            okButton.setText("حسنا");
+            alertWarning.showAndWait();
+        }
     }
 
     @FXML
@@ -124,7 +153,20 @@ public class CategoriesController implements Initializable {
 
     @FXML
     void showHideCategoryOperation(ActionEvent event) {
+        visibleCategory = showHideListOperation(vboxOptionCategory,visibleCategory);
+    }
 
+    private boolean showHideListOperation(VBox vBox, boolean visibles) {
+
+        if (!visibles) {
+            vBox.setVisible(true);
+            visibles = true;
+        } else {
+            vBox.setVisible(false);
+            visibles = false;
+
+        }
+        return visibles;
     }
 
     @FXML
@@ -188,17 +230,18 @@ public class CategoriesController implements Initializable {
             lbl_valide.setVisible(true);
             fadeIn.playFromStart();
         } else {
-            errAddCategory.setText("ادخل اسم الوظيفة الجديدة");
+            errAddCategory.setText("ادخل اسم الصنف الجديد");
         }
     }
 
     @FXML
     void closeInsertJobDialog(MouseEvent event) {
-
+        close(insertCategoryButton);
     }
 
     @FXML
-    void txt_job_Pressed(KeyEvent event) {
+    void txt_category_Pressed(KeyEvent event) {
+
 
     }
 
@@ -231,9 +274,10 @@ public class CategoriesController implements Initializable {
         Stage stage = (Stage) btn.getScene().getWindow();
         stage.close();
     }
+
     @FXML
     void closeUpdateJobDialog(MouseEvent event) {
-
+        close(updateCategoryButton);
     }
 
 
