@@ -219,7 +219,7 @@
                               <Insets top="-82.0" />
                            </HBox.margin>
                         </Label>
-                        <Label styleClass="number-list" text="2513" textFill="#777777">
+                        <Label fx:id="nbTotFact" styleClass="number-list" text="2513" textFill="#777777">
                            <font>
                               <Font size="26.0" />
                            </font>

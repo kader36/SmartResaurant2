@@ -1,5 +1,8 @@
 package Models;
 
+import BddPackage.ProviderOperation;
+
+import java.util.ArrayList;
 import java.util.Date;
 
 public class StoreBill {
@@ -57,5 +60,16 @@ public class StoreBill {
 
     public void setPaid_up(int paid_up) {
         this.paid_up = paid_up;
+    }
+
+    public Provider getProvider(int idProvider){
+        ProviderOperation providerOperation = new ProviderOperation();
+        ArrayList<Provider> listProvider = providerOperation.getAll();
+        for (Provider listProviderFromDB : listProvider) {
+            if (listProviderFromDB.getId() == idProvider)
+                return listProviderFromDB;
+        }
+
+        return null;
     }
 }

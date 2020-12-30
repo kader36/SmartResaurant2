@@ -1,10 +1,8 @@
 package Controllers.stroreKeeper;
 
-import BddPackage.ProductOperation;
-import BddPackage.ProviderOperation;
-import BddPackage.StorBilleOperation;
-import BddPackage.StoreBillProductOperation;
+import BddPackage.*;
 import Controllers.ValidateController;
+import Controllers.ValuesStatic;
 import Models.*;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXListView;
@@ -45,14 +43,11 @@ import java.util.Comparator;
 import java.util.ResourceBundle;
 import java.util.function.Predicate;
 
-public class AddBillController implements Initializable {
+public class UpdateBillController implements Initializable {
 
 
     @FXML
     private BorderPane mainPane;
-
-    @FXML
-    private TextField txt_Provider_Name;
 
     @FXML
     private TextField txt_Paid;
@@ -114,11 +109,16 @@ public class AddBillController implements Initializable {
     @FXML
     private Button saveBtn;
 
+    @FXML
+    private Label nbFact;
+
     private ObservableList<String> dataCombo;
 
     private StoreBillProductOperation billProductOperation = new StoreBillProductOperation();
     private StorBilleOperation storBilleOperation = new StorBilleOperation();
     private ValidateController validateController = new ValidateController();
+    private ProductCategoryOperation productCategoryOperation = new ProductCategoryOperation();
+    private ArrayList<ProductCategory> listCategoryObject = new ArrayList<>();
     private static int idStorBill;
     private static String provider;
 
@@ -154,7 +154,12 @@ public class AddBillController implements Initializable {
         dataTableView.setAll(list_Product);
         listViewProduct.setItems(dataTableView);
         lbl_bill_total.setText(total_bill_Price + ".00");
-        lbl_date.setText(LocalDate.now().toString());
+        comboProvider.setValue(ValuesStatic.billList.getProvider_name());
+        lbl_date.setText(ValuesStatic.billList.getDate());
+        nbFact.setText(String.valueOf(ValuesStatic.billList.getNumber()));
+        lbl_bill_total.setText(String.valueOf(ValuesStatic.billList.getTotal()));
+        listCategoryObject = productCategoryOperation.getAll();
+        chargeTableBill();
         validateController.inputNumberValue(txt_Paid);
 //        listViewProduct.setOnMouseClicked(new EventHandler<MouseEvent>() {
 //            @Override
@@ -162,6 +167,26 @@ public class AddBillController implements Initializable {
 //
 //            }
 //        });
+    }
+
+    private void chargeTableBill() {
+        Bill bill = new Bill();
+        for (StoreBillProduct storeBillProduct : billProductOperation.getAll()){
+            bill.setName(nameProduct(storeBillProduct.getId_product()));
+            bill.setUnit("kg");
+            bill.setQuant(storeBillProduct.getProduct_quantity());
+            bill.setPrice(storeBillProduct.getPrice());
+            bill.setTotal(storeBillProduct.getPrice()*storeBillProduct.getProduct_quantity());
+            list_Bill.add(bill);
+        }
+    }
+
+    String nameProduct(int idProduct){
+        for (ProductCategory productCategory : listCategoryObject){
+            if (idProduct == productCategory.getId())
+                return productCategory.getName();
+        }
+        return null;
     }
 
 //    @FXML
@@ -349,16 +374,18 @@ public class AddBillController implements Initializable {
                         paid = Integer.parseInt(txt_Paid.getText());
                     // insert into store bill
                     StoreBill storeBill = new StoreBill();
+                    storeBill.setId(ValuesStatic.billList.getNumber());
                     storeBill.setId_provider(idProvider);
                     storeBill.setId_user(1);
                     storeBill.setPaid_up(paid);
-                    storBilleOperation.insert(storeBill);
+                    storBilleOperation.update(storeBill,storeBill);
                     try {
                         Thread.sleep(100);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                     idStorBill = storBilleOperation.getIdStorBill(idProvider, 1, paid);
+                    billProductOperation.delete(storeBill.getId());
                     for (Bill bill : dataTable) {
                         // insert into store bill product
                         StoreBillProduct storeBillProduct = new StoreBillProduct();

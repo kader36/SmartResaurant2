@@ -200,12 +200,14 @@ public class ProductController implements Initializable {
         categoryCombo.setItems(dataCombo);
     }
 
-    int getIdCategoryByCobo(String comboChose) {
+    static int getIdCategoryByCobo(String comboChose) {
         for (ProductCategory listProductCategoryFromDB : listCategory)
             if (comboChose.equals(listProductCategoryFromDB.getName()))
                 return listProductCategoryFromDB.getId();
         return -1;
     }
+
+
 
     private void hidevbox() {
         mainPane.setOnMousePressed(new EventHandler<MouseEvent>() {

@@ -1,7 +1,13 @@
 package Controllers.stroreKeeper;
 
+import BddPackage.ProviderOperation;
+import BddPackage.StorBilleOperation;
+import BddPackage.StoreBillProductOperation;
+import Controllers.ValuesStatic;
 import Models.BillList;
 import Models.Provider;
+import Models.StoreBill;
+import Models.StoreBillProduct;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -32,22 +38,22 @@ public class BillListController implements Initializable {
     private TableView<BillList> billTable;
 
     @FXML
-    private TableColumn<?, ?> col_Bill_number;
+    private TableColumn<BillList, Integer> col_Bill_number;
 
     @FXML
-    private TableColumn<?, ?> col_Date;
+    private TableColumn<BillList, String> col_Date;
 
     @FXML
-    private TableColumn<?, ?> col_Provider;
+    private TableColumn<BillList, String> col_Provider;
 
     @FXML
-    private TableColumn<?, ?> col_Paid;
+    private TableColumn<BillList, Integer> col_Paid;
 
     @FXML
-    private TableColumn<?, ?> col_rest;
+    private TableColumn<BillList, Integer> col_rest;
 
     @FXML
-    private TableColumn<?, ?> col_Total;
+    private TableColumn<BillList, Integer> col_Total;
 
     @FXML
     private VBox vboxBillOption;
@@ -55,16 +61,27 @@ public class BillListController implements Initializable {
     @FXML
     private TextField txtSearchField;
 
+    @FXML
+    private Label nbTotFact;
+
     FilteredList<BillList> filteredData;
 
 
     private ArrayList<BillList> billLists = new ArrayList<>();
+    private ArrayList<StoreBill> storBillLists = new ArrayList<>();
+    private ArrayList<Provider> providerList = new ArrayList<>();
+    private ArrayList<StoreBillProduct> billListProduct = new ArrayList<>();
     private ObservableList<BillList> dataTable = FXCollections.observableArrayList();
+    private StorBilleOperation storBilleOperation = new StorBilleOperation();
+    private ProviderOperation providerOperation = new ProviderOperation();
+    private StoreBillProductOperation storeBillProductOperation = new StoreBillProductOperation();
     private boolean visible = false;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        chargeListBill();
+    }
+
+    public void Init(BorderPane mainPane) {
         vboxBillOption.setVisible(false);
         col_Bill_number.setCellValueFactory(new PropertyValueFactory<>("number"));
         col_Date.setCellValueFactory(new PropertyValueFactory<>("date"));
@@ -72,12 +89,10 @@ public class BillListController implements Initializable {
         col_Paid.setCellValueFactory(new PropertyValueFactory<>("Paid_up"));
         col_rest.setCellValueFactory(new PropertyValueFactory<>("rest"));
         col_Total.setCellValueFactory(new PropertyValueFactory<>("total"));
+        billLists = chargeListBill();
         dataTable.setAll(billLists);
         billTable.setItems(dataTable);
-
-    }
-
-    public void Init(BorderPane mainPane) {
+        nbTotFact.setText(String.valueOf(storBilleOperation.getCountStoreBill()));
         this.mainPane = mainPane;
         vboxBillOption.setVisible(false);
         visible = false;
@@ -103,17 +118,41 @@ public class BillListController implements Initializable {
         }
     }
 
-    private void chargeListBill() {
-        for (int i = 1; i < 10; i++) {
-            BillList billList = new BillList();
-            billList.setNumber(i);
-            billList.setProvider_name("selmani");
-            billList.setDate((i * 2 + 1) + "/" + i + "/2020");
-            billList.setPaid_up(i * 1255);
-            billList.setTotal(i * 1525);
-            billList.setRest(billList.getTotal() - billList.getPaid_up());
-            billLists.add(billList);
+    private ArrayList<BillList> chargeListBill() {
+//        for (int i = 1; i < 10; i++) {
+//            BillList billList = new BillList();
+//            billList.setNumber(i);
+//            billList.setProvider_name("selmani");
+//            billList.setDate((i * 2 + 1) + "/" + i + "/2020");
+//            billList.setPaid_up(i * 1255);
+//            billList.setTotal(i * 1525);
+//            billList.setRest(billList.getTotal() - billList.getPaid_up());
+//            billLists.add(billList);
+//        }
+        ArrayList<BillList> list = new ArrayList<>();
+        storBillLists = storBilleOperation.getAll();
+        providerList = providerOperation.getAll();
+        billListProduct = storeBillProductOperation.getAll();
+        BillList billList = new BillList();
+        int total = 0;
+        for (StoreBill storeBill : storBillLists) {
+            billList.setNumber(storeBill.getId());
+            billList.setDate(storeBill.getDate().toString());
+            billList.setPaid_up(storeBill.getPaid_up());
+            billList.setProvider_name(storeBill.getProvider(storeBill.getId_provider()).getLast_name());
+            billList.setRest(Integer.parseInt(storeBill.getProvider(storeBill.getId_provider()).getCreditor()));
+            //this for loop is for get total
+            for (StoreBillProduct storeBillProduct : billListProduct) {
+                if (storeBillProduct.getId_stor_bill() == storeBill.getId()) {
+                    total += storeBillProduct.getPrice() * storeBillProduct.getProduct_quantity();
+                }
+            }
+            billList.setTotal(total);
+            list.add(billList);
+            System.out.println("number bill list : " + list.get(list.size() - 1).getNumber());
         }
+
+        return list;
     }
 
     @FXML
@@ -130,28 +169,68 @@ public class BillListController implements Initializable {
 
     @FXML
     void editBill(ActionEvent event) {
-        if (verificationBillSelected("edit")){
-
-        }else {
+        if (verificationBillSelected("edit")) {
+            ValuesStatic.billList = billTable.getSelectionModel().getSelectedItem();
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/UpdateFactoryBuy.fxml"));
+                BorderPane temp = loader.load();
+                UpdateBillController updateBillController = loader.getController();
+                updateBillController.Init(temp);
+                mainPane.getChildren().setAll(temp);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
             return;
         }
     }
 
     @FXML
     void deleteBill(ActionEvent event) {
-        if (verificationBillSelected("delete")){
+        if (verificationBillSelected("delete")) {
+            ValuesStatic.billList = billTable.getSelectionModel().getSelectedItem();
+            StoreBill storeBill = new StoreBill();
+            storeBill.setId(billTable.getSelectionModel().getSelectedItem().getNumber());
+            Alert alertConfirmation = new Alert(Alert.AlertType.CONFIRMATION);
+            alertConfirmation.setHeaderText("تأكيد الحذف");
+            alertConfirmation.setContentText("هل انت متأكد من حذف السلعة  ");
+            Button okButton = (Button) alertConfirmation.getDialogPane().lookupButton(ButtonType.OK);
+            okButton.setText("موافق");
+            Button cancel = (Button) alertConfirmation.getDialogPane().lookupButton(ButtonType.CANCEL);
+            cancel.setText("الغاء");
 
-        }else {
+            alertConfirmation.showAndWait().ifPresent(response -> {
+                if (response == ButtonType.CANCEL) {
+                    alertConfirmation.close();
+                } else if (response == ButtonType.OK) {
+                    storBilleOperation.delete(storeBill);
+                    Alert alertWarning = new Alert(Alert.AlertType.INFORMATION);
+                    alertWarning.setHeaderText("تأكيد ");
+                    alertWarning.setContentText("تم حذف السلعة بنجاح");
+                    Button OKButton = (Button) alertWarning.getDialogPane().lookupButton(ButtonType.OK);
+                    OKButton.setText("حسنا");
+                    alertWarning.showAndWait();
+                    refresh();
+                }
+            });
+        } else {
             return;
         }
     }
 
 
-    boolean verificationBillSelected(String message){
+    void refresh() {
+        billLists = chargeListBill();
+        dataTable.setAll(billLists);
+        billTable.setItems(dataTable);
+        nbTotFact.setText(String.valueOf(storBilleOperation.getCountStoreBill()));
+    }
+
+    boolean verificationBillSelected(String message) {
         vboxBillOption.setVisible(false);
         visible = false;
         BillList billList = billTable.getSelectionModel().getSelectedItem();
-        if (billList != null){
+        if (billList != null) {
             return true;
         } else {
             Alert alertWarning = new Alert(Alert.AlertType.WARNING);
