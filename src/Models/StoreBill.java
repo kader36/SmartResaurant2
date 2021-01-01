@@ -11,6 +11,7 @@ public class StoreBill {
     private int id_user;
     private int id_provider;
     private int paid_up;
+    private int total;
 
     public StoreBill() { }
 
@@ -71,5 +72,13 @@ public class StoreBill {
         }
 
         return null;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
+    public int getTotal(){
+        return this.total;
     }
 }

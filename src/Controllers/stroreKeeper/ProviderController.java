@@ -173,6 +173,7 @@ public class ProviderController implements Initializable {
 
             }
         });
+        lbl_provider_number.setText(String.valueOf(providerOperation.getCountProvider()));
         chargeListProvider();
         vboxOption.setVisible(false);
         lbl_info_provider.setVisible(false);
@@ -214,7 +215,11 @@ public class ProviderController implements Initializable {
 
             }
         }));
-        refresh();
+        list_Providers = providerOperation.getAll();
+        dataTable.setAll(list_Providers);
+        providerTable.setItems(dataTable);
+        lbl_provider_number.setText(String.valueOf(providerOperation.getCountProvider()));
+        //refresh();
     }
 
     private void chargeListProviderJob() {
@@ -461,7 +466,7 @@ public class ProviderController implements Initializable {
         list_Providers = providerOperation.getAll();
         dataTable.setAll(list_Providers);
         providerTable.setItems(dataTable);
-        lbl_provider_number.setText("" + (list_Providers.size() - 1));
+        lbl_provider_number.setText(String.valueOf(providerOperation.getCountProvider()));
 
     }
 

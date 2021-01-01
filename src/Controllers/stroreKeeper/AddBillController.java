@@ -114,6 +114,10 @@ public class AddBillController implements Initializable {
     @FXML
     private Button saveBtn;
 
+    @FXML
+    private Label nbFact;
+
+
     private ObservableList<String> dataCombo;
 
     private StoreBillProductOperation billProductOperation = new StoreBillProductOperation();
@@ -134,6 +138,8 @@ public class AddBillController implements Initializable {
     private ArrayList<String> list_Product = new ArrayList<>();
     private int total_bill_Price = 0;
     private ArrayList<Product> list_ProductsObject = new ArrayList<>();
+    ProviderOperation providerOperation = new ProviderOperation();
+    private ArrayList<Provider> listProviderObject = new ArrayList<>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -156,6 +162,7 @@ public class AddBillController implements Initializable {
         lbl_bill_total.setText(total_bill_Price + ".00");
         lbl_date.setText(LocalDate.now().toString());
         validateController.inputNumberValue(txt_Paid);
+        nbFact.setText(String.valueOf(storBilleOperation.getCountStoreBill() + 1));
 //        listViewProduct.setOnMouseClicked(new EventHandler<MouseEvent>() {
 //            @Override
 //            public void handle(MouseEvent event) {
@@ -347,6 +354,11 @@ public class AddBillController implements Initializable {
                         paid = 0;
                     else
                         paid = Integer.parseInt(txt_Paid.getText());
+                    // update provider
+                    // update provider
+                    Provider provider = getProviderById(idProvider);
+                    provider.setCreditor(String.valueOf(Integer.parseInt(lbl_bill_total.getText()) - Integer.parseInt(txt_Paid.getText())));
+                    providerOperation.update(provider,provider);
                     // insert into store bill
                     StoreBill storeBill = new StoreBill();
                     storeBill.setId_provider(idProvider);
@@ -387,6 +399,16 @@ public class AddBillController implements Initializable {
             okButton.setText("حسنا");
             alertWarning.showAndWait();
         }
+    }
+
+    private Provider getProviderById(int idProvider) {
+        listProviderObject = providerOperation.getAll();
+        for (Provider provider : listProviderObject){
+            if (provider.getId() == idProvider)
+                return provider;
+        }
+
+        return null;
     }
 
     @FXML

@@ -50,7 +50,7 @@
                                     <Insets bottom="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <Label styleClass="font-hs-dream" text="02" textFill="#444444">
+                              <Label fx:id="nbFact" styleClass="font-hs-dream" text="02" textFill="#444444">
                                  <font>
                                     <Font name="HSDream-Regular" size="15.0" />
                                  </font>

@@ -238,7 +238,7 @@
                               <Insets top="-82.0" />
                            </HBox.margin>
                         </Label>
-                        <ComboBox maxHeight="32.0" maxWidth="97.0" minHeight="32.0" minWidth="97.0" prefHeight="32.0" prefWidth="97.0" promptText="الكل" styleClass="search-input">
+                        <ComboBox fx:id="listedByCombo" maxHeight="32.0" maxWidth="97.0" minHeight="32.0" minWidth="97.0" prefHeight="32.0" prefWidth="97.0" promptText="الكل" styleClass="search-input">
                            <HBox.margin>
                               <Insets top="-82.0" />
                            </HBox.margin></ComboBox>

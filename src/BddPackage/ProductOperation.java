@@ -107,6 +107,18 @@ public class ProductOperation extends BDD<Product> {
         return list;
     }
 
+    public ArrayList<Product> getProductFinished() {
+        ArrayList<Product> list = new ArrayList<>();
+        String query = "SELECT * FROM `PRODUCT` WHERE QUANTITY = 0";
+        try {
+
+            chargeData(list, query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
     private ArrayList<Product> chargeData(ArrayList<Product> list, String query) throws SQLException {
         PreparedStatement preparedStmt = conn.prepareStatement(query);
         ResultSet resultSet = preparedStmt.executeQuery();

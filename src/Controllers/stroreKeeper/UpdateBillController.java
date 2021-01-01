@@ -119,6 +119,8 @@ public class UpdateBillController implements Initializable {
     private ValidateController validateController = new ValidateController();
     private ProductCategoryOperation productCategoryOperation = new ProductCategoryOperation();
     private ArrayList<ProductCategory> listCategoryObject = new ArrayList<>();
+    ProviderOperation providerOperation = new ProviderOperation();
+    private ArrayList<Provider> listProviderObject = new ArrayList<>();
     private static int idStorBill;
     private static String provider;
 
@@ -145,7 +147,7 @@ public class UpdateBillController implements Initializable {
         setDisableReports();
         this.mainPane = mainPane;
         chargeListProduct();
-        chargeListProvider();
+        //chargeListProvider();
         col_Product_Name.setCellValueFactory(new PropertyValueFactory<>("name"));
         col_Unit.setCellValueFactory(new PropertyValueFactory<>("unit"));
         col_Quantity.setCellValueFactory(new PropertyValueFactory<>("quant"));
@@ -158,6 +160,7 @@ public class UpdateBillController implements Initializable {
         lbl_date.setText(ValuesStatic.billList.getDate());
         nbFact.setText(String.valueOf(ValuesStatic.billList.getNumber()));
         lbl_bill_total.setText(String.valueOf(ValuesStatic.billList.getTotal()));
+        txt_Paid.setText(String.valueOf(ValuesStatic.billList.getPaid_up()));
         listCategoryObject = productCategoryOperation.getAll();
         chargeTableBill();
         validateController.inputNumberValue(txt_Paid);
@@ -198,7 +201,6 @@ public class UpdateBillController implements Initializable {
 
     private void chargeListProvider() {
         dataCombo = FXCollections.observableArrayList();
-        ProviderOperation providerOperation = new ProviderOperation();
         ArrayList<Provider> listProvider = providerOperation.getAll();
         for (Provider listProviderFromDB : listProvider) {
             dataCombo.add(listProviderFromDB.getLast_name() + "   " + listProviderFromDB.getPhone_number());
@@ -372,6 +374,10 @@ public class UpdateBillController implements Initializable {
                         paid = 0;
                     else
                         paid = Integer.parseInt(txt_Paid.getText());
+                    // update provider
+                    Provider provider = getProviderById(idProvider);
+                    provider.setCreditor(String.valueOf(Integer.parseInt(lbl_bill_total.getText()) - Integer.parseInt(txt_Paid.getText())));
+                    providerOperation.update(provider,provider);
                     // insert into store bill
                     StoreBill storeBill = new StoreBill();
                     storeBill.setId(ValuesStatic.billList.getNumber());
@@ -414,6 +420,16 @@ public class UpdateBillController implements Initializable {
             okButton.setText("حسنا");
             alertWarning.showAndWait();
         }
+    }
+
+    private Provider getProviderById(int idProvider) {
+        listProviderObject = providerOperation.getAll();
+        for (Provider provider : listProviderObject){
+            if (provider.getId() == idProvider)
+                return provider;
+        }
+
+        return null;
     }
 
     @FXML

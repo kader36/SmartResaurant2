@@ -1,6 +1,7 @@
 package Controllers;
 
 import Controllers.stroreKeeper.BillListController;
+import Controllers.stroreKeeper.DashboardController;
 import Controllers.stroreKeeper.ProductController;
 import Controllers.stroreKeeper.ProviderController;
 import javafx.event.ActionEvent;
@@ -65,6 +66,20 @@ public class Controller implements Initializable {
             BorderPane temp = loader.load();
             BillListController billController = loader.getController();
             billController.Init(temp);
+            mainPane.getChildren().setAll(temp);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void loadDashboardScreen(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Dashboard.fxml"));
+
+            BorderPane temp = loader.load();
+            DashboardController dashboardController = loader.getController();
+            dashboardController.Init(temp);
             mainPane.getChildren().setAll(temp);
         } catch (IOException e) {
             e.printStackTrace();

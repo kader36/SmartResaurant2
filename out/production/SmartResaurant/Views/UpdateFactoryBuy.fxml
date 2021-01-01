@@ -84,7 +84,7 @@
                                                 <Insets bottom="5.0" />
                                             </VBox.margin>
                                         </Label>
-                                        <ComboBox fx:id="comboProvider" disable="true" prefWidth="150.0" styleClass="select-provider" />
+                                        <ComboBox fx:id="comboProvider" prefWidth="150.0" styleClass="select-provider" />
                                     </children>
                                 </VBox>
                                 <VBox alignment="CENTER" prefHeight="100.0" AnchorPane.leftAnchor="380.0" AnchorPane.rightAnchor="118.0">

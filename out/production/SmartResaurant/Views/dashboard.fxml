@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #F8F8F8;" stylesheets="@css/style.css" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.stroreKeeper.ProviderController">
+<BorderPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #F8F8F8;" stylesheets="@css/style.css" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.stroreKeeper.DashboardController">
    <top>
       <AnchorPane prefHeight="70.0" prefWidth="900.0" style="-fx-background-color: FFF;" styleClass="bar-top" BorderPane.alignment="CENTER">
          <children>
@@ -68,7 +68,7 @@
                                                             <Insets />
                                                          </VBox.margin>
                                                       </Label>
-                                                      <Label alignment="CENTER" contentDisplay="CENTER" text="32" textAlignment="CENTER" textFill="#4a8e16">
+                                                      <Label fx:id="factToday" alignment="CENTER" contentDisplay="CENTER" text="32" textAlignment="CENTER" textFill="#4a8e16">
                                                          <font>
                                                             <Font name="HSDream-Regular" size="18.0" />
                                                          </font>
@@ -113,7 +113,7 @@
                                                             <Insets />
                                                          </VBox.margin>
                                                       </Label>
-                                                      <Label alignment="CENTER" contentDisplay="CENTER" text="32" textAlignment="CENTER" textFill="#4a8e16">
+                                                      <Label fx:id="factWeek" alignment="CENTER" contentDisplay="CENTER" text="32" textAlignment="CENTER" textFill="#4a8e16">
                                                          <font>
                                                             <Font name="HSDream-Regular" size="18.0" />
                                                          </font>
@@ -158,7 +158,7 @@
                                                             <Insets />
                                                          </VBox.margin>
                                                       </Label>
-                                                      <Label alignment="CENTER" contentDisplay="CENTER" text="32" textAlignment="CENTER" textFill="#4a8e16">
+                                                      <Label fx:id="factMonth" alignment="CENTER" contentDisplay="CENTER" text="32" textAlignment="CENTER" textFill="#4a8e16">
                                                          <font>
                                                             <Font name="HSDream-Regular" size="18.0" />
                                                          </font>
@@ -204,7 +204,7 @@
                                                             <Insets />
                                                          </VBox.margin>
                                                       </Label>
-                                                      <Label alignment="CENTER" contentDisplay="CENTER" text="32" textAlignment="CENTER" textFill="#4a8e16">
+                                                      <Label fx:id="credetorToday" alignment="CENTER" contentDisplay="CENTER" text="32" textAlignment="CENTER" textFill="#4a8e16">
                                                          <font>
                                                             <Font name="HSDream-Regular" size="18.0" />
                                                          </font>
@@ -246,7 +246,7 @@
                                                             <Insets />
                                                          </VBox.margin>
                                                       </Label>
-                                                      <Label alignment="CENTER" contentDisplay="CENTER" text="32" textAlignment="CENTER" textFill="#4a8e16">
+                                                      <Label fx:id="credetorWeek" alignment="CENTER" contentDisplay="CENTER" text="32" textAlignment="CENTER" textFill="#4a8e16">
                                                          <font>
                                                             <Font name="HSDream-Regular" size="18.0" />
                                                          </font>
@@ -288,7 +288,7 @@
                                                             <Insets />
                                                          </VBox.margin>
                                                       </Label>
-                                                      <Label alignment="CENTER" contentDisplay="CENTER" text="32" textAlignment="CENTER" textFill="#4a8e16">
+                                                      <Label fx:id="CredetorMonth" alignment="CENTER" contentDisplay="CENTER" text="32" textAlignment="CENTER" textFill="#4a8e16">
                                                          <font>
                                                             <Font name="HSDream-Regular" size="18.0" />
                                                          </font>
@@ -337,7 +337,7 @@
                                                             <Insets />
                                                          </VBox.margin>
                                                       </Label>
-                                                      <Label alignment="CENTER" contentDisplay="CENTER" text="32" textAlignment="CENTER" textFill="#4a8e16">
+                                                      <Label fx:id="totFact" alignment="CENTER" contentDisplay="CENTER" text="32" textAlignment="CENTER" textFill="#4a8e16">
                                                          <font>
                                                             <Font name="HSDream-Regular" size="18.0" />
                                                          </font>
@@ -379,7 +379,7 @@
                                                             <Insets />
                                                          </VBox.margin>
                                                       </Label>
-                                                      <Label alignment="CENTER" contentDisplay="CENTER" text="32" textAlignment="CENTER" textFill="#4a8e16">
+                                                      <Label fx:id="totProvider" alignment="CENTER" contentDisplay="CENTER" text="32" textAlignment="CENTER" textFill="#4a8e16">
                                                          <font>
                                                             <Font name="HSDream-Regular" size="18.0" />
                                                          </font>
@@ -421,7 +421,7 @@
                                                             <Insets left="10.0" />
                                                          </VBox.margin>
                                                       </Label>
-                                                      <Label alignment="CENTER" contentDisplay="CENTER" text="32" textAlignment="CENTER" textFill="#4a8e16">
+                                                      <Label fx:id="totCreditor" alignment="CENTER" contentDisplay="CENTER" text="32" textAlignment="CENTER" textFill="#4a8e16">
                                                          <font>
                                                             <Font name="HSDream-Regular" size="18.0" />
                                                          </font>
@@ -450,7 +450,7 @@
                         </AnchorPane>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="608.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <VBox prefHeight="257.0" prefWidth="476.0" style="-fx-background-color: white;" styleClass="container-table" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <VBox prefHeight="257.0" prefWidth="348.0" style="-fx-background-color: white;" styleClass="container-table" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="-16.0" AnchorPane.topAnchor="0.0">
                                  <children>
                                     <Label styleClass="font-hs-dream" text="قائمة السلع المنتهية" textFill="#575757">
                                        <VBox.margin>
@@ -460,10 +460,10 @@
                                           <Font name="HSDream-Regular" size="17.0" />
                                        </font>
                                     </Label>
-                                    <TableView fx:id="providerTable1" maxWidth="300.0" minWidth="300.0" prefHeight="100.0" prefWidth="300.0" styleClass="table">
+                                    <TableView fx:id="productFinishedTable" maxWidth="337.0" minWidth="300.0" prefHeight="179.0" prefWidth="316.0" styleClass="table">
                                        <columns>
-                                          <TableColumn fx:id="col_id1" prefWidth="180.0" styleClass="column-table" text="إسم السلعة" />
-                                          <TableColumn fx:id="col_last_name1" prefWidth="120.0" styleClass="column-table" text="الوحدة" />
+                                          <TableColumn fx:id="name" prefWidth="155.0" styleClass="column-table" text="إسم السلعة" />
+                                          <TableColumn fx:id="unit" prefWidth="145.0" styleClass="column-table" text="الوحدة" />
                                        </columns>
                                        <VBox.margin>
                                           <Insets left="15.0" right="15.0" top="5.0" />
@@ -496,14 +496,12 @@
                                           <Font name="HSDream-Regular" size="17.0" />
                                        </font>
                                     </Label>
-                                    <TableView fx:id="providerTable" maxWidth="400.0" minWidth="430.0" prefWidth="400.0" styleClass="table">
+                                    <TableView fx:id="providerTable" maxWidth="457.0" minWidth="430.0" prefHeight="202.0" prefWidth="457.0" styleClass="table">
                                       <columns>
-                                        <TableColumn fx:id="col_id" styleClass="column-table" text="رقم التسجيل" />
-                                          <TableColumn fx:id="col_last_name" prefWidth="70.0" styleClass="column-table" text="اللقب" />
-                                          <TableColumn fx:id="col_job" prefWidth="70.0" styleClass="column-table" text="الوظيفة" />
-                                          <TableColumn fx:id="col_adress" editable="false" sortable="false" styleClass="column-table" text="العنوان" />
-                                          <TableColumn fx:id="col_phone_number" prefWidth="70.0" styleClass="column-table" text="رقم الهاتف" />
-                                          <TableColumn fx:id="col_creditor" prefWidth="70.0" styleClass="column-table" text="دائن" />
+                                          <TableColumn fx:id="col_last_name" prefWidth="100.0" styleClass="column-table" text="اللقب" />
+                                          <TableColumn fx:id="col_job" prefWidth="100.0" styleClass="column-table" text="الوظيفة" />
+                                          <TableColumn fx:id="col_phone_number" prefWidth="110.0" styleClass="column-table" text="رقم الهاتف" />
+                                          <TableColumn fx:id="col_creditor" prefWidth="109.0" styleClass="column-table" text="دائن" />
                                       </columns>
                                        <VBox.margin>
                                           <Insets left="15.0" right="15.0" top="5.0" />
@@ -518,9 +516,9 @@
                         </AnchorPane>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                            <children>
-                              <VBox maxHeight="260.0" minHeight="260.0" prefHeight="260.0" prefWidth="100.0" style="-fx-background-color: white;" styleClass="container-table" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                              <VBox maxHeight="260.0" minHeight="260.0" prefHeight="260.0" prefWidth="445.0" style="-fx-background-color: white;" styleClass="container-table" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-15.0">
                                  <children>
-                                    <Label styleClass="font-hs-dream" text="قائمة السلع المنتهية" textFill="#575757">
+                                    <Label styleClass="font-hs-dream" text="قائمة آخر الفواتير" textFill="#575757">
                                        <VBox.margin>
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="20.0" />
                                        </VBox.margin>
@@ -528,13 +526,13 @@
                                           <Font name="HSDream-Regular" size="17.0" />
                                        </font>
                                     </Label>
-                                    <TableView fx:id="providerTable11" maxWidth="400.0" minWidth="400.0" prefHeight="100.0" prefWidth="536.0" styleClass="table">
+                                    <TableView fx:id="factTable" maxWidth="430.0" minWidth="400.0" prefHeight="100.0" prefWidth="430.0" styleClass="table">
                                        <columns>
-                                          <TableColumn fx:id="col_id11" prefWidth="90.0" styleClass="column-table" text="تاريخ الفاتورة" />
-                                          <TableColumn fx:id="col_last_name11" prefWidth="70.0" styleClass="column-table" text="إسم" />
-                                          <TableColumn fx:id="col_last_name111" prefWidth="70.0" styleClass="column-table" text="لقب" />
-                                          <TableColumn fx:id="col_job11" prefWidth="70.0" styleClass="column-table" text="المدفوع" />
-                                          <TableColumn fx:id="col_adress11" editable="false" prefWidth="100.0" sortable="false" styleClass="column-table" text="الإجمالي" />
+                                          <TableColumn fx:id="col_Bill_number" prefWidth="70.0" styleClass="column-table" text="رقم الفاتورة" />
+                                          <TableColumn fx:id="col_Date" prefWidth="90.0" styleClass="column-table" text="تاريخ الفاتورة" />
+                                          <TableColumn fx:id="col_Provider" prefWidth="90.0" styleClass="column-table" text="المورد" />
+                                          <TableColumn fx:id="col_Paid" styleClass="column-table" text="المدفوع" />
+                                          <TableColumn fx:id="col_Total" editable="false" prefWidth="90.0" sortable="false" styleClass="column-table" text="الإجمالي" />
                                        </columns>
                                        <VBox.margin>
                                           <Insets left="15.0" right="15.0" top="5.0" />
