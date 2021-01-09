@@ -1,5 +1,8 @@
 package Models;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
 public class Food {
 
     private int id;
@@ -8,8 +11,12 @@ public class Food {
     private String description;
     private int price;
     private String image_path;
+    private ImageView image = new ImageView();
+
 
     public Food() {
+        image.setFitHeight(96);
+        image.setFitWidth(227);
     }
 
     public Food(int id, int id_category, String name, String description, int price, String image_path) {
@@ -54,7 +61,7 @@ public class Food {
     }
 
     public int getId_category() {
-        return  id_category;
+        return id_category;
     }
 
     public void setId_category(int id_category) {
@@ -67,5 +74,17 @@ public class Food {
 
     public void setImage_path(String image_path) {
         this.image_path = image_path;
+    }
+
+    public ImageView getImage() {
+        return image;
+    }
+
+    public void setImage(ImageView image) {
+        this.image = image;
+    }
+
+    public void setImageByPath(Image image) {
+        this.image.setImage(image);
     }
 }

@@ -263,7 +263,8 @@ public class AddBillController implements Initializable {
             product = product.replace("[", "");
             product = product.replace("]", "");
             bill.setName(product);
-            bill.setUnit("kg");
+            //bill.setUnit("kg");
+            bill.setUnit(getUnitProductByCobo(product));
             bill.setQuant(Integer.valueOf(txt_quantity.getText()));
             bill.setPrice(Integer.valueOf(txt_price.getText()));
             bill.setTotal(bill.getPrice() * bill.getQuant());
@@ -450,6 +451,17 @@ public class AddBillController implements Initializable {
         return -1;
     }
 
+    String getUnitProductByCobo(String comboChose) {
+        for (Product listProductFromDB : list_ProductsObject) {
+            String product = listProductFromDB.getName().replace("[", "");
+            product = product.replace("]", "");
+            if (comboChose.equals(product))
+                return listProductFromDB.getStorage_Unit();
+        }
+
+        return "";
+    }
+
 
     @FXML
     void searchProduct(ActionEvent event) {
@@ -630,4 +642,5 @@ public class AddBillController implements Initializable {
         exportCsvTableBillBtn.setDisable(false);
         exportPdfTableBillBtn.setDisable(false);
     }
+
 }

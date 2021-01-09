@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #F8F8F8;" stylesheets="@css/style.css" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.stroreKeeper.ProviderController">
+<BorderPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #F8F8F8;" stylesheets="@css/style.css" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.KitchenChef.FoodsController">
    <center>
       <AnchorPane styleClass="container" BorderPane.alignment="CENTER">
          <children>
@@ -24,13 +24,13 @@
                <children>
                   <AnchorPane>
                      <children>
-                        <TableView fx:id="providerTable" styleClass="table" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+                        <TableView fx:id="foodTable" styleClass="table" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
                           <columns>
-                            <TableColumn fx:id="col_id" prefWidth="140.0" styleClass="column-table" text="رقم الوجبة" />
-                              <TableColumn fx:id="col_last_name" prefWidth="200.0" styleClass="column-table" text="صورة الوجبة" />
-                              <TableColumn fx:id="col_job" prefWidth="180.0" styleClass="column-table" text="إسم الوجبة" />
-                              <TableColumn fx:id="col_adress" editable="false" prefWidth="200.0" sortable="false" styleClass="column-table" text="وصف الوجبة" />
-                              <TableColumn fx:id="col_phone_number" prefWidth="120.0" styleClass="column-table" text="السعر" />
+                            <TableColumn fx:id="col_id" prefWidth="135.0" styleClass="column-table" text="رقم الوجبة" />
+                              <TableColumn fx:id="col_img" prefWidth="235.0" styleClass="column-table" text="صورة الوجبة" />
+                              <TableColumn fx:id="col_name" prefWidth="180.0" styleClass="column-table" text="إسم الوجبة" />
+                              <TableColumn fx:id="col_description" editable="false" prefWidth="200.0" sortable="false" styleClass="column-table" text="وصف الوجبة" />
+                              <TableColumn fx:id="col_price" prefWidth="120.0" styleClass="column-table" text="السعر" />
                           </columns>
                         </TableView>
                      </children>
@@ -140,12 +140,12 @@
                         </HBox>
                         <HBox spacing="15.0">
                            <children>
-                              <Button maxHeight="30.0" maxWidth="84.0" minHeight="30.0" minWidth="84.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="84.0" styleClass="printer-button" text="طباعة " textFill="WHITE">
+                              <Button maxHeight="30.0" maxWidth="84.0" minHeight="30.0" minWidth="84.0" mnemonicParsing="false" onAction="#reportFoodTable" prefHeight="30.0" prefWidth="84.0" styleClass="printer-button" text="طباعة " textFill="WHITE">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
                                  <graphic>
-                                    <ImageView fitHeight="16.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="reportFood" fitHeight="16.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../Images/printer.png" />
                                        </image>
@@ -155,7 +155,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Button>
-                              <Button maxHeight="30.0" maxWidth="117.0" minHeight="30.0" minWidth="117.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="117.0" styleClass="extract-button" text="استخراج Exel" textFill="#828282">
+                              <Button maxHeight="30.0" maxWidth="117.0" minHeight="30.0" minWidth="117.0" mnemonicParsing="false" onAction="#exportCsvFood" prefHeight="30.0" prefWidth="117.0" styleClass="extract-button" text="استخراج Exel" textFill="#828282">
                                  <graphic>
                                     <ImageView fitHeight="16.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -167,7 +167,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Button>
-                              <Button maxHeight="30.0" maxWidth="117.0" minHeight="30.0" minWidth="117.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="117.0" styleClass="extract-button" text="إستخراج PDF" textFill="#828282">
+                              <Button maxHeight="30.0" maxWidth="117.0" minHeight="30.0" minWidth="117.0" mnemonicParsing="false" onAction="#exportPdfFood" prefHeight="30.0" prefWidth="117.0" styleClass="extract-button" text="إستخراج PDF" textFill="#828282">
                                  <graphic>
                                     <ImageView fitHeight="16.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -200,7 +200,7 @@
                               <Insets top="-80.0" />
                            </HBox.margin>
                         </Label>
-                        <Label styleClass="number-list" text="2513" textFill="#777777">
+                        <Label fx:id="totalFood" styleClass="number-list" text="2513" textFill="#777777">
                            <font>
                               <Font size="26.0" />
                            </font>
@@ -219,13 +219,13 @@
                               <Insets top="-80.0" />
                            </HBox.margin>
                         </Label>
-                        <ComboBox maxHeight="32.0" maxWidth="97.0" minHeight="32.0" minWidth="97.0" prefHeight="32.0" prefWidth="97.0" promptText="الكل" styleClass="search-input">
+                        <ComboBox fx:id="sortedCombo" maxHeight="32.0" maxWidth="97.0" minHeight="32.0" minWidth="97.0" prefHeight="32.0" prefWidth="97.0" promptText="الكل" styleClass="search-input">
                            <HBox.margin>
                               <Insets top="-80.0" />
                            </HBox.margin></ComboBox>
                         <VBox prefHeight="200.0" prefWidth="100.0">
                            <children>
-                              <TextField maxHeight="32.0" maxWidth="210.0" minHeight="32.0" minWidth="210.0" prefHeight="32.0" prefWidth="210.0" promptText="بحث" style="-fx-font-family: HSDream-Regular;" styleClass="input-popup">
+                              <TextField fx:id="txtSearch" maxHeight="32.0" maxWidth="210.0" minHeight="32.0" minWidth="210.0" onAction="#searchFood" prefHeight="32.0" prefWidth="210.0" promptText="بحث" style="-fx-font-family: HSDream-Regular;" styleClass="input-popup">
                                  <font>
                                     <Font name="HSDream-Regular" size="15.0" />
                                  </font>
@@ -245,7 +245,7 @@
                   </HBox>
                   <HBox alignment="CENTER_RIGHT" minWidth="300.0" prefHeight="154.0" prefWidth="378.0" spacing="20.0">
                      <children>
-                        <Button maxHeight="35.0" maxWidth="150.0" minHeight="35.0" minWidth="150.0" mnemonicParsing="false" onAction="#addNewProvider" prefHeight="35.0" prefWidth="150.0" styleClass="add-new-item" text="اضافة وجبة جديدة" textFill="WHITE">
+                        <Button maxHeight="35.0" maxWidth="150.0" minHeight="35.0" minWidth="150.0" mnemonicParsing="false" onAction="#addNewFood" prefHeight="35.0" prefWidth="150.0" styleClass="add-new-item" text="اضافة وجبة جديدة" textFill="WHITE">
                            <font>
                               <Font size="16.0" />
                            </font>
@@ -266,7 +266,7 @@
                            <children>
                               <VBox prefHeight="101.0" prefWidth="81.0">
                                  <children>
-                                    <Button contentDisplay="RIGHT" maxHeight="35.0" maxWidth="81.0" minHeight="35.0" minWidth="81.0" mnemonicParsing="false" onAction="#showHideProviderOperation" prefHeight="35.0" prefWidth="81.0" styleClass="more-button" text="المزيد" textFill="#42b3c5">
+                                    <Button contentDisplay="RIGHT" maxHeight="35.0" maxWidth="81.0" minHeight="35.0" minWidth="81.0" mnemonicParsing="false" onAction="#showHideFoodOperation" prefHeight="35.0" prefWidth="81.0" styleClass="more-button" text="المزيد" textFill="#42b3c5">
                                        <font>
                                           <Font size="16.0" />
                                        </font>
@@ -286,7 +286,7 @@
                                     </Button>
                                     <VBox fx:id="vboxOption" prefHeight="200.0" prefWidth="100.0" styleClass="container-edit-delete">
                                        <children>
-                                          <Button mnemonicParsing="false" styleClass="button-edit-delete" text="تعديل">
+                                          <Button mnemonicParsing="false" onAction="#editFood" styleClass="button-edit-delete" text="تعديل">
                                              <VBox.margin>
                                                 <Insets top="7.0" />
                                              </VBox.margin>
@@ -304,7 +304,7 @@
                                                 </ImageView>
                                              </graphic>
                                           </Button>
-                                          <Button mnemonicParsing="false" styleClass="button-edit-delete" text="حذف">
+                                          <Button mnemonicParsing="false" onAction="#deleteFood" styleClass="button-edit-delete" text="حذف">
                                              <VBox.margin>
                                                 <Insets bottom="7.0" />
                                              </VBox.margin>

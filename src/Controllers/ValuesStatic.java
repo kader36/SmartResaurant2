@@ -1,6 +1,7 @@
 package Controllers;
 
 import Models.BillList;
+import Models.Food;
 
 import java.time.LocalDate;
 
@@ -13,6 +14,7 @@ public class ValuesStatic {
     public static int credetorMonth;
     public static int factWeek;
     public static int credetorWeek;
+    public static Food currentFood;
     public static String inMonth(){
         String tab [] = LocalDate.now().toString().split("-");
         return tab[0] + "-" + tab[1];

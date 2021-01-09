@@ -17,9 +17,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" style="-fx-background-color: #F8F8F8;" stylesheets="@css/style.css" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.stroreKeeper.AddBillController">
+<BorderPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" style="-fx-background-color: #F8F8F8;" stylesheets="@css/style.css" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.KitchenChef.AddFoodController">
    <top>
-      <AnchorPane style="-fx-background-color: FFF;" styleClass="bar-top" BorderPane.alignment="CENTER">
+      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" style="-fx-background-color: FFF;" styleClass="bar-top" BorderPane.alignment="CENTER">
          <children>
             <Label layoutX="55.0" layoutY="27.0" styleClass="font-hs-dream" text="إضافة وجبة" textFill="#777777" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="27.0">
                <font>
@@ -46,7 +46,7 @@
                                     <Font name="HSDream-Regular" size="15.0" />
                                  </font>
                               </Label>
-                              <TextField focusTraversable="false" promptText="أدخل إسم الوجبة">
+                              <TextField fx:id="foodName" focusTraversable="false" promptText="أدخل إسم الوجبة">
                                  <HBox.margin>
                                     <Insets left="10.0" />
                                  </HBox.margin>
@@ -60,7 +60,7 @@
                                     <Font name="HSDream-Regular" size="15.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="lbl_date1" styleClass="font-hs-dream" text="02" textFill="#444444">
+                              <Label fx:id="lbl_nb_food" styleClass="font-hs-dream" text="02" textFill="#444444">
                                  <font>
                                     <Font name="HSDream-Regular" size="15.0" />
                                  </font>
@@ -77,24 +77,24 @@
                                     <Font name="HSDream-Regular" size="15.0" />
                                  </font>
                               </Label>
-                              <TextField focusTraversable="false" promptText="أدخل السعر">
+                              <TextField fx:id="foodPrice" focusTraversable="false" promptText="أدخل السعر">
                                  <HBox.margin>
                                     <Insets left="10.0" />
                                  </HBox.margin>
                               </TextField>
                            </children>
                         </HBox>
-                        <Button layoutX="287.0" layoutY="41.0" mnemonicParsing="false" prefWidth="90.0" styleClass="add-picture-food" text="إضافة صورة" textFill="WHITE">
+                        <Button fx:id="addPicBtn" layoutX="287.0" layoutY="41.0" mnemonicParsing="false" onAction="#addPicFood" prefWidth="90.0" styleClass="add-picture-food" text="إضافة صورة" textFill="WHITE">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Button>
-                        <Button layoutX="287.0" layoutY="77.0" mnemonicParsing="false" prefWidth="90.0" styleClass="remove-picture-food" text="حذف صورة" textFill="WHITE">
+                        <Button layoutX="287.0" layoutY="77.0" mnemonicParsing="false" onAction="#deletPicFood" prefWidth="90.0" styleClass="remove-picture-food" text="حذف صورة" textFill="WHITE">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Button>
-                        <ImageView fitHeight="96.0" fitWidth="227.0" layoutX="417.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="picFood" fitHeight="96.0" fitWidth="227.0" layoutX="417.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../Images/panini.png" />
                            </image>
@@ -103,7 +103,7 @@
                   </AnchorPane>
                   <AnchorPane>
                      <children>
-                        <TableView fx:id="table_Bill" styleClass="table" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+                        <TableView fx:id="table_food" styleClass="table" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
                           <columns>
                             <TableColumn maxWidth="70.0" prefWidth="70.0" styleClass="column-table">
                                  <graphic>
@@ -114,7 +114,7 @@
                                     </JFXCheckBox>
                                  </graphic>
                               </TableColumn>
-                            <TableColumn fx:id="col_Product_Name" prefWidth="150.0" styleClass="column-table">
+                            <TableColumn fx:id="col_Product_Name" prefWidth="155.0" styleClass="column-table">
                                  <graphic>
                                     <Label maxWidth="1.7976931348623157E308" text="إسم المنتج">
                                        <font>
@@ -123,10 +123,8 @@
                                     </Label>
                                  </graphic>
                               </TableColumn>
-                              <TableColumn fx:id="col_Unit" maxWidth="90.0" prefWidth="90.0" styleClass="column-table" text="الوحدة" />
-                              <TableColumn fx:id="col_Quantity" maxWidth="90.0" prefWidth="90.0" styleClass="column-table" text="الكمية" />
-                              <TableColumn fx:id="col_Price" editable="false" maxWidth="110.0" prefWidth="110.0" sortable="false" styleClass="column-table" text="سعر الوحدة" />
-                              <TableColumn fx:id="col_Total_Price" maxWidth="100.0" prefWidth="100.0" styleClass="column-table" text="الإجمالي" />
+                              <TableColumn fx:id="col_Unit" prefWidth="155.0" styleClass="column-table" text="الوحدة" />
+                              <TableColumn fx:id="col_Quantity" prefWidth="155.0" styleClass="column-table" text="الكمية" />
                           </columns>
                         </TableView>
                      </children>
@@ -202,7 +200,7 @@
                      <children>
                         <HBox maxWidth="1.7976931348623157E308" spacing="15.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <Button maxHeight="26.0" maxWidth="65.0" minHeight="26.0" minWidth="65.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="65.0" styleClass="save-button-small" text="حفظ" textFill="WHITE">
+                              <Button fx:id="saveTableProductsBtn" maxHeight="26.0" maxWidth="65.0" minHeight="26.0" minWidth="65.0" mnemonicParsing="false" onAction="#saveTableProducts" prefHeight="26.0" prefWidth="65.0" styleClass="save-button-small" text="حفظ" textFill="WHITE">
                                  <graphic>
                                     <ImageView fitHeight="16.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -217,12 +215,12 @@
                                     <Font size="13.0" />
                                  </font>
                               </Button>
-                              <Button maxHeight="26.0" maxWidth="70.0" minHeight="26.0" minWidth="70.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="70.0" styleClass="cancle-button-small" text="إلغاء" textFill="WHITE">
+                              <Button maxHeight="26.0" maxWidth="70.0" minHeight="26.0" minWidth="70.0" mnemonicParsing="false" onAction="#cancel" prefHeight="26.0" prefWidth="70.0" styleClass="cancle-button-small" text="إلغاء" textFill="WHITE">
                                  <font>
                                     <Font size="13.0" />
                                  </font>
                                  <graphic>
-                                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="cancelTableProduct" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../Images/close.png" />
                                        </image>
@@ -239,7 +237,7 @@
                         </HBox>
                         <HBox spacing="15.0">
                            <children>
-                              <Button maxHeight="26.0" maxWidth="75.0" minHeight="26.0" minWidth="75.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="75.0" styleClass="printer-button-small" text="طباعة " textFill="WHITE">
+                              <Button fx:id="reportTableProductsBtn" maxHeight="26.0" maxWidth="75.0" minHeight="26.0" minWidth="75.0" mnemonicParsing="false" onAction="#reportTableProducts" prefHeight="26.0" prefWidth="75.0" styleClass="printer-button-small" text="طباعة " textFill="WHITE">
                                  <font>
                                     <Font size="13.0" />
                                  </font>
@@ -254,7 +252,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Button>
-                              <Button maxHeight="28.0" maxWidth="100.0" minHeight="28.0" minWidth="100.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="100.0" styleClass="extract-button" text="استخراج Exel" textFill="#828282">
+                              <Button fx:id="exportCsvTableProductsBtn" maxHeight="28.0" maxWidth="100.0" minHeight="28.0" minWidth="100.0" mnemonicParsing="false" onAction="#exportCsvTableProducts" prefHeight="28.0" prefWidth="100.0" styleClass="extract-button" text="استخراج Exel" textFill="#828282">
                                  <graphic>
                                     <ImageView fitHeight="16.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -266,7 +264,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Button>
-                              <Button maxHeight="28.0" maxWidth="100.0" minHeight="28.0" minWidth="100.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="100.0" styleClass="extract-button" text="إستخراج PDF" textFill="#828282">
+                              <Button fx:id="exportPdfTableProductsBtn" maxHeight="28.0" maxWidth="100.0" minHeight="28.0" minWidth="100.0" mnemonicParsing="false" onAction="#exportPdfTableProducts" prefHeight="28.0" prefWidth="100.0" styleClass="extract-button" text="إستخراج PDF" textFill="#828282">
                                  <graphic>
                                     <ImageView fitHeight="16.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -289,15 +287,15 @@
             </VBox>
             <AnchorPane layoutX="34.0" layoutY="57.0" prefWidth="270.0" style="-fx-background-color: white;" styleClass="select-product-factory" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="15.0">
                <children>
-                  <JFXListView fx:id="listViewProduct" layoutX="4.0" layoutY="71.0" prefHeight="334.0" prefWidth="264.0" styleClass="list-view-products" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0" />
-                  <TextField layoutX="14.0" layoutY="24.0" prefHeight="28.0" prefWidth="220.0" promptText="بحث عن وجبة" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
+                  <JFXListView fx:id="listViewProduct" layoutX="7.0" layoutY="71.0" prefHeight="334.0" prefWidth="258.0" styleClass="list-view-products" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="6.0" />
+                  <TextField fx:id="txt_search" layoutX="14.0" layoutY="24.0" onAction="#searchProduct" prefHeight="28.0" prefWidth="220.0" promptText="بحث عن منتوج" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
                      <font>
                         <Font name="HSDream-Regular" size="13.0" />
                      </font>
                   </TextField>
-                  <AnchorPane layoutX="2.0" maxHeight="95.0" minHeight="56.0" prefHeight="56.0" prefWidth="268.0" styleClass="add-delete-quantity-product-anchor" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="1.0">
+                  <AnchorPane layoutX="3.0" maxHeight="106.0" minHeight="56.0" prefHeight="106.0" prefWidth="266.0" styleClass="add-delete-quantity-product-anchor" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="2.0">
                      <children>
-                        <Button layoutX="16.0" layoutY="43.0" mnemonicParsing="false" onAction="#insertProductBill" prefWidth="115.0" styleClass="add-product-factory" text="اضافة الى الوجبة" textFill="WHITE" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="12.0">
+                        <Button layoutX="16.0" layoutY="43.0" mnemonicParsing="false" onAction="#insertProductFood" prefWidth="115.0" styleClass="add-product-factory" text="اضافة الى الوجبة" textFill="WHITE" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="12.0">
                            <font>
                               <Font name="HSDream-Regular" size="13.0" />
                            </font>
@@ -305,7 +303,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Button>
-                        <Button layoutX="145.0" layoutY="43.0" mnemonicParsing="false" onAction="#deleteProductBill" prefWidth="115.0" styleClass="remove-product-from-factory" text="حذف من الوجبة" textFill="WHITE" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="12.0">
+                        <Button layoutX="145.0" layoutY="43.0" mnemonicParsing="false" onAction="#deleteProductFood" prefWidth="115.0" styleClass="remove-product-from-factory" text="حذف من الوجبة" textFill="WHITE" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="12.0">
                            <font>
                               <Font name="HSDream-Regular" size="13.0" />
                            </font>
@@ -313,6 +311,15 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Button>
+                        <VBox layoutX="82.0" layoutY="16.0" prefHeight="32.0" prefWidth="235.0" AnchorPane.leftAnchor="13.0" AnchorPane.topAnchor="10.0">
+                           <children>
+                              <TextField fx:id="txt_quantity" focusTraversable="false" prefHeight="25.0" prefWidth="115.0" promptText="أدخل الكمية">
+                                 <font>
+                                    <Font name="HSDream-Regular" size="12.0" />
+                                 </font>
+                              </TextField>
+                           </children>
+                        </VBox>
                      </children>
                   </AnchorPane>
                </children>

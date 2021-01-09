@@ -15,7 +15,8 @@ public class Main extends Application {
         System.setProperty("prism.lcdtext","false");
       */  //System.setProperty("file.encoding", "UTF-8");
 
-        Parent root = FXMLLoader.load(getClass().getResource("Views/MainScreen.fxml"));
+        //Parent root = FXMLLoader.load(getClass().getResource("Views/MainScreen.fxml")); // for storeKeeper Screen
+        Parent root = FXMLLoader.load(getClass().getResource("Views/MainScreenKitchenChef.fxml")); // for kitchenChef Screen
         primaryStage.setTitle("Hello World");
         root.getStylesheets().add("Style.css");
         primaryStage.setScene(new Scene(root));

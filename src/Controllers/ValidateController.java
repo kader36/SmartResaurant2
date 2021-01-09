@@ -6,11 +6,11 @@ import javafx.scene.control.TextField;
 public class ValidateController {
     public void inputTextValueType(TextField textField) {
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue.length() > 10) {
+            if (newValue.length() > 100) {
                 textField.setText(oldValue);
                 return;
             }
-            if (newValue.matches("[ا-يa-z]*")) return;
+            if (newValue.matches("[ ا-يa-z]*")) return;
             textField.setText(oldValue);
         });
     }
