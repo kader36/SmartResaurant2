@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="94.0" prefWidth="279.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fitHeight="74.0" fitWidth="81.0" layoutX="184.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="11.0" AnchorPane.leftAnchor="184.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="9.0">
+         <image>
+            <Image url="@../foodTestImage.jpg" />
+         </image>
+      </ImageView>
+      <Text fill="#807575" layoutX="75.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="الطاولة رقم">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <Text fill="#807575" layoutX="39.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="02">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <Text fill="#837e7e" layoutX="14.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-text-alignment: right;" text="3800 DZ" wrappingWidth="157.94677734375">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <right>
+      <VBox prefHeight="600.0" prefWidth="205.0" style="-fx-background-color: red;" BorderPane.alignment="CENTER" />
+   </right>
+   <center>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER_RIGHT" prefHeight="71.0" prefWidth="993.0" AnchorPane.bottomAnchor="529.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Text fill="#979595" strokeType="OUTSIDE" strokeWidth="0.0" text="قائمة أخد الاموال">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
+                  </Text>
+               </children>
+            </HBox>
+            <VBox layoutX="1.0" layoutY="71.0" prefHeight="528.0" prefWidth="992.0" style="-fx-background-color: grey;">
+               <children>
+                  <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="78.0" style="-fx-background-color: blue;" text="المزيد" textFill="WHITE">
+                           <HBox.margin>
+                              <Insets right="600.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="عملية متوفرة">
+                           <font>
+                              <Font size="25.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </Text>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="06">
+                           <font>
+                              <Font size="25.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets right="20.0" />
+                           </HBox.margin>
+                        </Text>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="428.0" prefWidth="992.0">
+                     <children>
+                        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="319.0" prefWidth="312.0" style="-fx-background-color: white;">
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                           <children>
+                              <Text layoutX="91.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="اضافة عملية">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Text>
+                              <Text layoutX="29.0" layoutY="104.0" strokeType="OUTSIDE" strokeWidth="0.0" text="يمكنك أخد اموال بدخال القيمة و الملاحظة" />
+                              <TextField alignment="CENTER_RIGHT" layoutX="31.0" layoutY="121.0" prefHeight="26.0" prefWidth="228.0" promptText="القمية المأخودة" />
+                              <Button layoutX="83.0" layoutY="254.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="125.0" style="-fx-background-color: blue;" text="حفظ العملية" textFill="WHITE" />
+                              <TextField alignment="TOP_RIGHT" layoutX="29.0" layoutY="160.0" prefHeight="75.0" prefWidth="232.0" promptText="الملاحظة" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;">
+                           <HBox.margin>
+                              <Insets left="30.0" />
+                           </HBox.margin>
+                           <children>
+                              <HBox alignment="CENTER_RIGHT" layoutY="352.0" prefHeight="48.0" prefWidth="602.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="59.0" style="-fx-background-color: grey;" text="اغلاق" textFill="#b9b5b5" />
+                                    <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="66.0" style="-fx-background-color: blue;" text="حفظ" textFill="WHITE">
+                                       <HBox.margin>
+                                          <Insets left="10.0" right="30.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                 </children>
+                              </HBox>
+                              <TableView nodeOrientation="RIGHT_TO_LEFT" prefHeight="349.0" prefWidth="600.0" stylesheets="@style.css">
+                                <columns>
+                                  <TableColumn prefWidth="75.0">
+                                       <graphic>
+                                          <CheckBox mnemonicParsing="false" />
+                                       </graphic>
+                                    </TableColumn>
+                                  <TableColumn prefWidth="86.0" text="المستخدم" />
+                                    <TableColumn prefWidth="122.0" text="المبلغ المأخود" />
+                                    <TableColumn prefWidth="101.0" text="الملاحظة" />
+                                    <TableColumn prefWidth="84.0" text="التاريخ" />
+                                </columns>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>
