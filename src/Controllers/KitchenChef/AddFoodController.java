@@ -1,25 +1,17 @@
 package Controllers.KitchenChef;
 
-import BddPackage.FoodOperation;
-import BddPackage.IngredientsFoodOperation;
-import BddPackage.ProductOperation;
+import BddPackage.*;
 import Controllers.ValidateController;
-import Models.Food;
-import Models.IngredientsFood;
-import Models.Product;
-import Models.ProductFood;
+import Models.*;
+import com.jfoenix.controls.JFXListView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
-import com.jfoenix.controls.JFXListView;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -27,9 +19,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -88,36 +77,46 @@ public class AddFoodController {
 
     @FXML
     private TextField txt_quantity;
+    @FXML
+    private TextArea Des;
 
     @FXML
     private Button addPicBtn;
+    @FXML
+    private ComboBox IdFoodCategory;
+
 
     private ObservableList<String> dataTableView = FXCollections.observableArrayList();
     private ArrayList<String> list_Product = new ArrayList<>();
     private ObservableList<String> dataCombo;
     private ArrayList<Product> list_ProductsObject = new ArrayList<>();
+    private ArrayList<FoodCategory> list_Category = new ArrayList<>();
     private ArrayList<IngredientsFood> listProducts = new ArrayList<>();
     private ObservableList<IngredientsFood> dataTable = FXCollections.observableArrayList();
     private ValidateController validateController = new ValidateController();
     private String pathImage;
     private FoodOperation foodOperation = new FoodOperation();
     private IngredientsFoodOperation ingredientsFoodOperation = new IngredientsFoodOperation();
-    private static int idFood;
+    private  int idFood;
+
 
     public void Init(BorderPane mainPane) {
+
         setDisableReports();
         this.mainPane = mainPane;
         chargeListProduct();
+        chargeListCategory();
         col_Product_Name.setCellValueFactory(new PropertyValueFactory<>("Product_name"));
         col_Unit.setCellValueFactory(new PropertyValueFactory<>("unity"));
         col_Quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-//        col_Price.setCellValueFactory(new PropertyValueFactory<>("price"));
-//        col_Total_Price.setCellValueFactory(new PropertyValueFactory<>("total"));
+  //      col_Price.setCellValueFactory(new PropertyValueFactory<>("price"));
+ //       col_Total_Price.setCellValueFactory(new PropertyValueFactory<>("total"));
         dataTableView.setAll(list_Product);
         listViewProduct.setItems(dataTableView);
         picFood.setImage(null);
         txtValidate();
         lbl_nb_food.setText(String.valueOf(foodOperation.getCountFood() + 1));
+        idFood=foodOperation.getCountFood() + 1;
     }
 
     private void chargeListProduct() {
@@ -204,7 +203,11 @@ public class AddFoodController {
         File file = fileChooser.showOpenDialog(stage);
         if (file != null) {
             Image image = new Image(file.toURI().toString());
+
             pathImage = file.toURI().toString();
+
+            this.picFood.setFitHeight(96);
+            this. picFood.setFitWidth(250);
             picFood.setImage(image);
         } else {
             picFood.setImage(null);
@@ -346,7 +349,7 @@ public class AddFoodController {
             okkButton.setText("حسنا");
             alertWarning.showAndWait();
             return;
-        }
+        }else {
         if (foodPrice.getText().equals("")) {
             Alert alertWarning = new Alert(Alert.AlertType.WARNING);
             alertWarning.setHeaderText("تحذير ");
@@ -355,83 +358,113 @@ public class AddFoodController {
             okkButton.setText("حسنا");
             alertWarning.showAndWait();
             return;
-        }
-
-        if (foodName.getText().equals("")) {
-            Alert alertWarning = new Alert(Alert.AlertType.WARNING);
-            alertWarning.setHeaderText("تحذير ");
-            alertWarning.setContentText("الرجاء ادخال اسم الوجبة قبل الحفظ");
-            Button okkButton = (Button) alertWarning.getDialogPane().lookupButton(ButtonType.OK);
-            okkButton.setText("حسنا");
-            alertWarning.showAndWait();
-            return;
-        }
-
-        if (picFood == null) {
-            Alert alertWarning = new Alert(Alert.AlertType.WARNING);
-            alertWarning.setHeaderText("تحذير ");
-            alertWarning.setContentText("الرجاء ادخال صورة الوجبة قبل الحفظ");
-            Button okkButton = (Button) alertWarning.getDialogPane().lookupButton(ButtonType.OK);
-            okkButton.setText("حسنا");
-            alertWarning.showAndWait();
-            return;
-        }
-
-        Food f = new Food();
-        f.setName(foodName.getText());
-        if (foodOperation.isExist(f)){
-            Alert alertWarning = new Alert(Alert.AlertType.WARNING);
-            alertWarning.setHeaderText("تحذير");
-            alertWarning.setContentText("هذه الوجبة موجودة");
-            Button okkButton = (Button) alertWarning.getDialogPane().lookupButton(ButtonType.OK);
-            okkButton.setText("حسنا");
-            alertWarning.showAndWait();
-            return;
-        }
-        Alert alertConfirmation = new Alert(Alert.AlertType.CONFIRMATION);
-        alertConfirmation.setHeaderText("تأكيد الحفظ");
-        alertConfirmation.setContentText("هل انت متأكد من عملية حفظ الوجبة");
-        Button okButton = (Button) alertConfirmation.getDialogPane().lookupButton(ButtonType.OK);
-        okButton.setText("موافق");
-
-        Button cancel = (Button) alertConfirmation.getDialogPane().lookupButton(ButtonType.CANCEL);
-        cancel.setText("الغاء");
-
-        alertConfirmation.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.CANCEL) {
-                alertConfirmation.close();
-            } else if (response == ButtonType.OK) {
-                // inert food
-                Food food = new Food();
-                food.setName(foodName.getText());
-                food.setDescription(foodName.getText() + " " + foodPrice.getText() + ".00 DA");
-                food.setImage_path(pathImage);
-                food.setPrice(Integer.parseInt(foodPrice.getText()));
-                // TODO must to change food of category
-                food.setId_category(5);
-                foodOperation.insert(food);
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                idFood = foodOperation.getIdFood(food);
-                // insert ingredients
-                for (IngredientsFood ingredientsFood : dataTable) {
-                    ingredientsFood.setId_food(idFood);
-                    ingredientsFood.setId_product(getIdProductByCobo(ingredientsFood.getProduct_name()));
-                    ingredientsFoodOperation.insert(ingredientsFood);
-                }
-                Alert alertWarning = new Alert(Alert.AlertType.INFORMATION);
-                alertWarning.setHeaderText("تأكيدالحفظ");
-                alertWarning.setContentText("تم اضافة الوجبة بنجاح");
+        }else{
+            if (foodName.getText().equals("")) {
+                Alert alertWarning = new Alert(Alert.AlertType.WARNING);
+                alertWarning.setHeaderText("تحذير ");
+                alertWarning.setContentText("الرجاء ادخال اسم الوجبة قبل الحفظ");
                 Button okkButton = (Button) alertWarning.getDialogPane().lookupButton(ButtonType.OK);
                 okkButton.setText("حسنا");
                 alertWarning.showAndWait();
-                setEnableReports();
-                setTxtFieldsEmpty();
+                return;
+            }else {
+
+                if  (picFood.getImage() == null) {
+                    Alert alertWarning = new Alert(Alert.AlertType.WARNING);
+                    alertWarning.setHeaderText("تحذير ");
+                    alertWarning.setContentText("الرجاء ادخال صورة الوجبة قبل الحفظ");
+                    Button okkButton = (Button) alertWarning.getDialogPane().lookupButton(ButtonType.OK);
+                    okkButton.setText("حسنا");
+                    alertWarning.showAndWait();
+                    return;
+                }else{
+                    Food f = new Food();
+                    f.setName(foodName.getText());
+                    if (foodOperation.isExist(f)){
+                        Alert alertWarning = new Alert(Alert.AlertType.WARNING);
+                        alertWarning.setHeaderText("تحذير");
+                        alertWarning.setContentText("هذه الوجبة موجودة");
+                        Button okkButton = (Button) alertWarning.getDialogPane().lookupButton(ButtonType.OK);
+                        okkButton.setText("حسنا");
+                        alertWarning.showAndWait();
+                        return;
+                    }
+                    Alert alertConfirmation = new Alert(Alert.AlertType.CONFIRMATION);
+                    alertConfirmation.setHeaderText("تأكيد الحفظ");
+                    alertConfirmation.setContentText("هل انت متأكد من عملية حفظ الوجبة");
+                    Button okButton = (Button) alertConfirmation.getDialogPane().lookupButton(ButtonType.OK);
+                    okButton.setText("موافق");
+
+                    Button cancel = (Button) alertConfirmation.getDialogPane().lookupButton(ButtonType.CANCEL);
+                    cancel.setText("الغاء");
+
+                    alertConfirmation.showAndWait().ifPresent(response -> {
+                        if (response == ButtonType.CANCEL) {
+                            alertConfirmation.close();
+                        } else if (response == ButtonType.OK) {
+                            // inert food
+                            Food food = new Food();
+                            int idCategory=getIdCategory(IdFoodCategory.getSelectionModel().getSelectedItem().toString());
+                            food.setId(getIdFood());
+                            food.setName(foodName.getText());
+                            food.setDescription(Des.getText());
+                            food.setImage_path(pathImage);
+                            food.setPrice(Integer.parseInt(foodPrice.getText()));
+                            // TODO must to change food of category
+                            food.setId_category(idCategory);
+                            foodOperation.insert(food);
+                            try {
+                                Thread.sleep(100);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+
+                            // insert ingredients
+                            for (IngredientsFood ingredientsFood : dataTable) {
+                                ingredientsFood.setId_food(idFood);
+                                ingredientsFood.setId_product(getIdProductByCobo(ingredientsFood.getProduct_name()));
+                                ingredientsFoodOperation.insert(ingredientsFood);
+                            }
+                            try {
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/foods.fxml"));
+                                BorderPane temp = loader.load();
+                                FoodsController foodsController = loader.getController();
+                                foodsController.Init(temp);
+                                mainPane.getChildren().setAll(temp);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            Alert alertWarning = new Alert(Alert.AlertType.INFORMATION);
+                            alertWarning.setHeaderText("تأكيدالحفظ");
+                            alertWarning.setContentText("تم اضافة الوجبة بنجاح");
+                            Button okkButton = (Button) alertWarning.getDialogPane().lookupButton(ButtonType.OK);
+                            okkButton.setText("حسنا");
+                            alertWarning.showAndWait();
+                            setEnableReports();
+                            setTxtFieldsEmpty();
+
+                        }
+                    });
+                }
             }
-        });
+         }
+        }
+
+
+
+
+    }
+    private void chargeListCategory() {
+        dataCombo = FXCollections.observableArrayList();
+
+       FoodCategoryOperation foodCategoryOperation=new FoodCategoryOperation();
+        ArrayList<FoodCategory> foodCategory= foodCategoryOperation.getAll();
+        for (FoodCategory listProviderFromDB : foodCategory) {
+            dataCombo.add(listProviderFromDB.getName());
+
+        }
+        IdFoodCategory.setItems(dataCombo);
+
     }
 
     void setTxtFieldsEmpty() {
@@ -439,6 +472,18 @@ public class AddFoodController {
         foodPrice.setText("");
         txt_quantity.setText("");
         saveTableProductsBtn.setDisable(true);
+    }
+    private int getIdCategory(String s){
+        int  Idcatecory=0;
+        FoodCategoryOperation foodCategoryOperation=new FoodCategoryOperation();
+        ArrayList<FoodCategory> foodCategory= foodCategoryOperation.getAll();
+        for (FoodCategory listProviderFromDB : foodCategory) {
+            if(listProviderFromDB.getName().equals(s))
+                Idcatecory= listProviderFromDB.getId();
+
+        }
+        return Idcatecory;
+
     }
 
     @FXML
@@ -454,5 +499,23 @@ public class AddFoodController {
     @FXML
     void reportTableProducts(ActionEvent event) {
 
+    }
+    private int getIdFood(){
+        int id=0;
+        ArrayList<Food> list=new ArrayList<>();
+        list=foodOperation.getAll();
+        System.out.println(list);
+        if(list.size()==0)
+            id=1;
+        else{
+            Food food=new Food();
+            food=list.get(list.size()-1);
+            id=food.getId()+1;
+        }
+
+
+
+
+        return id;
     }
 }

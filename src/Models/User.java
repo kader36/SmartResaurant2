@@ -3,8 +3,10 @@ package Models;
 public class User {
     private int id;
     private int id_emloyer;
+    private String Emloyer_name;
     private String UserName;
     private String PassWord;
+    private String Type;
 
     public User(){}
 
@@ -45,5 +47,21 @@ public class User {
 
     public void setPassWord(String passWord) {
         PassWord = passWord;
+    }
+
+    public String getEmloyer_name() {
+        return Emloyer_name;
+    }
+
+    public void setEmloyer_name(String emloyer_name) {
+        Emloyer_name = emloyer_name;
+    }
+
+    public String getType() {
+        return Type;
+    }
+
+    public void setType(String type) {
+        Type = type;
     }
 }

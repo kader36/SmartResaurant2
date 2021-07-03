@@ -7,20 +7,17 @@ import Models.*;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXListView;
 import com.mysql.jdbc.Connection;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
@@ -37,9 +34,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.ResourceBundle;
 import java.util.function.Predicate;
 
@@ -376,7 +371,7 @@ public class UpdateBillController implements Initializable {
                         paid = Integer.parseInt(txt_Paid.getText());
                     // update provider
                     Provider provider = getProviderById(idProvider);
-                    provider.setCreditor(String.valueOf(Integer.parseInt(lbl_bill_total.getText()) - Integer.parseInt(txt_Paid.getText())));
+                    provider.setCreditor(Integer.parseInt(lbl_bill_total.getText()) - Integer.parseInt(txt_Paid.getText()));
                     providerOperation.update(provider,provider);
                     // insert into store bill
                     StoreBill storeBill = new StoreBill();

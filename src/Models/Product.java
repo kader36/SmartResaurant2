@@ -6,6 +6,8 @@ public class Product {
     private int id_category;
     private String category_name;
     private String storage_Unit;
+    private String Unity_Food;
+    private int Coefficient;
     private int less_quantity;
     private int tot_quantity;
 
@@ -51,6 +53,18 @@ public class Product {
     public void setStorage_Unit(String storage_Unit) {
         this.storage_Unit = storage_Unit;
     }
+
+    public String getUnity_Food() {
+        return Unity_Food;
+    }
+
+    public void setUnity_Food(String unity_food) { this.Unity_Food = unity_food; }
+
+    public int getCoefficient() {
+        return Coefficient;
+    }
+
+    public void setCoefficient(int coefficient) { this.Coefficient = coefficient; }
 
     public int getLess_quantity() {
         return less_quantity;

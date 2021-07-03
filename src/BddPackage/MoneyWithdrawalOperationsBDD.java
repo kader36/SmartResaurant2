@@ -7,22 +7,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class MoneyWithdrawlBDD extends BDD<MoneyWithdrawal> {
+public class MoneyWithdrawalOperationsBDD extends BDD<MoneyWithdrawal> {
 
 
     @Override
     public boolean insert(MoneyWithdrawal o) {
         boolean operationResult  = false;
-        String query = "INSERT INTO `money_withdrawal_operations`(`ID_ORDER`, `USER_NAME`,`MONEY_WITHDRAWN`,`DATE`,`NOTE`)" +
-                " VALUES (?,?,?,?,?)";
-        String id = "5";
+        String query = "INSERT INTO `money_withdrawal_operations`( `USER_NAME`,`MONEY_WITHDRAWN`,`DATE`,`NOTE`)" +
+                " VALUES (?,?,?,?)";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
-            preparedStmt.setString(1,id);
-            preparedStmt.setString(2,o.getUserName());
-            preparedStmt.setDouble(3,Double.parseDouble(o.getMoneyWithdrawn()));
-            preparedStmt.setDate(4,o.getDate());
-            preparedStmt.setString(5,o.getNote());
+            preparedStmt.setString(1,o.getUserName());
+            preparedStmt.setDouble(2,o.getMoneyWithdrawn());
+            preparedStmt.setDate(3,o.getDate());
+            preparedStmt.setString(4,o.getNote());
             int insert = preparedStmt.executeUpdate();
             if(insert != -1) operationResult = true;
         } catch (SQLException e) {
@@ -38,7 +36,20 @@ public class MoneyWithdrawlBDD extends BDD<MoneyWithdrawal> {
 
     @Override
     public boolean delete(MoneyWithdrawal o) {
-        return false;
+
+        System.out.println("removed id is " + o.getDatabaseID());
+        boolean queryResult = false;
+        String query = "DELETE FROM `money_withdrawal_operations` WHERE `ID` = ? ";
+        try {
+            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            preparedStmt.setInt(1, o.getDatabaseID());
+            int delete = preparedStmt.executeUpdate();
+            if (delete != -1) queryResult = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return queryResult;
     }
 
     @Override
@@ -59,8 +70,9 @@ public class MoneyWithdrawlBDD extends BDD<MoneyWithdrawal> {
             while (resultSet.next()) {
                 operationsList.add(
                         new MoneyWithdrawal(
+
                                 resultSet.getString("USER_NAME"),
-                                resultSet.getString("MONEY_WITHDRAWN"),
+                                resultSet.getDouble("MONEY_WITHDRAWN"),
                                 resultSet.getDate("DATE"),
                                 resultSet.getString("NOTE")
                         )

@@ -1,7 +1,13 @@
 package Models;
 
+import BddPackage.FoodCategoryOperation;
+import javafx.scene.control.CheckBox;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
+
+import java.io.File;
 
 public class Food {
 
@@ -12,20 +18,57 @@ public class Food {
     private int price;
     private String image_path;
     private ImageView image = new ImageView();
+    //private VBox imageVBox;
+    private int rating;
+    private String category_name;
+    private CheckBox foodSelectedCheckBox;
+
+
+    private boolean availabale;
 
 
     public Food() {
-        image.setFitHeight(96);
-        image.setFitWidth(227);
+        image.setFitHeight(80);
+        image.setFitWidth(200);
+        this.foodSelectedCheckBox = new CheckBox();
+        this.foodSelectedCheckBox.setSelected(false);
+        //imageVBox = new VBox(image);
+        //imageVBox.setMargin(image, new Insets(10, 10, 10, 10));
+       // imageVBox.setStyle("-fx-padding: 10;");
+        //imageVBox.setAlignment();
+  /*      FoodCategoryOperation foodCategoryOperation=new FoodCategoryOperation();
+        FoodCategory  foodCategory=new FoodCategory();
+        ArrayList<FoodCategory> list = new ArrayList<>();
+        list=foodCategoryOperation.getAll();
+        FoodCategory foodCategory1=new FoodCategory();
+        for(int i=0; i<list.size();i++){
+            foodCategory1=list.get(i);
+            if(foodCategory1.getId()==1){
+                this.category="1000000000000";
+            }
+        }
+        this.category= "1000000000000";
+*/
+
     }
 
-    public Food(int id, int id_category, String name, String description, int price, String image_path) {
+    public Food(int id, int id_category, String name,String description,
+                int price, String image_path, int rating, boolean availabale) {
         this.id = id;
         this.id_category = id_category;
         this.name = name;
         this.description = description;
         this.price = price;
         this.image_path = image_path;
+        this.rating = rating;
+        this.availabale = availabale;
+        File file = new File(image_path);
+        Image image = new Image(file.toURI().toString());
+        this.image.setImage(image);
+        this.image.setFitHeight(80);
+        this.image.setFitWidth(220);
+        // change the image margin.
+        this.foodSelectedCheckBox = new CheckBox();
     }
 
     public int getId() {
@@ -43,6 +86,19 @@ public class Food {
     public void setName(String name) {
         this.name = name;
     }
+    public String getCategory_name() {
+        return category_name;
+    }
+    public void setCategory(int id_category_name) {
+        String category="";
+        FoodCategoryOperation foodCategoryOperation=new FoodCategoryOperation();
+        FoodCategory foodCategory=new FoodCategory();
+        foodCategory=foodCategoryOperation.getCategory(id_category_name);
+
+
+        this.category_name=foodCategory.getName();
+    }
+
 
     public String getDescription() {
         return description;
@@ -77,7 +133,12 @@ public class Food {
     }
 
     public ImageView getImage() {
-        return image;
+         ImageView image=new ImageView(this.image_path);
+         image.setFitHeight(80);
+         image.setFitWidth(140);
+         image.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0.3,0,0.3), 5, 0, 0, 0);");
+         image.setEffect(new DropShadow(20, Color.BLACK));
+         return image;
     }
 
     public void setImage(ImageView image) {
@@ -87,4 +148,18 @@ public class Food {
     public void setImageByPath(Image image) {
         this.image.setImage(image);
     }
+
+    public int getRating() { return rating; }
+
+    public void setRating(int rating) { this.rating = rating; }
+
+    public boolean isAvailabale() { return availabale; }
+
+    public void setAvailabale(boolean availabale) { this.availabale = availabale; }
+
+    public CheckBox getFoodSelectedCheckBox() { return foodSelectedCheckBox; }
+
+    public void setFoodSelectedCheckBox(CheckBox foodSelectedCheckBox) { this.foodSelectedCheckBox = foodSelectedCheckBox; }
+
+    public void setCheckBoxState(boolean state) { this.foodSelectedCheckBox.setSelected(state); }
 }

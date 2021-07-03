@@ -6,14 +6,13 @@ import Models.Provider;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class ProviderOperation extends BDD<Provider> {
     @Override
     public boolean insert(Provider o) {
         boolean ins = false;
-        String query = "INSERT INTO `PROVIDER`( `PROVIDER_FIRST_NAME`, `PROVIDER_LAST_NAME`, `PROVIDER_PHONE_NUMBER`,\n" +
+        String query = "INSERT INTO `provider`( `PROVIDER_FIRST_NAME`, `PROVIDER_LAST_NAME`, `PROVIDER_PHONE_NUMBER`,\n" +
                 "`PROVIDER_JOB`,`PROVIDER_ADRESS`) \n" +
                 "VALUES (?,?,?,?,?)";
         try {
@@ -34,7 +33,7 @@ public class ProviderOperation extends BDD<Provider> {
     @Override
     public boolean update(Provider o1, Provider o2) {
         boolean upd = false;
-        String query = "UPDATE `PROVIDER` SET `PROVIDER_FIRST_NAME`= ?,`PROVIDER_LAST_NAME`= ?,\n" +
+        String query = "UPDATE `provider` SET `PROVIDER_FIRST_NAME`= ?,`PROVIDER_LAST_NAME`= ?,\n" +
                 "    `PROVIDER_JOB`=? ,`PROVIDER_ADRESS`= ? WHERE ID_PROVIDER = ? ";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
@@ -50,11 +49,26 @@ public class ProviderOperation extends BDD<Provider> {
         }
         return upd;
     }
+    public boolean update(Provider o1) {
+        boolean upd = false;
+        String query = "UPDATE `provider` SET `PROVIDER_CREDITOR`= ? WHERE `ID_PROVIDER`= ?" ;
+
+        try {
+            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            preparedStmt.setDouble(1, o1.getCreditor());
+            preparedStmt.setInt(2 ,o1.getId());
+            int update = preparedStmt.executeUpdate();
+            if (update != -1) upd = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return upd;
+    }
 
     @Override
     public boolean delete(Provider o) {
         boolean del = false;
-        String query = "DELETE FROM `PROVIDER` WHERE ID_PROVIDER = ? ";
+        String query = "DELETE FROM `provider` WHERE ID_PROVIDER = ? ";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             preparedStmt.setInt(1, o.getId());
@@ -75,7 +89,7 @@ public class ProviderOperation extends BDD<Provider> {
     public ArrayList<Provider> getAll() {
 
         ArrayList<Provider> list = new ArrayList<>();
-        String query = "SELECT * FROM `PROVIDER`";
+        String query = "SELECT * FROM `provider`";
         try {
             chargeData(list, query);
         } catch (SQLException e) {
@@ -86,7 +100,7 @@ public class ProviderOperation extends BDD<Provider> {
 
     public ArrayList<Provider> getAllBy(String orderBY) {
         ArrayList<Provider> list = new ArrayList<>();
-        String query = "SELECT * FROM `PROVIDER` ORDER BY " + orderBY + " ASC ";
+        String query = "SELECT * FROM `provider` ORDER BY " + orderBY + " ASC ";
         try {
 
             chargeData(list, query);
@@ -98,7 +112,7 @@ public class ProviderOperation extends BDD<Provider> {
 
     public ArrayList<Provider> getCredetorProvider() {
         ArrayList<Provider> list = new ArrayList<>();
-        String query = "SELECT * FROM `PROVIDER` WHERE PROVIDER_CREDITOR > 0";
+        String query = "SELECT * FROM `provider` WHERE PROVIDER_CREDITOR > 0";
         try {
 
             chargeData(list, query);
@@ -122,10 +136,10 @@ public class ProviderOperation extends BDD<Provider> {
             provider.setPhone_number(resultSet.getString("PROVIDER_PHONE_NUMBER"));
             provider.setAdress(resultSet.getString("PROVIDER_ADRESS"));
             provider.setJob(resultSet.getString("PROVIDER_JOB"));
-            provider.setCreditor(resultSet.getString("PROVIDER_CREDITOR"));
+            provider.setCreditor(resultSet.getDouble("PROVIDER_CREDITOR"));
             provider.setCreditor_to(resultSet.getString("PROVIDER_CREDITOR_TO"));
             list.add(provider);
-            ValuesStatic.totCreditor += Integer.parseInt(provider.getCreditor());
+            ValuesStatic.totCreditor += provider.getCreditor();
         }
         return list;
     }
@@ -133,7 +147,7 @@ public class ProviderOperation extends BDD<Provider> {
 
     public Provider getProviderById(int idProvider) {
         ArrayList<Provider> list = new ArrayList<>();
-        String query = "SELECT * FROM `PROVIDER` where ID_PROVIDER = " + idProvider;
+        String query = "SELECT * FROM `provider` where ID_PROVIDER = " + idProvider;
         try {
             chargeData(list, query);
         } catch (SQLException e) {
@@ -144,7 +158,7 @@ public class ProviderOperation extends BDD<Provider> {
 
     public int getCountProvider() {
         int total = 0;
-        String query = "SELECT COUNT(*) AS total FROM PROVIDER";
+        String query = "SELECT COUNT(*) AS total FROM provider";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             ResultSet resultSet = preparedStmt.executeQuery();

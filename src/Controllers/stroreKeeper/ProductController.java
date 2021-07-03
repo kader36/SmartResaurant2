@@ -5,7 +5,6 @@ import BddPackage.ProductOperation;
 import Controllers.ValidateController;
 import Models.Product;
 import Models.ProductCategory;
-import Models.Provider;
 import com.mysql.jdbc.Connection;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -40,7 +39,6 @@ import java.io.PrintWriter;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
 
 public class ProductController implements Initializable {
@@ -85,10 +83,18 @@ public class ProductController implements Initializable {
     private TextField txt_tot_quantity;
 
     @FXML
-    private TextField txt_less_quantity;
+    private TextField  txt_Coefficient;
 
     @FXML
     private ComboBox<String> comboListCategory;
+
+    @FXML
+    private ComboBox<String> STORAGE_UNIT;
+    @FXML
+    private ComboBox<String> Unity_Food;
+
+    @FXML
+    private TextField txt_LESS_QUANTITY;
 
     @FXML
     private TextField txt_search;
@@ -116,22 +122,23 @@ public class ProductController implements Initializable {
 
     public void Init(BorderPane mainPane) {
         this.mainPane = mainPane;
+        STORAGE_UNIT.getItems().addAll("Kg","G","L","Unity");
+        Unity_Food.getItems().addAll("G","L","mL","Unity");
         hidevbox();
         vboxOption.setVisible(false);
         col_name.setCellValueFactory(new PropertyValueFactory<>("name"));
         col_category.setCellValueFactory(new PropertyValueFactory<>("category_name"));
         col_unite.setCellValueFactory(new PropertyValueFactory<>("storage_Unit"));
         col_quantity.setCellValueFactory(new PropertyValueFactory<>("tot_quantity"));
-        col_less_quantity.setCellValueFactory(new PropertyValueFactory<>("less_quantity"));
+       // col_less_quantity.setCellValueFactory(new PropertyValueFactory<>("less_quantity"));
         list_Products = productOperation.getAll();
         dataTable.setAll(list_Products);
         productTable.setItems(dataTable);
         txtValidate();
-        //categoryCombo.getItems().addAll("fofof", "hhh");
         chargeListCategory();
         comboListCategory.getItems().addAll("اسم السلعة", "الصنف", "الكمية الإجمالية", "الحد الأدنى", "الوحدة");
         sortComboByCategory();
-        lbl_less_quantity.setText(String.valueOf(productOperation.getNbLessQuantity()));
+        //lbl_less_quantity.setText(String.valueOf(productOperation.getNbLessQuantity()));
         lbl_dead_product.setText(String.valueOf(productOperation.getNbDeadProduct()));
         totProducts.setText(String.valueOf(productOperation.getCountProduct()));
     }
@@ -170,14 +177,15 @@ public class ProductController implements Initializable {
 
     private void txtValidate() {
         validateController.inputTextValueType(txt_name);
-        validateController.inputTextValueType(txt_unite);
+        //validateController.inputTextValueType(txt_unite);
         validateController.inputNumberValue(txt_tot_quantity);
-        validateController.inputNumberValue(txt_less_quantity);
+        validateController.inputNumberValue(txt_Coefficient);
+        //validateController.inputNumberValue(txt_less_quantity);
     }
 
     private void txtValidateUpdate() {
         validateController.inputTextValueType(txt_name_upd);
-        validateController.inputTextValueType(txt_unite_upd);
+        //validateController.inputTextValueType(txt_unite_upd);
         validateController.inputNumberValue(txt_tot_quantity_upd);
         validateController.inputNumberValue(txt_less_quantity_upd);
     }
@@ -222,15 +230,17 @@ public class ProductController implements Initializable {
     @FXML
     void insertProduct(ActionEvent event) {
         if (!txt_name.getText().isEmpty() && !txt_tot_quantity.getText().isEmpty()
-                && !txt_less_quantity.getText().isEmpty() && !txt_unite.getText().isEmpty() && !categoryCombo.getSelectionModel().isEmpty()) {
+               /* && !txt_Coefficient.getText().isEmpty()*/ && !categoryCombo.getSelectionModel().isEmpty()) {
             String category = categoryCombo.getSelectionModel().getSelectedItem();
             Product product = new Product();
             product.setName(txt_name.getText());
             //product.setId_category(idCategory(category));
             product.setId_category(getIdCategoryByCobo(category));
             product.setTot_quantity(Integer.valueOf(txt_tot_quantity.getText()));
-            product.setStorage_Unit(txt_unite.getText());
-            product.setLess_quantity(Integer.valueOf(txt_less_quantity.getText()));
+            product.setStorage_Unit(STORAGE_UNIT.getSelectionModel().getSelectedItem());
+            product.setLess_quantity(Integer.valueOf(txt_LESS_QUANTITY.getText()));
+            product.setUnity_Food(Unity_Food.getSelectionModel().getSelectedItem());
+            product.setCoefficient(Integer.valueOf(txt_Coefficient.getText()));
             productOperation.insert(product);
             Alert alertWarning = new Alert(Alert.AlertType.INFORMATION);
             alertWarning.setHeaderText("تأكيد ");
@@ -251,8 +261,8 @@ public class ProductController implements Initializable {
     }
 
     private void clearTxt() {
-        txt_unite.clear();
-        txt_less_quantity.clear();
+        txt_LESS_QUANTITY.clear();
+        txt_Coefficient.clear();
         txt_tot_quantity.clear();
         txt_name.clear();
     }

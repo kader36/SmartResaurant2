@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #F8F8F8;" stylesheets="@css/style.css" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.stroreKeeper.DashboardController">
+<BorderPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #F8F8F8;" stylesheets="@css/style.css" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.stroreKeeper.DashboardController">
    <top>
       <AnchorPane prefHeight="70.0" prefWidth="900.0" style="-fx-background-color: FFF;" styleClass="bar-top" BorderPane.alignment="CENTER">
          <children>
@@ -38,441 +38,583 @@
                <children>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <AnchorPane prefHeight="200.0" prefWidth="200.0" AnchorPane.leftAnchor="50.0">
+                        <HBox layoutX="50.0" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                              <AnchorPane prefHeight="200.0" prefWidth="200.0">
                                  <children>
-                                    <HBox>
+                                    <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                                        <children>
-                                          <HBox styleClass="dashboard-item">
+                                          <HBox>
                                              <children>
-                                                <AnchorPane maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" prefHeight="40.0" prefWidth="40.0" styleClass="dashboard-item-image-container">
+                                                <HBox styleClass="dashboard-item">
                                                    <children>
-                                                      <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="-30.0" AnchorPane.topAnchor="-30.0">
-                                                         <image>
-                                                            <Image url="@../Images/factoriesnumber.png" />
-                                                         </image>
-                                                      </ImageView>
+                                                      <AnchorPane maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" prefHeight="40.0" prefWidth="40.0" styleClass="dashboard-item-image-container">
+                                                         <children>
+                                                            <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="-30.0" AnchorPane.topAnchor="-30.0">
+                                                               <image>
+                                                                  <Image url="@../Images/factoriesnumber.png" />
+                                                               </image>
+                                                            </ImageView>
+                                                         </children>
+                                                         <HBox.margin>
+                                                            <Insets left="15.0" top="5.0" />
+                                                         </HBox.margin>
+                                                      </AnchorPane>
+                                                      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                                                         <children>
+                                                            <Label styleClass="font-hs-dream" text="عدد الفواتير اليوم" textFill="#828282">
+                                                               <font>
+                                                                  <Font name="HSDream-Regular" size="16.0" />
+                                                               </font>
+                                                               <VBox.margin>
+                                                                  <Insets />
+                                                               </VBox.margin>
+                                                            </Label>
+                                                            <Label fx:id="factToday" alignment="CENTER" contentDisplay="CENTER" text="32" textAlignment="CENTER" textFill="#4a8e16">
+                                                               <font>
+                                                                  <Font name="HSDream-Regular" size="18.0" />
+                                                               </font>
+                                                               <VBox.margin>
+                                                                  <Insets top="5.0" />
+                                                               </VBox.margin>
+                                                            </Label>
+                                                         </children>
+                                                         <HBox.margin>
+                                                            <Insets left="5.0" />
+                                                         </HBox.margin>
+                                                      </VBox>
                                                    </children>
                                                    <HBox.margin>
-                                                      <Insets left="15.0" top="5.0" />
+                                                      <Insets />
                                                    </HBox.margin>
-                                                </AnchorPane>
-                                                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="5.0" right="15.0" top="10.0" />
+                                                   </padding>
+                                                </HBox>
+                                                <HBox layoutX="10.0" layoutY="10.0" styleClass="dashboard-item">
                                                    <children>
-                                                      <Label styleClass="font-hs-dream" text="عدد الفواتير اليوم" textFill="#828282">
-                                                         <font>
-                                                            <Font name="HSDream-Regular" size="16.0" />
-                                                         </font>
-                                                         <VBox.margin>
-                                                            <Insets />
-                                                         </VBox.margin>
-                                                      </Label>
-                                                      <Label fx:id="factToday" alignment="CENTER" contentDisplay="CENTER" text="32" textAlignment="CENTER" textFill="#4a8e16">
-                                                         <font>
-                                                            <Font name="HSDream-Regular" size="18.0" />
-                                                         </font>
-                                                         <VBox.margin>
-                                                            <Insets top="5.0" />
-                                                         </VBox.margin>
-                                                      </Label>
-                                                   </children>
-                                                   <HBox.margin>
-                                                      <Insets left="5.0" />
-                                                   </HBox.margin>
-                                                </VBox>
-                                             </children>
-                                             <HBox.margin>
-                                                <Insets />
-                                             </HBox.margin>
-                                             <padding>
-                                                <Insets bottom="10.0" left="5.0" right="15.0" top="10.0" />
-                                             </padding>
-                                          </HBox>
-                                          <HBox layoutX="10.0" layoutY="10.0" styleClass="dashboard-item">
-                                             <children>
-                                                <AnchorPane maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" prefHeight="40.0" prefWidth="40.0" styleClass="dashboard-item-image-container">
-                                                   <children>
-                                                      <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="-30.0" AnchorPane.topAnchor="-30.0">
-                                                         <image>
-                                                            <Image url="@../Images/factoriesnumber.png" />
-                                                         </image>
-                                                      </ImageView>
-                                                   </children>
-                                                   <HBox.margin>
-                                                      <Insets left="10.0" top="20.0" />
-                                                   </HBox.margin>
-                                                </AnchorPane>
-                                                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
-                                                   <children>
-                                                      <Label minWidth="120.0" prefHeight="20.0" prefWidth="117.0" styleClass="font-hs-dream" text="عدد الفواتير للأسبوع" textFill="#828282">
-                                                         <font>
-                                                            <Font name="HSDream-Regular" size="16.0" />
-                                                         </font>
-                                                         <VBox.margin>
-                                                            <Insets />
-                                                         </VBox.margin>
-                                                      </Label>
-                                                      <Label fx:id="factWeek" alignment="CENTER" contentDisplay="CENTER" text="32" textAlignment="CENTER" textFill="#4a8e16">
-                                                         <font>
-                                                            <Font name="HSDream-Regular" size="18.0" />
-                                                         </font>
-                                                         <VBox.margin>
-                                                            <Insets top="5.0" />
-                                                         </VBox.margin>
-                                                      </Label>
-                                                   </children>
-                                                   <HBox.margin>
-                                                      <Insets left="5.0" />
-                                                   </HBox.margin>
-                                                </VBox>
-                                             </children>
-                                             <HBox.margin>
-                                                <Insets left="10.0" />
-                                             </HBox.margin>
-                                             <padding>
-                                                <Insets bottom="10.0" top="5.0" />
-                                             </padding>
-                                          </HBox>
-                                          <HBox layoutX="180.0" layoutY="10.0" maxWidth="180.0" minWidth="180.0" prefHeight="70.0" prefWidth="180.0" styleClass="dashboard-item">
-                                             <children>
-                                                <AnchorPane maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" prefHeight="40.0" prefWidth="40.0" styleClass="dashboard-item-image-container">
-                                                   <children>
-                                                      <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="-30.0" AnchorPane.topAnchor="-30.0">
-                                                         <image>
-                                                            <Image url="@../Images/factoriesnumber.png" />
-                                                         </image>
-                                                      </ImageView>
-                                                   </children>
-                                                   <HBox.margin>
-                                                      <Insets left="15.0" top="20.0" />
-                                                   </HBox.margin>
-                                                </AnchorPane>
-                                                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
-                                                   <children>
-                                                      <Label minWidth="110.0" styleClass="font-hs-dream" text="عدد الفواتير للشهر" textFill="#828282">
-                                                         <font>
-                                                            <Font name="HSDream-Regular" size="16.0" />
-                                                         </font>
-                                                         <VBox.margin>
-                                                            <Insets />
-                                                         </VBox.margin>
-                                                      </Label>
-                                                      <Label fx:id="factMonth" alignment="CENTER" contentDisplay="CENTER" text="32" textAlignment="CENTER" textFill="#4a8e16">
-                                                         <font>
-                                                            <Font name="HSDream-Regular" size="18.0" />
-                                                         </font>
-                                                         <VBox.margin>
-                                                            <Insets top="5.0" />
-                                                         </VBox.margin>
-                                                      </Label>
-                                                   </children>
-                                                   <HBox.margin>
-                                                      <Insets left="5.0" />
-                                                   </HBox.margin>
-                                                </VBox>
-                                             </children>
-                                             <HBox.margin>
-                                                <Insets left="10.0" />
-                                             </HBox.margin>
-                                          </HBox>
-                                       </children>
-                                    </HBox>
-                                    <HBox layoutX="10.0" layoutY="10.0" prefHeight="70.0">
-                                       <children>
-                                          <HBox maxWidth="180.0" minHeight="80.0" minWidth="180.0" prefHeight="80.0" prefWidth="180.0" styleClass="dashboard-item">
-                                             <children>
-                                                <AnchorPane maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #EE3D48;" styleClass="dashboard-item-image-container">
-                                                   <children>
-                                                      <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="-28.0" AnchorPane.topAnchor="-28.0">
-                                                         <image>
-                                                            <Image url="@../Images/debt.png" />
-                                                         </image>
-                                                      </ImageView>
-                                                   </children>
-                                                   <HBox.margin>
-                                                      <Insets left="15.0" top="20.0" />
-                                                   </HBox.margin>
-                                                </AnchorPane>
-                                                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
-                                                   <children>
-                                                      <Label styleClass="font-hs-dream" text="عدد الديون اليوم" textFill="#828282">
-                                                         <font>
-                                                            <Font name="HSDream-Regular" size="16.0" />
-                                                         </font>
-                                                         <VBox.margin>
-                                                            <Insets />
-                                                         </VBox.margin>
-                                                      </Label>
-                                                      <Label fx:id="credetorToday" alignment="CENTER" contentDisplay="CENTER" text="32" textAlignment="CENTER" textFill="#4a8e16">
-                                                         <font>
-                                                            <Font name="HSDream-Regular" size="18.0" />
-                                                         </font>
-                                                         <VBox.margin>
-                                                            <Insets top="5.0" />
-                                                         </VBox.margin>
-                                                      </Label>
-                                                   </children>
-                                                   <HBox.margin>
-                                                      <Insets left="5.0" />
-                                                   </HBox.margin>
-                                                </VBox>
-                                             </children>
-                                             <HBox.margin>
-                                                <Insets />
-                                             </HBox.margin>
-                                          </HBox>
-                                          <HBox layoutX="10.0" layoutY="10.0" maxWidth="170.0" minWidth="180.0" prefHeight="70.0" prefWidth="180.0" styleClass="dashboard-item">
-                                             <children>
-                                                <AnchorPane maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #EE3D48;" styleClass="dashboard-item-image-container">
-                                                   <children>
-                                                      <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="-28.0" AnchorPane.topAnchor="-28.0">
-                                                         <image>
-                                                            <Image url="@../Images/debt.png" />
-                                                         </image>
-                                                      </ImageView>
-                                                   </children>
-                                                   <HBox.margin>
-                                                      <Insets left="10.0" top="20.0" />
-                                                   </HBox.margin>
-                                                </AnchorPane>
-                                                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
-                                                   <children>
-                                                      <Label minWidth="120.0" prefHeight="20.0" prefWidth="117.0" styleClass="font-hs-dream" text="عدد الديون للأسبوع" textFill="#828282">
-                                                         <font>
-                                                            <Font name="HSDream-Regular" size="16.0" />
-                                                         </font>
-                                                         <VBox.margin>
-                                                            <Insets />
-                                                         </VBox.margin>
-                                                      </Label>
-                                                      <Label fx:id="credetorWeek" alignment="CENTER" contentDisplay="CENTER" text="32" textAlignment="CENTER" textFill="#4a8e16">
-                                                         <font>
-                                                            <Font name="HSDream-Regular" size="18.0" />
-                                                         </font>
-                                                         <VBox.margin>
-                                                            <Insets top="5.0" />
-                                                         </VBox.margin>
-                                                      </Label>
-                                                   </children>
-                                                   <HBox.margin>
-                                                      <Insets left="5.0" />
-                                                   </HBox.margin>
-                                                </VBox>
-                                             </children>
-                                             <HBox.margin>
-                                                <Insets left="10.0" />
-                                             </HBox.margin>
-                                          </HBox>
-                                          <HBox layoutX="180.0" layoutY="10.0" maxWidth="180.0" minWidth="180.0" prefHeight="70.0" prefWidth="180.0" styleClass="dashboard-item">
-                                             <children>
-                                                <AnchorPane maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #EE3D48;" styleClass="dashboard-item-image-container">
-                                                   <children>
-                                                      <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="-28.0" AnchorPane.topAnchor="-28.0">
-                                                         <image>
-                                                            <Image url="@../Images/debt.png" />
-                                                         </image>
-                                                      </ImageView>
-                                                   </children>
-                                                   <HBox.margin>
-                                                      <Insets left="15.0" top="20.0" />
-                                                   </HBox.margin>
-                                                </AnchorPane>
-                                                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
-                                                   <children>
-                                                      <Label minWidth="110.0" styleClass="font-hs-dream" text="عدد الديون للشهر" textFill="#828282">
-                                                         <font>
-                                                            <Font name="HSDream-Regular" size="16.0" />
-                                                         </font>
-                                                         <VBox.margin>
-                                                            <Insets />
-                                                         </VBox.margin>
-                                                      </Label>
-                                                      <Label fx:id="CredetorMonth" alignment="CENTER" contentDisplay="CENTER" text="32" textAlignment="CENTER" textFill="#4a8e16">
-                                                         <font>
-                                                            <Font name="HSDream-Regular" size="18.0" />
-                                                         </font>
-                                                         <VBox.margin>
-                                                            <Insets top="5.0" />
-                                                         </VBox.margin>
-                                                      </Label>
-                                                   </children>
-                                                   <HBox.margin>
-                                                      <Insets left="5.0" />
-                                                   </HBox.margin>
-                                                </VBox>
-                                             </children>
-                                             <HBox.margin>
-                                                <Insets left="10.0" />
-                                             </HBox.margin>
-                                          </HBox>
-                                       </children>
-                                       <VBox.margin>
-                                          <Insets top="10.0" />
-                                       </VBox.margin>
-                                    </HBox>
-                                    <HBox layoutX="10.0" layoutY="90.0" prefHeight="70.0">
-                                       <children>
-                                          <HBox maxWidth="180.0" minHeight="80.0" minWidth="180.0" prefHeight="80.0" prefWidth="180.0" styleClass="dashboard-item">
-                                             <children>
-                                                <AnchorPane maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #7F43BA;" styleClass="dashboard-item-image-container">
-                                                   <children>
-                                                      <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="-30.0" AnchorPane.topAnchor="-30.0">
-                                                         <image>
-                                                            <Image url="@../Images/factoriesnumber.png" />
-                                                         </image>
-                                                      </ImageView>
-                                                   </children>
-                                                   <HBox.margin>
-                                                      <Insets left="15.0" top="20.0" />
-                                                   </HBox.margin>
-                                                </AnchorPane>
-                                                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
-                                                   <children>
-                                                      <Label styleClass="font-hs-dream" text="إجمالي الفواتير" textFill="#828282">
-                                                         <font>
-                                                            <Font name="HSDream-Regular" size="16.0" />
-                                                         </font>
-                                                         <VBox.margin>
-                                                            <Insets />
-                                                         </VBox.margin>
-                                                      </Label>
-                                                      <Label fx:id="totFact" alignment="CENTER" contentDisplay="CENTER" text="32" textAlignment="CENTER" textFill="#4a8e16">
-                                                         <font>
-                                                            <Font name="HSDream-Regular" size="18.0" />
-                                                         </font>
-                                                         <VBox.margin>
-                                                            <Insets top="5.0" />
-                                                         </VBox.margin>
-                                                      </Label>
-                                                   </children>
-                                                   <HBox.margin>
-                                                      <Insets left="5.0" />
-                                                   </HBox.margin>
-                                                </VBox>
-                                             </children>
-                                             <HBox.margin>
-                                                <Insets />
-                                             </HBox.margin>
-                                          </HBox>
-                                          <HBox layoutX="10.0" layoutY="10.0" maxWidth="170.0" minWidth="180.0" prefHeight="70.0" prefWidth="180.0" styleClass="dashboard-item">
-                                             <children>
-                                                <AnchorPane maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #42B3C5;" styleClass="dashboard-item-image-container">
-                                                   <children>
-                                                      <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="-30.0" AnchorPane.topAnchor="-30.0">
-                                                         <image>
-                                                            <Image url="@../Images/providers.png" />
-                                                         </image>
-                                                      </ImageView>
-                                                   </children>
-                                                   <HBox.margin>
-                                                      <Insets left="10.0" top="20.0" />
-                                                   </HBox.margin>
-                                                </AnchorPane>
-                                                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
-                                                   <children>
-                                                      <Label minWidth="120.0" prefHeight="20.0" prefWidth="117.0" styleClass="font-hs-dream" text="إجمالي الموردين" textFill="#828282">
-                                                         <font>
-                                                            <Font name="HSDream-Regular" size="16.0" />
-                                                         </font>
-                                                         <VBox.margin>
-                                                            <Insets />
-                                                         </VBox.margin>
-                                                      </Label>
-                                                      <Label fx:id="totProvider" alignment="CENTER" contentDisplay="CENTER" text="32" textAlignment="CENTER" textFill="#4a8e16">
-                                                         <font>
-                                                            <Font name="HSDream-Regular" size="18.0" />
-                                                         </font>
-                                                         <VBox.margin>
-                                                            <Insets right="30.0" top="5.0" />
-                                                         </VBox.margin>
-                                                      </Label>
+                                                      <AnchorPane maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" prefHeight="40.0" prefWidth="40.0" styleClass="dashboard-item-image-container">
+                                                         <children>
+                                                            <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="-30.0" AnchorPane.topAnchor="-30.0">
+                                                               <image>
+                                                                  <Image url="@../Images/factoriesnumber.png" />
+                                                               </image>
+                                                            </ImageView>
+                                                         </children>
+                                                         <HBox.margin>
+                                                            <Insets left="10.0" top="20.0" />
+                                                         </HBox.margin>
+                                                      </AnchorPane>
+                                                      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                                                         <children>
+                                                            <Label minWidth="120.0" prefHeight="20.0" prefWidth="117.0" styleClass="font-hs-dream" text="عدد الفواتير للأسبوع" textFill="#828282">
+                                                               <font>
+                                                                  <Font name="HSDream-Regular" size="16.0" />
+                                                               </font>
+                                                               <VBox.margin>
+                                                                  <Insets />
+                                                               </VBox.margin>
+                                                            </Label>
+                                                            <Label fx:id="factWeek" alignment="CENTER" contentDisplay="CENTER" text="32" textAlignment="CENTER" textFill="#4a8e16">
+                                                               <font>
+                                                                  <Font name="HSDream-Regular" size="18.0" />
+                                                               </font>
+                                                               <VBox.margin>
+                                                                  <Insets top="5.0" />
+                                                               </VBox.margin>
+                                                            </Label>
+                                                         </children>
+                                                         <HBox.margin>
+                                                            <Insets left="5.0" />
+                                                         </HBox.margin>
+                                                      </VBox>
                                                    </children>
                                                    <HBox.margin>
                                                       <Insets left="10.0" />
                                                    </HBox.margin>
-                                                </VBox>
-                                             </children>
-                                             <HBox.margin>
-                                                <Insets left="10.0" />
-                                             </HBox.margin>
-                                          </HBox>
-                                          <HBox layoutX="180.0" layoutY="10.0" maxWidth="180.0" minWidth="180.0" prefHeight="70.0" prefWidth="180.0" styleClass="dashboard-item">
-                                             <children>
-                                                <AnchorPane maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #FF7309;" styleClass="dashboard-item-image-container">
+                                                   <padding>
+                                                      <Insets bottom="10.0" top="5.0" />
+                                                   </padding>
+                                                </HBox>
+                                                <HBox layoutX="180.0" layoutY="10.0" maxWidth="180.0" minWidth="180.0" prefHeight="70.0" prefWidth="180.0" styleClass="dashboard-item">
                                                    <children>
-                                                      <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="-28.0" AnchorPane.topAnchor="-28.0">
-                                                         <image>
-                                                            <Image url="@../Images/debt.png" />
-                                                         </image>
-                                                      </ImageView>
+                                                      <AnchorPane maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" prefHeight="40.0" prefWidth="40.0" styleClass="dashboard-item-image-container">
+                                                         <children>
+                                                            <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="-30.0" AnchorPane.topAnchor="-30.0">
+                                                               <image>
+                                                                  <Image url="@../Images/factoriesnumber.png" />
+                                                               </image>
+                                                            </ImageView>
+                                                         </children>
+                                                         <HBox.margin>
+                                                            <Insets left="15.0" top="20.0" />
+                                                         </HBox.margin>
+                                                      </AnchorPane>
+                                                      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                                                         <children>
+                                                            <Label minWidth="110.0" styleClass="font-hs-dream" text="عدد الفواتير للشهر" textFill="#828282">
+                                                               <font>
+                                                                  <Font name="HSDream-Regular" size="16.0" />
+                                                               </font>
+                                                               <VBox.margin>
+                                                                  <Insets />
+                                                               </VBox.margin>
+                                                            </Label>
+                                                            <Label fx:id="factMonth" alignment="CENTER" contentDisplay="CENTER" text="32" textAlignment="CENTER" textFill="#4a8e16">
+                                                               <font>
+                                                                  <Font name="HSDream-Regular" size="18.0" />
+                                                               </font>
+                                                               <VBox.margin>
+                                                                  <Insets top="5.0" />
+                                                               </VBox.margin>
+                                                            </Label>
+                                                         </children>
+                                                         <HBox.margin>
+                                                            <Insets left="5.0" />
+                                                         </HBox.margin>
+                                                      </VBox>
                                                    </children>
                                                    <HBox.margin>
-                                                      <Insets left="15.0" top="20.0" />
+                                                      <Insets left="10.0" />
                                                    </HBox.margin>
-                                                </AnchorPane>
-                                                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                                                </HBox>
+                                             </children>
+                                          </HBox>
+                                          <HBox layoutX="10.0" layoutY="10.0" prefHeight="70.0">
+                                             <children>
+                                                <HBox maxWidth="180.0" minHeight="80.0" minWidth="180.0" prefHeight="80.0" prefWidth="180.0" styleClass="dashboard-item">
                                                    <children>
-                                                      <Label minWidth="110.0" styleClass="font-hs-dream" text="إجمالي الديون" textFill="#828282">
-                                                         <font>
-                                                            <Font name="HSDream-Regular" size="16.0" />
-                                                         </font>
-                                                         <VBox.margin>
+                                                      <AnchorPane maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #EE3D48;" styleClass="dashboard-item-image-container">
+                                                         <children>
+                                                            <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="-28.0" AnchorPane.topAnchor="-28.0">
+                                                               <image>
+                                                                  <Image url="@../Images/debt.png" />
+                                                               </image>
+                                                            </ImageView>
+                                                         </children>
+                                                         <HBox.margin>
+                                                            <Insets left="15.0" top="20.0" />
+                                                         </HBox.margin>
+                                                      </AnchorPane>
+                                                      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                                                         <children>
+                                                            <Label styleClass="font-hs-dream" text="عدد الديون اليوم" textFill="#828282">
+                                                               <font>
+                                                                  <Font name="HSDream-Regular" size="16.0" />
+                                                               </font>
+                                                               <VBox.margin>
+                                                                  <Insets />
+                                                               </VBox.margin>
+                                                            </Label>
+                                                            <Label fx:id="credetorToday" alignment="CENTER" contentDisplay="CENTER" text="32" textAlignment="CENTER" textFill="#4a8e16">
+                                                               <font>
+                                                                  <Font name="HSDream-Regular" size="18.0" />
+                                                               </font>
+                                                               <VBox.margin>
+                                                                  <Insets top="5.0" />
+                                                               </VBox.margin>
+                                                            </Label>
+                                                         </children>
+                                                         <HBox.margin>
+                                                            <Insets left="5.0" />
+                                                         </HBox.margin>
+                                                      </VBox>
+                                                   </children>
+                                                   <HBox.margin>
+                                                      <Insets />
+                                                   </HBox.margin>
+                                                </HBox>
+                                                <HBox layoutX="10.0" layoutY="10.0" maxWidth="170.0" minWidth="180.0" prefHeight="70.0" prefWidth="180.0" styleClass="dashboard-item">
+                                                   <children>
+                                                      <AnchorPane maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #EE3D48;" styleClass="dashboard-item-image-container">
+                                                         <children>
+                                                            <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="-28.0" AnchorPane.topAnchor="-28.0">
+                                                               <image>
+                                                                  <Image url="@../Images/debt.png" />
+                                                               </image>
+                                                            </ImageView>
+                                                         </children>
+                                                         <HBox.margin>
+                                                            <Insets left="10.0" top="20.0" />
+                                                         </HBox.margin>
+                                                      </AnchorPane>
+                                                      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                                                         <children>
+                                                            <Label minWidth="120.0" prefHeight="20.0" prefWidth="117.0" styleClass="font-hs-dream" text="عدد الديون للأسبوع" textFill="#828282">
+                                                               <font>
+                                                                  <Font name="HSDream-Regular" size="16.0" />
+                                                               </font>
+                                                               <VBox.margin>
+                                                                  <Insets />
+                                                               </VBox.margin>
+                                                            </Label>
+                                                            <Label fx:id="credetorWeek" alignment="CENTER" contentDisplay="CENTER" text="32" textAlignment="CENTER" textFill="#4a8e16">
+                                                               <font>
+                                                                  <Font name="HSDream-Regular" size="18.0" />
+                                                               </font>
+                                                               <VBox.margin>
+                                                                  <Insets top="5.0" />
+                                                               </VBox.margin>
+                                                            </Label>
+                                                         </children>
+                                                         <HBox.margin>
+                                                            <Insets left="5.0" />
+                                                         </HBox.margin>
+                                                      </VBox>
+                                                   </children>
+                                                   <HBox.margin>
+                                                      <Insets left="10.0" />
+                                                   </HBox.margin>
+                                                </HBox>
+                                                <HBox layoutX="180.0" layoutY="10.0" maxWidth="180.0" minWidth="180.0" prefHeight="70.0" prefWidth="180.0" styleClass="dashboard-item">
+                                                   <children>
+                                                      <AnchorPane maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #EE3D48;" styleClass="dashboard-item-image-container">
+                                                         <children>
+                                                            <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="-28.0" AnchorPane.topAnchor="-28.0">
+                                                               <image>
+                                                                  <Image url="@../Images/debt.png" />
+                                                               </image>
+                                                            </ImageView>
+                                                         </children>
+                                                         <HBox.margin>
+                                                            <Insets left="15.0" top="20.0" />
+                                                         </HBox.margin>
+                                                      </AnchorPane>
+                                                      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                                                         <children>
+                                                            <Label minWidth="110.0" styleClass="font-hs-dream" text="عدد الديون للشهر" textFill="#828282">
+                                                               <font>
+                                                                  <Font name="HSDream-Regular" size="16.0" />
+                                                               </font>
+                                                               <VBox.margin>
+                                                                  <Insets />
+                                                               </VBox.margin>
+                                                            </Label>
+                                                            <Label fx:id="CredetorMonth" alignment="CENTER" contentDisplay="CENTER" text="32" textAlignment="CENTER" textFill="#4a8e16">
+                                                               <font>
+                                                                  <Font name="HSDream-Regular" size="18.0" />
+                                                               </font>
+                                                               <VBox.margin>
+                                                                  <Insets top="5.0" />
+                                                               </VBox.margin>
+                                                            </Label>
+                                                         </children>
+                                                         <HBox.margin>
+                                                            <Insets left="5.0" />
+                                                         </HBox.margin>
+                                                      </VBox>
+                                                   </children>
+                                                   <HBox.margin>
+                                                      <Insets left="10.0" />
+                                                   </HBox.margin>
+                                                </HBox>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets top="10.0" />
+                                             </VBox.margin>
+                                          </HBox>
+                                          <HBox layoutX="10.0" layoutY="90.0" prefHeight="70.0">
+                                             <children>
+                                                <HBox maxWidth="180.0" minHeight="80.0" minWidth="180.0" prefHeight="80.0" prefWidth="180.0" styleClass="dashboard-item">
+                                                   <children>
+                                                      <AnchorPane maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #7F43BA;" styleClass="dashboard-item-image-container">
+                                                         <children>
+                                                            <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="-30.0" AnchorPane.topAnchor="-30.0">
+                                                               <image>
+                                                                  <Image url="@../Images/factoriesnumber.png" />
+                                                               </image>
+                                                            </ImageView>
+                                                         </children>
+                                                         <HBox.margin>
+                                                            <Insets left="15.0" top="20.0" />
+                                                         </HBox.margin>
+                                                      </AnchorPane>
+                                                      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                                                         <children>
+                                                            <Label styleClass="font-hs-dream" text="إجمالي الفواتير" textFill="#828282">
+                                                               <font>
+                                                                  <Font name="HSDream-Regular" size="16.0" />
+                                                               </font>
+                                                               <VBox.margin>
+                                                                  <Insets />
+                                                               </VBox.margin>
+                                                            </Label>
+                                                            <Label fx:id="totFact" alignment="CENTER" contentDisplay="CENTER" text="32" textAlignment="CENTER" textFill="#4a8e16">
+                                                               <font>
+                                                                  <Font name="HSDream-Regular" size="18.0" />
+                                                               </font>
+                                                               <VBox.margin>
+                                                                  <Insets top="5.0" />
+                                                               </VBox.margin>
+                                                            </Label>
+                                                         </children>
+                                                         <HBox.margin>
+                                                            <Insets left="5.0" />
+                                                         </HBox.margin>
+                                                      </VBox>
+                                                   </children>
+                                                   <HBox.margin>
+                                                      <Insets />
+                                                   </HBox.margin>
+                                                </HBox>
+                                                <HBox layoutX="10.0" layoutY="10.0" maxWidth="170.0" minWidth="180.0" prefHeight="70.0" prefWidth="180.0" styleClass="dashboard-item">
+                                                   <children>
+                                                      <AnchorPane maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #42B3C5;" styleClass="dashboard-item-image-container">
+                                                         <children>
+                                                            <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="-30.0" AnchorPane.topAnchor="-30.0">
+                                                               <image>
+                                                                  <Image url="@../Images/providers.png" />
+                                                               </image>
+                                                            </ImageView>
+                                                         </children>
+                                                         <HBox.margin>
+                                                            <Insets left="10.0" top="20.0" />
+                                                         </HBox.margin>
+                                                      </AnchorPane>
+                                                      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                                                         <children>
+                                                            <Label minWidth="120.0" prefHeight="20.0" prefWidth="117.0" styleClass="font-hs-dream" text="إجمالي الموردين" textFill="#828282">
+                                                               <font>
+                                                                  <Font name="HSDream-Regular" size="16.0" />
+                                                               </font>
+                                                               <VBox.margin>
+                                                                  <Insets />
+                                                               </VBox.margin>
+                                                            </Label>
+                                                            <Label fx:id="totProvider" alignment="CENTER" contentDisplay="CENTER" text="32" textAlignment="CENTER" textFill="#4a8e16">
+                                                               <font>
+                                                                  <Font name="HSDream-Regular" size="18.0" />
+                                                               </font>
+                                                               <VBox.margin>
+                                                                  <Insets right="30.0" top="5.0" />
+                                                               </VBox.margin>
+                                                            </Label>
+                                                         </children>
+                                                         <HBox.margin>
                                                             <Insets left="10.0" />
-                                                         </VBox.margin>
-                                                      </Label>
-                                                      <Label fx:id="totCreditor" alignment="CENTER" contentDisplay="CENTER" text="32" textAlignment="CENTER" textFill="#4a8e16">
+                                                         </HBox.margin>
+                                                      </VBox>
+                                                   </children>
+                                                   <HBox.margin>
+                                                      <Insets left="10.0" />
+                                                   </HBox.margin>
+                                                </HBox>
+                                                <HBox layoutX="180.0" layoutY="10.0" maxWidth="180.0" minWidth="180.0" prefHeight="70.0" prefWidth="180.0" styleClass="dashboard-item">
+                                                   <children>
+                                                      <AnchorPane maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #FF7309;" styleClass="dashboard-item-image-container">
+                                                         <children>
+                                                            <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="-28.0" AnchorPane.topAnchor="-28.0">
+                                                               <image>
+                                                                  <Image url="@../Images/debt.png" />
+                                                               </image>
+                                                            </ImageView>
+                                                         </children>
+                                                         <HBox.margin>
+                                                            <Insets left="15.0" top="20.0" />
+                                                         </HBox.margin>
+                                                      </AnchorPane>
+                                                      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                                                         <children>
+                                                            <Label minWidth="110.0" styleClass="font-hs-dream" text="إجمالي الديون" textFill="#828282">
+                                                               <font>
+                                                                  <Font name="HSDream-Regular" size="16.0" />
+                                                               </font>
+                                                               <VBox.margin>
+                                                                  <Insets left="10.0" />
+                                                               </VBox.margin>
+                                                            </Label>
+                                                            <Label fx:id="totCreditor" alignment="CENTER" contentDisplay="CENTER" text="32" textAlignment="CENTER" textFill="#4a8e16">
+                                                               <font>
+                                                                  <Font name="HSDream-Regular" size="18.0" />
+                                                               </font>
+                                                               <VBox.margin>
+                                                                  <Insets right="30.0" top="5.0" />
+                                                               </VBox.margin>
+                                                            </Label>
+                                                         </children>
+                                                         <HBox.margin>
+                                                            <Insets left="5.0" />
+                                                         </HBox.margin>
+                                                      </VBox>
+                                                   </children>
+                                                   <HBox.margin>
+                                                      <Insets left="10.0" />
+                                                   </HBox.margin>
+                                                </HBox>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets bottom="20.0" top="10.0" />
+                                             </VBox.margin>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane prefHeight="200.0" prefWidth="311.0">
+                                 <children>
+                                    <HBox maxWidth="391.0" minHeight="80.0" minWidth="180.0" prefHeight="80.0" prefWidth="342.0" styleClass="dashboard-item">
+                                       <children>
+                                          <AnchorPane maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #1113FA;" styleClass="dashboard-item-image-container">
+                                             <children>
+                                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="-30.0" AnchorPane.topAnchor="-30.0">
+                                                   <image>
+                                                      <Image url="@../Images/sales.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </children>
+                                             <HBox.margin>
+                                                <Insets left="15.0" top="20.0" />
+                                             </HBox.margin>
+                                          </AnchorPane>
+                                          <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                                             <children>
+                                                <Label styleClass="font-hs-dream" text="المدخول الاجمالي " textFill="#828282">
+                                                   <font>
+                                                      <Font name="HSDream-Regular" size="16.0" />
+                                                   </font>
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <HBox prefHeight="27.0" prefWidth="100.0">
+                                                   <children>
+                                                      <Label alignment="CENTER" contentDisplay="CENTER" text="32" textAlignment="CENTER" textFill="#4a8e16">
                                                          <font>
                                                             <Font name="HSDream-Regular" size="18.0" />
                                                          </font>
-                                                         <VBox.margin>
-                                                            <Insets right="30.0" top="5.0" />
-                                                         </VBox.margin>
+                                                         <HBox.margin>
+                                                            <Insets left="20.0" />
+                                                         </HBox.margin>
+                                                      </Label>
+                                                      <Label fx:id="totFact11111" alignment="CENTER" contentDisplay="CENTER" text="دج" textAlignment="CENTER" textFill="#4a8e16">
+                                                         <font>
+                                                            <Font name="HSDream-Regular" size="18.0" />
+                                                         </font>
+                                                         <HBox.margin>
+                                                            <Insets left="10.0" />
+                                                         </HBox.margin>
                                                       </Label>
                                                    </children>
-                                                   <HBox.margin>
-                                                      <Insets left="5.0" />
-                                                   </HBox.margin>
-                                                </VBox>
+                                                </HBox>
                                              </children>
                                              <HBox.margin>
-                                                <Insets left="10.0" />
+                                                <Insets left="5.0" />
                                              </HBox.margin>
-                                          </HBox>
+                                          </VBox>
                                        </children>
-                                       <VBox.margin>
-                                          <Insets bottom="20.0" top="10.0" />
-                                       </VBox.margin>
+                                    </HBox>
+                                    <HBox layoutX="-1.0" layoutY="176.0" maxWidth="391.0" minHeight="80.0" minWidth="180.0" prefHeight="80.0" prefWidth="343.0" styleClass="dashboard-item">
+                                       <children>
+                                          <AnchorPane maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #1113FA;" styleClass="dashboard-item-image-container">
+                                             <children>
+                                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="-30.0" AnchorPane.topAnchor="-30.0">
+                                                   <image>
+                                                      <Image url="@../Images/sales.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </children>
+                                             <HBox.margin>
+                                                <Insets left="15.0" top="20.0" />
+                                             </HBox.margin>
+                                          </AnchorPane>
+                                          <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                                             <children>
+                                                <Label styleClass="font-hs-dream" text="المدخول اليومي " textFill="#828282">
+                                                   <font>
+                                                      <Font name="HSDream-Regular" size="16.0" />
+                                                   </font>
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <HBox prefHeight="27.0" prefWidth="100.0">
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                   <children>
+                                                      <Label alignment="CENTER" contentDisplay="CENTER" text="32" textAlignment="CENTER" textFill="#4a8e16">
+                                                         <font>
+                                                            <Font name="HSDream-Regular" size="18.0" />
+                                                         </font>
+                                                         <HBox.margin>
+                                                            <Insets left="20.0" />
+                                                         </HBox.margin>
+                                                      </Label>
+                                                      <Label fx:id="totFact111" alignment="CENTER" contentDisplay="CENTER" text="دج" textAlignment="CENTER" textFill="#4a8e16">
+                                                         <font>
+                                                            <Font name="HSDream-Regular" size="18.0" />
+                                                         </font>
+                                                         <HBox.margin>
+                                                            <Insets left="10.0" />
+                                                         </HBox.margin>
+                                                      </Label>
+                                                   </children>
+                                                </HBox>
+                                             </children>
+                                             <HBox.margin>
+                                                <Insets left="5.0" />
+                                             </HBox.margin>
+                                          </VBox>
+                                       </children>
+                                    </HBox>
+                                    <HBox layoutY="86.0" maxWidth="391.0" minHeight="80.0" minWidth="180.0" prefHeight="80.0" prefWidth="341.0" styleClass="dashboard-item">
+                                       <children>
+                                          <AnchorPane maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #1113FA;" styleClass="dashboard-item-image-container">
+                                             <children>
+                                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="-30.0" AnchorPane.topAnchor="-30.0">
+                                                   <image>
+                                                      <Image url="@../Images/sales.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </children>
+                                             <HBox.margin>
+                                                <Insets left="15.0" top="20.0" />
+                                             </HBox.margin>
+                                          </AnchorPane>
+                                          <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                                             <children>
+                                                <Label styleClass="font-hs-dream" text="مدخول الشهري " textFill="#828282">
+                                                   <font>
+                                                      <Font name="HSDream-Regular" size="16.0" />
+                                                   </font>
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </Label>
+                                                <HBox prefHeight="27.0" prefWidth="100.0">
+                                                   <children>
+                                                      <Label alignment="CENTER" contentDisplay="CENTER" text="32" textAlignment="CENTER" textFill="#4a8e16">
+                                                         <font>
+                                                            <Font name="HSDream-Regular" size="18.0" />
+                                                         </font>
+                                                         <HBox.margin>
+                                                            <Insets left="20.0" />
+                                                         </HBox.margin>
+                                                      </Label>
+                                                      <Label fx:id="totFact1111" alignment="CENTER" contentDisplay="CENTER" text="دج" textAlignment="CENTER" textFill="#4a8e16">
+                                                         <font>
+                                                            <Font name="HSDream-Regular" size="18.0" />
+                                                         </font>
+                                                         <HBox.margin>
+                                                            <Insets left="10.0" />
+                                                         </HBox.margin>
+                                                      </Label>
+                                                   </children>
+                                                </HBox>
+                                             </children>
+                                             <HBox.margin>
+                                                <Insets left="5.0" />
+                                             </HBox.margin>
+                                          </VBox>
+                                       </children>
                                     </HBox>
                                  </children>
-                              </VBox>
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                              </AnchorPane>
                            </children>
-                        </AnchorPane>
-                        <AnchorPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="608.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="0.0">
-                           <children>
-                              <VBox prefHeight="257.0" prefWidth="348.0" style="-fx-background-color: white;" styleClass="container-table" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="-16.0" AnchorPane.topAnchor="0.0">
-                                 <children>
-                                    <Label styleClass="font-hs-dream" text="قائمة السلع المنتهية" textFill="#575757">
-                                       <VBox.margin>
-                                          <Insets bottom="10.0" left="10.0" right="10.0" top="20.0" />
-                                       </VBox.margin>
-                                       <font>
-                                          <Font name="HSDream-Regular" size="17.0" />
-                                       </font>
-                                    </Label>
-                                    <TableView fx:id="productFinishedTable" maxWidth="337.0" minWidth="300.0" prefHeight="179.0" prefWidth="316.0" styleClass="table">
-                                       <columns>
-                                          <TableColumn fx:id="name" prefWidth="155.0" styleClass="column-table" text="إسم السلعة" />
-                                          <TableColumn fx:id="unit" prefWidth="145.0" styleClass="column-table" text="الوحدة" />
-                                       </columns>
-                                       <VBox.margin>
-                                          <Insets left="15.0" right="15.0" top="5.0" />
-                                       </VBox.margin>
-                                    </TableView>
-                                 </children>
-                              </VBox>
-                           </children>
-                        </AnchorPane>
+                        </HBox>
                      </children>
                   </AnchorPane>
                   <GridPane>
@@ -526,7 +668,7 @@
                                           <Font name="HSDream-Regular" size="17.0" />
                                        </font>
                                     </Label>
-                                    <TableView fx:id="factTable" maxWidth="430.0" minWidth="400.0" prefHeight="100.0" prefWidth="430.0" styleClass="table">
+                                    <TableView fx:id="factTable" maxWidth="435.0" minWidth="400.0" prefHeight="198.0" prefWidth="413.0" styleClass="table">
                                        <columns>
                                           <TableColumn fx:id="col_Bill_number" prefWidth="70.0" styleClass="column-table" text="رقم الفاتورة" />
                                           <TableColumn fx:id="col_Date" prefWidth="90.0" styleClass="column-table" text="تاريخ الفاتورة" />

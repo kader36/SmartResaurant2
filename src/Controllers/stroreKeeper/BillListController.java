@@ -87,7 +87,7 @@ public class BillListController implements Initializable {
     }
 
     public void Init(BorderPane mainPane) {
-        vboxBillOption.setVisible(false);
+      //  vboxBillOption.setVisible(false);
         col_Bill_number.setCellValueFactory(new PropertyValueFactory<>("number"));
         col_Date.setCellValueFactory(new PropertyValueFactory<>("date"));
         col_Provider.setCellValueFactory(new PropertyValueFactory<>("provider_name"));
@@ -134,7 +134,7 @@ public class BillListController implements Initializable {
 
     @FXML
     void addNewBill(ActionEvent event) {
-        try {
+       try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/AddFactoryBuy.fxml"));
             BorderPane temp = loader.load();
             AddBillController addBillController = loader.getController();
@@ -143,69 +143,58 @@ public class BillListController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     private ArrayList<BillList> chargeListBill() {
-//        for (int i = 1; i < 10; i++) {
-//            BillList billList = new BillList();
-//            billList.setNumber(i);
-//            billList.setProvider_name("selmani");
-//            billList.setDate((i * 2 + 1) + "/" + i + "/2020");
-//            billList.setPaid_up(i * 1255);
-//            billList.setTotal(i * 1525);
-//            billList.setRest(billList.getTotal() - billList.getPaid_up());
-//            billLists.add(billList);
-//        }
+//
         ArrayList<BillList> list = new ArrayList<>();
         storBillLists = storBilleOperation.getAll();
         providerList = providerOperation.getAll();
         billListProduct = storeBillProductOperation.getAll();
-        BillList billList = new BillList();
-        int total = 0;
+
+
         for (StoreBill storeBill : storBillLists) {
+            int total = 0;
+            BillList billList = new BillList();
             billList.setNumber(storeBill.getId());
             billList.setDate(storeBill.getDate().toString());
             billList.setPaid_up(storeBill.getPaid_up());
             billList.setProvider_name(storeBill.getProvider(storeBill.getId_provider()).getLast_name());
-            billList.setRest(Integer.parseInt(storeBill.getProvider(storeBill.getId_provider()).getCreditor()));
             //this for loop is for get total
             for (StoreBillProduct storeBillProduct : billListProduct) {
                 if (storeBillProduct.getId_stor_bill() == storeBill.getId()) {
-                    total += storeBillProduct.getPrice() * storeBillProduct.getProduct_quantity();
+                    total = total+storeBillProduct.getPrice() * storeBillProduct.getProduct_quantity();
                 }
+
             }
             billList.setTotal(total);
+            billList.setRest(total-billList.getPaid_up());
             list.add(billList);
-            //System.out.println("number bill list : " + list.get(list.size() - 1).getNumber());
-        }
 
+
+
+        }
         return list;
     }
 
 
     private ArrayList<BillList> chargeListBill(String orderBy) {
-//        for (int i = 1; i < 10; i++) {
-//            BillList billList = new BillList();
-//            billList.setNumber(i);
-//            billList.setProvider_name("selmani");
-//            billList.setDate((i * 2 + 1) + "/" + i + "/2020");
-//            billList.setPaid_up(i * 1255);
-//            billList.setTotal(i * 1525);
-//            billList.setRest(billList.getTotal() - billList.getPaid_up());
-//            billLists.add(billList);
-//        }
+//
         ArrayList<BillList> list = new ArrayList<>();
         storBillLists = storBilleOperation.getAllBy(orderBy);
         providerList = providerOperation.getAll();
         billListProduct = storeBillProductOperation.getAll();
-        BillList billList = new BillList();
-        int total = 0;
+
+
         for (StoreBill storeBill : storBillLists) {
+            int total = 0;
+            BillList billList = new BillList();
             billList.setNumber(storeBill.getId());
             billList.setDate(storeBill.getDate().toString());
             billList.setPaid_up(storeBill.getPaid_up());
             billList.setProvider_name(storeBill.getProvider(storeBill.getId_provider()).getLast_name());
-            billList.setRest(Integer.parseInt(storeBill.getProvider(storeBill.getId_provider()).getCreditor()));
+
             //this for loop is for get total
             for (StoreBillProduct storeBillProduct : billListProduct) {
                 if (storeBillProduct.getId_stor_bill() == storeBill.getId()) {
@@ -213,8 +202,9 @@ public class BillListController implements Initializable {
                 }
             }
             billList.setTotal(total);
+            billList.setRest(total-billList.getPaid_up());
             list.add(billList);
-            System.out.println("number bill list : " + list.get(list.size() - 1).getNumber());
+
         }
 
         return list;

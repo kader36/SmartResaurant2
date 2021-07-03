@@ -10,7 +10,7 @@ public class FoodMenuOperation extends BDD<FoodMenu> {
     @Override
     public boolean insert(FoodMenu o) {
         boolean ins = false;
-        String query = "INSERT INTO `FOOD_MENU`(`ID_FOOD`, `ID_MENU`) VALUES (?,?)";
+        String query = "INSERT INTO `food_menu`(`ID_FOOD`, `ID_MENU`) VALUES (?,?)";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             preparedStmt.setInt(1,o.getId_menu());
@@ -26,7 +26,7 @@ public class FoodMenuOperation extends BDD<FoodMenu> {
     @Override
     public boolean update(FoodMenu o1, FoodMenu o2) {
         boolean upd = false;
-        String query = "UPDATE `FOOD_MENU` SET `ID_MENU`=?,`ID_FOOD`=? WHERE ID_MENU = ? and ID_FOOD = ?";
+        String query = "UPDATE `food_menu` SET `ID_MENU`=?,`ID_FOOD`=? WHERE ID_MENU = ? and ID_FOOD = ?";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             preparedStmt.setInt(1,o1.getId_menu());
@@ -44,7 +44,7 @@ public class FoodMenuOperation extends BDD<FoodMenu> {
     @Override
     public boolean delete(FoodMenu o) {
         boolean del = false;
-        String query = "DELETE FROM `FOOD_MENU` WHERE ID_MENU = ? ";
+        String query = "DELETE FROM `food_menu` WHERE ID_MENU = ? ";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             preparedStmt.setInt(1,o.getId_menu());

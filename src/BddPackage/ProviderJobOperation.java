@@ -13,7 +13,7 @@ public class ProviderJobOperation extends BDD<ProviderJob> {
     public boolean insert(ProviderJob o) {
         //INSERT INTO `PROVIDER_jOB`(`ID`, `TYPE`) VALUES ([value-1],[value-2])
         boolean ins = false;
-        String query = "INSERT INTO `PROVIDER_jOB`(`TYPE`) VALUES (?)";
+        String query = "INSERT INTO `provider_job`(`TYPE`) VALUES (?)";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             preparedStmt.setString(1,o.getName());
@@ -28,7 +28,7 @@ public class ProviderJobOperation extends BDD<ProviderJob> {
     @Override
     public boolean update(ProviderJob o1, ProviderJob o2) {
         boolean upd = false;
-        String query = "UPDATE `PROVIDER_jOB` SET `TYPE`=? WHERE `ID` = ? ";
+        String query = "UPDATE `provider_job` SET `TYPE`=? WHERE `ID` = ? ";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             preparedStmt.setString(1,o1.getName());
@@ -43,7 +43,7 @@ public class ProviderJobOperation extends BDD<ProviderJob> {
     @Override
     public boolean delete(ProviderJob o) {
         boolean del = false;
-        String query = "DELETE FROM `PROVIDER_jOB` WHERE ID = ? ";
+        String query = "DELETE FROM `provider_job` WHERE ID = ? ";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             preparedStmt.setInt(1,o.getId());
@@ -63,7 +63,7 @@ public class ProviderJobOperation extends BDD<ProviderJob> {
     @Override
     public ArrayList<ProviderJob> getAll() {
         ArrayList<ProviderJob> list = new ArrayList<>();
-        String query = "SELECT * FROM `PROVIDER_jOB`";
+        String query = "SELECT * FROM `provider_job`";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             ResultSet resultSet = preparedStmt.executeQuery();

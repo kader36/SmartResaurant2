@@ -9,20 +9,17 @@ import Models.*;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXListView;
 import com.mysql.jdbc.Connection;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
@@ -41,7 +38,6 @@ import java.io.PrintWriter;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.ResourceBundle;
 import java.util.function.Predicate;
 
@@ -163,12 +159,7 @@ public class AddBillController implements Initializable {
         lbl_date.setText(LocalDate.now().toString());
         validateController.inputNumberValue(txt_Paid);
         nbFact.setText(String.valueOf(storBilleOperation.getCountStoreBill() + 1));
-//        listViewProduct.setOnMouseClicked(new EventHandler<MouseEvent>() {
-//            @Override
-//            public void handle(MouseEvent event) {
 //
-//            }
-//        });
     }
 
 //    @FXML
@@ -183,27 +174,14 @@ public class AddBillController implements Initializable {
         ProviderOperation providerOperation = new ProviderOperation();
         ArrayList<Provider> listProvider = providerOperation.getAll();
         for (Provider listProviderFromDB : listProvider) {
-            dataCombo.add(listProviderFromDB.getLast_name() + "   " + listProviderFromDB.getPhone_number());
+            dataCombo.add(listProviderFromDB.getId()+" "+ listProviderFromDB.getFirst_name()+" "+listProviderFromDB.getLast_name());
+
         }
         comboProvider.setItems(dataCombo);
+
     }
 
     private void chargeListProduct() {
-//        for (int i = 0; i < 2; i++) {
-//
-//            list_Product.add("طماطم معلبة");
-//            list_Product.add("بطاطا");
-//            list_Product.add("فلفل");
-//            list_Product.add("طماطم");
-//            list_Product.add("مايوناز");
-//            list_Product.add("هريسة");
-//            list_Product.add("زيت");
-//            list_Product.add("كاتشاب");
-//            list_Product.add("زيتون");
-//            list_Product.add("طماطم");
-//
-//        }
-
         dataCombo = FXCollections.observableArrayList();
         ProductOperation productOperation = new ProductOperation();
         ArrayList<Product> listProducts = productOperation.getAll();
@@ -347,19 +325,21 @@ public class AddBillController implements Initializable {
                     alertConfirmation.close();
                 } else if (response == ButtonType.OK) {
                     provider = comboProvider.getSelectionModel().getSelectedItem();
-                    String[] tab = comboProvider.getSelectionModel().getSelectedItem().split(" ");
+                    String[] tab = comboProvider.getSelectionModel().getSelectedItem().split("");
                     String s = tab[tab.length - 1];
-                    int idProvider = Integer.parseInt(s);
+                    System.out.println(provider);
+                    Provider provider1=GetIdProvider(provider);
+                    int idProvider = provider1.getId();
                     int paid;
                     if (txt_Paid.getText().equals(""))
                         paid = 0;
                     else
                         paid = Integer.parseInt(txt_Paid.getText());
-                    // update provider
-                    // update provider
-                    Provider provider = getProviderById(idProvider);
-                    provider.setCreditor(String.valueOf(Integer.parseInt(lbl_bill_total.getText()) - Integer.parseInt(txt_Paid.getText())));
-                    providerOperation.update(provider,provider);
+                    System.out.println("idProvider");
+
+                    Double Creditor=provider1.getCreditor();
+                    provider1.setCreditor(Creditor+(Double.parseDouble(lbl_bill_total.getText()) - paid));
+                    providerOperation.update(provider1);
                     // insert into store bill
                     StoreBill storeBill = new StoreBill();
                     storeBill.setId_provider(idProvider);
@@ -372,8 +352,16 @@ public class AddBillController implements Initializable {
                         e.printStackTrace();
                     }
                     idStorBill = storBilleOperation.getIdStorBill(idProvider, 1, paid);
+                    System.out.println(paid);
                     for (Bill bill : dataTable) {
                         // insert into store bill product
+                        ProductOperation productOperation=new ProductOperation();
+                        Product product=new Product();
+                        Product product1 =productOperation.GetProduct(getIdProductByCobo(bill.getName()));
+
+                        product.setId(getIdProductByCobo(bill.getName()));
+                        product.setTot_quantity(product1.getTot_quantity()+bill.getQuant());
+                        productOperation.update(product);
                         StoreBillProduct storeBillProduct = new StoreBillProduct();
                         storeBillProduct.setId_stor_bill(idStorBill);
                         storeBillProduct.setId_product(getIdProductByCobo(bill.getName()));
@@ -392,6 +380,16 @@ public class AddBillController implements Initializable {
                 }
                 setEnableReports();
             });
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Factories.fxml"));
+
+                BorderPane temp = loader.load();
+                BillListController billController = loader.getController();
+                billController.Init(temp);
+                mainPane.getChildren().setAll(temp);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } else {
             Alert alertWarning = new Alert(Alert.AlertType.WARNING);
             alertWarning.setHeaderText("تحذير ");
@@ -641,6 +639,23 @@ public class AddBillController implements Initializable {
         reportTableBillBtn.setDisable(false);
         exportCsvTableBillBtn.setDisable(false);
         exportPdfTableBillBtn.setDisable(false);
+    }
+
+    private Provider GetIdProvider(String num) {
+        System.out.println(num);
+        Provider provider=new Provider();
+        ProviderOperation providerOperation = new ProviderOperation();
+        ArrayList<Provider> listProvider = providerOperation.getAll();
+        for (Provider listProviderFromDB : listProvider) {
+            String s=listProviderFromDB.getId()+" "+ listProviderFromDB.getFirst_name()+" "+listProviderFromDB.getLast_name();
+
+            if(s.equals(num)){
+                System.out.println(s);
+                provider=listProviderFromDB;
+            }
+        }
+        return provider;
+
     }
 
 }

@@ -11,10 +11,11 @@ public class FoodCategoryOperation extends BDD<FoodCategory> {
     @Override
     public boolean insert(FoodCategory o) {
         boolean ins = false;
-        String query = "INSERT INTO `FOOD_CATEGORY`(`Food_Category_NAME`) VALUES (?)";
+        String query = "INSERT INTO `food_category`(`Food_Category_NAME`,COLOR) VALUES (?,?)";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             preparedStmt.setString(1,o.getName());
+            preparedStmt.setString(2,o.getColor());
             int insert = preparedStmt.executeUpdate();
             if(insert != -1) ins = true;
         } catch (SQLException e) {
@@ -26,7 +27,7 @@ public class FoodCategoryOperation extends BDD<FoodCategory> {
     @Override
     public boolean update(FoodCategory o1, FoodCategory o2) {
         boolean upd = false;
-        String query = "UPDATE `FOOD_CATEGORY` SET `Food_Category_NAME`=? WHERE `ID_Food_Category` = ?";
+        String query = "UPDATE `food_category` SET `Food_Category_NAME`=? WHERE `ID_Food_Category` = ?";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             preparedStmt.setString(1,o1.getName());
@@ -42,7 +43,7 @@ public class FoodCategoryOperation extends BDD<FoodCategory> {
     @Override
     public boolean delete(FoodCategory o) {
         boolean del = false;
-        String query = "DELETE FROM `FOOD_CATEGORY` WHERE `ID_Food_Category` = ? ";
+        String query = "DELETE FROM `food_category` WHERE `ID_Food_Category` = ? ";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             preparedStmt.setInt(1,o.getId());
@@ -62,7 +63,7 @@ public class FoodCategoryOperation extends BDD<FoodCategory> {
     @Override
     public ArrayList<FoodCategory> getAll() {
         ArrayList<FoodCategory> list = new ArrayList<>();
-        String query = "SELECT * FROM `FOOD_CATEGORY`";
+        String query = "SELECT * FROM `food_category`";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             ResultSet resultSet = preparedStmt.executeQuery();
@@ -70,6 +71,7 @@ public class FoodCategoryOperation extends BDD<FoodCategory> {
                 FoodCategory foodCategory = new FoodCategory();
                 foodCategory.setId(resultSet.getInt("ID_Food_Category"));
                 foodCategory.setName(resultSet.getString("Food_Category_NAME"));
+                foodCategory.setColor(resultSet.getString("COLOR"));
                 list.add(foodCategory);
             }
         } catch (SQLException e) {
@@ -77,5 +79,26 @@ public class FoodCategoryOperation extends BDD<FoodCategory> {
         }
         return list;
     }
+    public FoodCategory getCategory(int o) {
+
+        String query = "SELECT * FROM `food_category` WHERE `ID_Food_Category`=?";
+        FoodCategory foodCategory = new FoodCategory();
+        try {
+            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            preparedStmt.setInt(1,o);
+            ResultSet resultSet = preparedStmt.executeQuery();
+            while (resultSet.next()) {
+                foodCategory.setId(resultSet.getInt("ID_Food_Category"));
+                foodCategory.setName(resultSet.getString("Food_Category_NAME"));
+                foodCategory.setColor(resultSet.getString("COLOR"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return foodCategory;
+    }
+
+
+
 
 }

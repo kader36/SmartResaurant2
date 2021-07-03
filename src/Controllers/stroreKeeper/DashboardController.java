@@ -18,11 +18,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 
 import java.net.URL;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.temporal.WeekFields;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class DashboardController implements Initializable {
@@ -122,13 +118,13 @@ public class DashboardController implements Initializable {
         totProvider.setText(String.valueOf(providerOperation.getCountProvider()));
         totCreditor.setText(ValuesStatic.totCreditor + ".00");
         factToday.setText(String.valueOf(ValuesStatic.factToday));
-        credetorToday.setText(ValuesStatic.credetorToday + ".00");
+        credetorToday.setText( "00");
         factMonth.setText(String.valueOf(ValuesStatic.factMonth));
         CredetorMonth.setText(ValuesStatic.credetorMonth + ".00");
         factWeek.setText(String.valueOf(ValuesStatic.factWeek));
         credetorWeek.setText(ValuesStatic.credetorWeek + ".00");
 
-        chargeProductFinishedTable();
+        //chargeProductFinishedTable();
         chargeCredtorProviderTable();
         chargeFactTable();
     }
@@ -149,14 +145,16 @@ public class DashboardController implements Initializable {
         ArrayList<StoreBill> storBillLists = storBilleOperation.getAll();
         //ArrayList<Provider> providerList = providerOperation.getAll();
         ArrayList<StoreBillProduct> billListProduct = storeBillProductOperation.getAll();
-        BillList billList = new BillList();
-        int total = 0;
+
+
         for (StoreBill storeBill : storBillLists) {
+            BillList billList = new BillList();
+            int total = 0;
             billList.setNumber(storeBill.getId());
             billList.setDate(storeBill.getDate().toString());
             billList.setPaid_up(storeBill.getPaid_up());
             billList.setProvider_name(storeBill.getProvider(storeBill.getId_provider()).getLast_name());
-            billList.setRest(Integer.parseInt(storeBill.getProvider(storeBill.getId_provider()).getCreditor()));
+           // billList.setRest(Integer.parseInt(storeBill.getProvider(storeBill.getId_provider()).getCreditor()));
             //this for loop is for get total
             for (StoreBillProduct storeBillProduct : billListProduct) {
                 if (storeBillProduct.getId_stor_bill() == storeBill.getId()) {
@@ -164,6 +162,7 @@ public class DashboardController implements Initializable {
                 }
             }
             billList.setTotal(total);
+            billList.setRest(total-billList.getPaid_up());
             list.add(billList);
         }
 

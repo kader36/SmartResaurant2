@@ -12,7 +12,7 @@ public class IngredientsFoodOperation extends BDD<IngredientsFood> {
     public boolean insert(IngredientsFood o) {
 
         boolean ins = false;
-        String query = "INSERT INTO `INGREDIENTS_FOOD`(`ID_FOOD_INGREDIENT`, `ID_PRODUCT_INGREDIENT`,`INGREDIENT_QUANTITY`) VALUES (?,?,?)";
+        String query = "INSERT INTO `ingredients_food`(`ID_FOOD_INGREDIENT`, `ID_PRODUCT_INGREDIENT`,`INGREDIENT_QUANTITY`) VALUES (?,?,?)";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             preparedStmt.setInt(1, o.getId_food());
@@ -29,7 +29,7 @@ public class IngredientsFoodOperation extends BDD<IngredientsFood> {
     @Override
     public boolean update(IngredientsFood o1, IngredientsFood o2) {
         boolean upd = false;
-        String query = "UPDATE `INGREDIENTS_FOOD` SET  `INGREDIENT_QUANTITY`=? WHERE `ID_FOOD_INGREDIENT`= ? AND `ID_PRODUCT_INGREDIENT` = ?";
+        String query = "UPDATE `ingredients_food` SET  `INGREDIENT_QUANTITY`=? WHERE `ID_FOOD_INGREDIENT`= ? AND `ID_PRODUCT_INGREDIENT` = ?";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             preparedStmt.setInt(1, o1.getQuantity());
@@ -46,7 +46,7 @@ public class IngredientsFoodOperation extends BDD<IngredientsFood> {
 
     @Override
     public boolean delete(IngredientsFood o) {
-        String query = "DELETE FROM `INGREDIENTS_FOOD` WHERE `ID_FOOD_INGREDIENT` = ? AND `ID_PRODUCT_INGREDIENT` = ?";
+        String query = "DELETE FROM `ingredients_food` WHERE `ID_FOOD_INGREDIENT` = ? AND `ID_PRODUCT_INGREDIENT` = ?";
         boolean del = false;
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
@@ -68,7 +68,7 @@ public class IngredientsFoodOperation extends BDD<IngredientsFood> {
     @Override
     public ArrayList<IngredientsFood> getAll() {
         ArrayList<IngredientsFood> list = new ArrayList<>();
-        String query = "SELECT * FROM `INGREDIENTS_FOOD`";
+        String query = "SELECT * FROM `ingredients_food`";
         try {
             chargeData(list, query);
         } catch (SQLException e) {
@@ -93,7 +93,7 @@ public class IngredientsFoodOperation extends BDD<IngredientsFood> {
 
     public ArrayList<IngredientsFood> getIngredientsFood(int idFood) {
         ArrayList<IngredientsFood> list = new ArrayList<>();
-        String query = "SELECT `ID_FOOD_INGREDIENT`,`ID_PRODUCT_INGREDIENT`, `INGREDIENT_QUANTITY`,`PRODUCT_NAME` FROM`INGREDIENTS_FOOD`,PRODUCT WHERE `ID_FOOD_INGREDIENT` = ? AND ID_PRODUCT_INGREDIENT = PRODUCT.ID_PRODUCT ";
+        String query = "SELECT `ID_FOOD_INGREDIENT`,`ID_PRODUCT_INGREDIENT`, `INGREDIENT_QUANTITY`,`PRODUCT_NAME` FROM`ingredients_food`,product WHERE `ID_FOOD_INGREDIENT` = ? AND ID_PRODUCT_INGREDIENT = product.ID_PRODUCT ";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             preparedStmt.setInt(1, idFood);

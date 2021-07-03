@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXScrollPane?>
+<?import com.jfoenix.controls.JFXDrawer?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -15,70 +15,84 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="1.7976931348623157E308" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
-   <right>
-      <VBox prefHeight="600.0" prefWidth="300.0" style="-fx-background-color: #EE3D48;" BorderPane.alignment="CENTER" />
-   </right>
-   <left>
-      <VBox prefHeight="600.0" prefWidth="249.0" style="-fx-background-color: green;" BorderPane.alignment="CENTER">
-         <children>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0" style="-fx-background-color: white;">
-               <children>
-                  <VBox alignment="BASELINE_RIGHT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="200.0" prefWidth="100.0">
-                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="أجمالي الدخل اليومي">
-                           <font>
-                              <Font size="20.0" />
-                           </font>
-                        </Text>
-                        <Text fill="#ee3d48" strokeType="OUTSIDE" strokeWidth="0.0" text="3500 DA">
-                           <font>
-                              <Font size="25.0" />
-                           </font>
-                        </Text>
-                     </children>
-                     <HBox.margin>
-                        <Insets left="5.0" top="30.0" />
-                     </HBox.margin>
-                  </VBox>
-                  <ImageView fitHeight="97.0" fitWidth="92.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../profile.png" />
-                     </image>
-                  </ImageView>
-               </children>
-               <VBox.margin>
-                  <Insets top="100.0" />
-               </VBox.margin>
-               <padding>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </padding>
-            </HBox>
-            <ListView prefHeight="450.0" prefWidth="211.0" style="-fx-background-color: white;" />
-         </children>
-      </VBox>
-   </left>
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" prefHeight="698.0" prefWidth="1063.0" style="-fx-background-color: white;" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Tables.TablesController">
    <center>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: green;" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="container-table" BorderPane.alignment="CENTER">
          <children>
-            <Text fill="#aea5a5" layoutX="346.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="قائمة الدفع" wrappingWidth="153.9384765625" AnchorPane.rightAnchor="0.0615234375">
-               <font>
-                  <Font size="25.0" />
-               </font>
-            </Text>
-            <JFXScrollPane layoutX="19.0" layoutY="58.0" prefHeight="542.0" prefWidth="569.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="19.0" AnchorPane.rightAnchor="23.0" AnchorPane.topAnchor="58.0">
-               <children>
-                  <GridPane>
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
+            <ScrollPane layoutX="14.0" layoutY="5.0" prefHeight="553.0" prefWidth="681.0" styleClass="container" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="3.0">
+               <content>
+                  <GridPane fx:id="tablesGridPane">
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
                   </GridPane>
-               </children>
-            </JFXScrollPane>
+               </content>
+            </ScrollPane>
          </children>
+         <BorderPane.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
+         </BorderPane.margin>
       </AnchorPane>
    </center>
+   <left>
+      <AnchorPane fx:id="lifetPane" prefHeight="556.0" prefWidth="288.0" style="-fx-background-color: white;" BorderPane.alignment="TOP_CENTER">
+         <children>
+            <VBox prefHeight="561.0" prefWidth="297.0" styleClass="container-table" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="101.0" prefWidth="274.0" spacing="15.0" style="-fx-background-color: white;" styleClass="container-table">
+                     <children>
+                        <VBox alignment="BASELINE_RIGHT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="font-hs-dream" text="أجمالي الدخل ">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Text>
+                              <Text fx:id="totalDayEarnings" fill="#ee3d48" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="font-hs-dream" text="3500 DA">
+                                 <font>
+                                    <Font size="25.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                           <HBox.margin>
+                              <Insets left="5.0" top="30.0" />
+                           </HBox.margin>
+                        </VBox>
+                        <ImageView fitHeight="43.0" fitWidth="56.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../Images/PngItem.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                     <padding>
+                        <Insets left="5.0" right="5.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <ScrollPane hbarPolicy="NEVER" prefHeight="588.0" prefWidth="280.0" style="-fx-background-color: transparent;" styleClass="container-table">
+                     <content>
+                        <GridPane fx:id="tablesGainesGridPan" alignment="CENTER" prefHeight="576.0" prefWidth="253.0" style="-fx-background-color: white;">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                           </columnConstraints>
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                        </GridPane>
+                     </content>
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </VBox.margin>
+                  </ScrollPane>
+               </children>
+            </VBox>
+            <JFXDrawer fx:id="drawerSlider" defaultDrawerSize="265.0" maxHeight="1.7976931348623157E308" prefHeight="676.0" prefWidth="261.0" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="10.0" />
+         </children>
+         <BorderPane.margin>
+            <Insets top="10.0" />
+         </BorderPane.margin>
+      </AnchorPane>
+   </left>
 </BorderPane>

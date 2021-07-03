@@ -1,5 +1,6 @@
 @font-face {
     src: url('../fonts/HSDream-Regular.otf');
+	src: url('../fonts/rial.ttf');
 }
 
 .container{
@@ -51,6 +52,12 @@
 	-fx-font-size:14;
 }
 
+.column-header .label {
+	-fx-background-color: #ffffff;
+
+	-fx-font-family: 'HSDream-Regular';
+	-fx-font-size:14;
+}
 .more-button{
 	-fx-background-color:#ffffff;
 	-fx-font-family: 'HSDream-Regular';
@@ -155,8 +162,10 @@
 .table{
 	-fx-background-color:#ffffff;
 	-fx-border-color:#ffffff;
-	-fx-font-family: 'HSDream-Regular';
+	-fx-font-family:'HSDream-Regular.otf';
+
 }
+
 
 .search-input{
 	-fx-border-color:#D5D5D5;
@@ -172,6 +181,8 @@
 
 .username, .role{
 	-fx-font-family: 'HSDream-Regular';
+	-fx-font-size: 16;
+	-fx-font-style: bold;
 }
 
 .btn-menu{
@@ -210,17 +221,123 @@
 
 .table-view .column-header,
 .table-view .column-header-background .filler {
-    -fx-background-color:  #ffffff; 
-	-fx-font-family: 'HSDream-Regular';
+    -fx-background-color:  #ffffff;
+
 }
 .table-view .column-header .label{
-   -fx-text-fill: #848484;
-   -fx-font-weight: bold; 
-   -fx-alignment: CENTER_LEFT;
-   -fx-font-family: 'HSDream-Regular';
-	-fx-font-size:14;
+
+
+}
+.table-view .column-table .label{
+	-fx-text-fill: #848484;
+	-fx-alignment: CENTER;
+	-fx-font-size:15;
+	-fx-font-family: 'arial';
+
+}
+.table:focused{
+	-fx-background-color: transparent;
+}
+.table .column-table{
+	-fx-alignment: center;
+}
+.table .column-table .image-menu{
+
+}
+ .column-table-prix{
+	 -fx-font-style: bold;
+	-fx-text-fill: #e73c4a;
+	-fx-alignment: center;
+	-fx-font-size:25;
+}
+.column-table-prix .label{
+	-fx-text-fill: #848484;
+	-fx-alignment: CENTER;
+	-fx-font-size:15;
+	-fx-font-family: 'arial';
 }
 
+.table .scroll-bar:vertical .track{
+	-fx-padding:0.1px;
+	-fx-background-color: #ffffff;
+	-fx-border-color:transparent;
+	-fx-background-radius: 0em;
+	-fx-border-radius:2em;
+
+}
+.scroll-pane .scroll-bar:vertical .increment-button ,
+.scroll-pane .scroll-bar:vertical .decrement-button {
+	-fx-background-color: #ffffff;
+	-fx-padding: 0.1em  ;
+	-fx-background-radius: 0em;
+}
+
+.table .scroll-bar:vertical .increment-button ,
+.table .scroll-bar:vertical .decrement-button {
+	-fx-background-color: #ffffff;
+	-fx-padding: 0.1em  ;
+	-fx-background-radius: 0em;
+}
+.table .scroll-bar:horizontal ,
+.table  .scroll-bar:vertical{
+	-fx-background-color: #ffffff;
+
+}
+
+.table .scroll-bar:vertical .track{
+	-fx-background-color: #ffffff;
+	-fx-border-color:derive(#d0d0d0,80%);
+	-fx-background-radius: 2em;
+}
+.table .scroll-bar:vertical .increment-button .decrement-button  {
+	-fx-background-color:#ffffff;
+	-fx-border-color:derive(gray,80%);
+	-fx-padding:10px;
+}
+.table .scroll-bar:vertical .thumb {
+	-fx-background-color:  #e73c4a;
+	-fx-background-insets: 0, 0, 0;
+	-fx-background-radius: 1em;
+	-fx-padding:0px;
+
+}
+.scroll-pane .scroll-bar:vertical .thumb {
+	-fx-background-color:  #e73c4a;
+	-fx-background-insets: 0, 0, 0;
+	-fx-background-radius: 1em;
+	-fx-padding:0px;
+
+}
+.list-view .scroll-bar:vertical .thumb {
+	-fx-background-color:  #e73c4a;
+	-fx-background-insets: 0, 0, 0;
+	-fx-background-radius: 1em;
+	-fx-padding:0px;
+
+}
+.list-view .scroll-bar:vertical .track{
+	-fx-background-color: #ffffff;
+	-fx-border-color:derive(#d0d0d0,80%);
+	-fx-background-radius: 2em;
+}
+.list-view .scroll-bar:vertical .increment-button .decrement-button  {
+	-fx-background-color:#ffffff;
+	-fx-border-color:derive(gray,80%);
+	-fx-padding:10px;
+}
+.list-view .scroll-bar:vertical .increment-button ,
+.list-view .scroll-bar:vertical .decrement-button {
+	-fx-background-color: #ffffff;
+	-fx-padding: 0.1em  ;
+	-fx-background-radius: 0em;
+}
+.table-view *.scroll-bar:horizontal *.increment-button,
+.table-view *.scroll-bar:horizontal *.decrement-button,
+.table-view *.scroll-bar:horizontal *.increment-arrow,
+.table-view *.scroll-bar:horizontal *.decrement-arrow {
+	-fx-padding: 0;
+	-fx-shape: "";
+}
 .hover-anchor{
 	-fx-hgap: 20px;
     -fx-padding: 40px;
@@ -232,6 +349,16 @@
     -fx-border-width: 5px;
     -fx-border-color: white;
    
+}
+.font2{
+	-fx-font-family: 'HSDream-Regular';
+	-fx-font-size: 22;
+	-fx-: red;
+	-fx-font-scale: bold;
+}
+.font{
+	-fx-font-family: 'HSDream-Regular';
+	-fx-font-size: 16;
 }
 .show-all-products{
 	-fx-background-color:#FBFBFB;
@@ -349,3 +476,7 @@
 	-fx-border-color: #E6E6E6;
     -fx-border-width: 2px;
 }
+.anchor{
+	-fx-background-color:  transparent;
+}
+

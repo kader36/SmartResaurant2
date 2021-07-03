@@ -1,5 +1,6 @@
 package Models;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Orders {
@@ -7,16 +8,21 @@ public class Orders {
     private int id;
     private int id_table;
     private Date time;
-    private int price;
+    private double price;
+    private ArrayList<FoodOrder> foodsList;
+    private ArrayList<DrinksOrder> drinksList;
+
 
     public Orders() {
     }
 
-    public Orders(int id, int id_table, Date time, int price) {
+    public Orders(int id, int id_table, Date time, double price, ArrayList<FoodOrder> foodsList, ArrayList<DrinksOrder> drinksList) {
         this.id = id;
         this.id_table = id_table;
         this.time = time;
         this.price = price;
+        this.foodsList = foodsList;
+        this.drinksList = drinksList;
     }
 
     public int getId() {
@@ -43,11 +49,19 @@ public class Orders {
         this.time = time;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
+
+    public ArrayList<FoodOrder> getFoodsList() { return foodsList; }
+
+    public void setFoodsList(ArrayList<FoodOrder> foodsList) { this.foodsList = foodsList; }
+
+    public ArrayList<DrinksOrder> getDrinksList() { return drinksList; }
+
+    public void setDrinksList(ArrayList<DrinksOrder> drinksList) { this.drinksList = drinksList; }
 }

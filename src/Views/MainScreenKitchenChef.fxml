@@ -11,9 +11,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="600.0" prefWidth="1000.0" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.KitchenChef.Controller">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="600.0" prefWidth="1000.0" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.KitchenChef.Controller">
    <center>
-      <AnchorPane fx:id="mainPane" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #FFF;" BorderPane.alignment="CENTER">
+      <AnchorPane fx:id="mainPane" prefHeight="800.0" style="-fx-background-color: #FFF;" BorderPane.alignment="CENTER">
          <children>
             <Label layoutX="268.0" layoutY="335.0" text=" Changed Pane">
                <font>
@@ -23,14 +23,14 @@
          </children></AnchorPane>
    </center>
    <left>
-      <VBox maxWidth="300.0" minWidth="300.0" prefWidth="300" spacing="10.0" style="-fx-background-color: #EE3D48;" BorderPane.alignment="CENTER">
+      <VBox maxWidth="300.0" minWidth="262.0" prefHeight="600.0" prefWidth="260.0" spacing="10.0" style="-fx-background-color: #e73c4a;" BorderPane.alignment="CENTER">
          <children>
             <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../Images/Logo.png" />
+                  <Image url="@../Images/logo.png" />
                </image>
                <VBox.margin>
-                  <Insets left="30.0" />
+                  <Insets left="40.0" />
                </VBox.margin>
             </ImageView>
             <VBox alignment="TOP_CENTER" prefHeight="115.0" prefWidth="300.0" spacing="20.0">
@@ -52,7 +52,7 @@
                         </AnchorPane>
                         <VBox prefHeight="50.0" prefWidth="143.0">
                            <children>
-                              <Label styleClass="username" text="مولاي مستقدم" textFill="WHITE">
+                              <Label fx:id="userName" styleClass="username" text="مولاي مستقدم" textFill="WHITE">
                                  <font>
                                     <Font size="19.0" />
                                  </font>
@@ -60,7 +60,7 @@
                                     <Insets />
                                  </VBox.margin>
                               </Label>
-                              <Label opacity="0.8" styleClass="role" text="مستخدم" textFill="WHITE">
+                              <Label fx:id="Type" opacity="0.8" styleClass="role" text="مستخدم" textFill="WHITE">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
@@ -89,7 +89,7 @@
                               <Insets left="30.0" top="9.0" />
                            </HBox.margin>
                         </ImageView>
-                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#loadDashboardScreen" prefHeight="39.0" styleClass="btn-menu" text="لوحة التحكم" textOverrun="CLIP">
+                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="39.0" styleClass="btn-menu" text="لوحة التحكم" textOverrun="CLIP">
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>
@@ -114,7 +114,7 @@
                               <Insets left="25.0" top="8.0" />
                            </HBox.margin>
                         </ImageView>
-                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#loadProviderScreen" prefHeight="39.0" styleClass="btn-menu" text="قائمة الوجبات" textOverrun="CLIP">
+                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#loadFoodScreen" prefHeight="39.0" styleClass="btn-menu" text="قائمة الوجبات" textOverrun="CLIP">
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>
@@ -134,7 +134,7 @@
                               <Insets left="30.0" top="9.0" />
                            </HBox.margin>
                         </ImageView>
-                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#loadBillScreen" prefHeight="39.0" styleClass="btn-menu" text="قائمة الفواتير" textOverrun="CLIP">
+                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#ProductCompositeScrenn" prefHeight="39.0" styleClass="btn-menu" text="المنتوجات المصنعة" textOverrun="CLIP">
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>
@@ -154,7 +154,27 @@
                               <Insets left="30.0" top="9.0" />
                            </HBox.margin>
                         </ImageView>
-                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#loadProductScreen" prefHeight="39.0" styleClass="btn-menu" text="قائمة السلع" textOverrun="CLIP">
+                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#OrderScreen" prefHeight="39.0" styleClass="btn-menu" text="قائمة الطلبات " textOverrun="CLIP">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="40.0" prefWidth="300.0" styleClass="parent-menu-item">
+                     <children>
+                        <ImageView fitHeight="32.0" fitWidth="16.0" opacity="0.8" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../Images/file-plus.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets left="30.0" top="9.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#loadAvailableItemScreen" prefHeight="39.0" styleClass="btn-menu" text="الوجبات المتوفرة " textOverrun="CLIP">
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>
@@ -188,7 +208,7 @@
             </VBox>
          </children>
          <padding>
-            <Insets bottom="30.0" top="40.0" />
+            <Insets bottom="30.0" top="10.0" />
          </padding>
          <BorderPane.margin>
             <Insets />

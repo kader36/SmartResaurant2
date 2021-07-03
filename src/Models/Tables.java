@@ -1,10 +1,15 @@
 package Models;
 
+import javafx.scene.control.CheckBox;
+
 public class Tables {
 
     private int id;
     private int number;
+    private String numberTab;
     private String active;
+    private CheckBox activeCheckBox;
+    // add total sum.
 
     public Tables() {
     }
@@ -13,6 +18,8 @@ public class Tables {
         this.id = id;
         this.number = number;
         this.active = active;
+        activeCheckBox = new CheckBox();
+        this.numberTab=" الطاولة رقم "+number;
     }
 
     public int getId() {
@@ -29,6 +36,7 @@ public class Tables {
 
     public void setNumber(int number) {
         this.number = number;
+        this.numberTab="الطاولة رقم" ;
     }
 
     public String getActive() {
@@ -37,5 +45,21 @@ public class Tables {
 
     public void setActive(String active) {
         this.active = active;
+    }
+
+    public CheckBox getActiveCheckBox() {
+        return activeCheckBox;
+    }
+
+    public void setActiveCheckBox(CheckBox activeCheckBox) {
+        this.activeCheckBox = activeCheckBox;
+    }
+
+    public String getNumberTab() {
+        return numberTab;
+    }
+
+    public void setNumberTab() {
+        this.numberTab =  this.number+"الطاولة رقم";
     }
 }

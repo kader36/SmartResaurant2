@@ -1,36 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="174.0" prefWidth="382.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="174.0" prefWidth="343.0" style="-fx-background-color: white; -fx-border-color: grey; -fx-border-radius: 0.5;" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Tables.TableGridItemControlleur">
    <children>
-      <Button layoutX="39.0" layoutY="122.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="122.0" style="-fx-background-color: white; -fx-border-color: red;" text="تفاصيل الطلب" textFill="#dd0000" />
-      <Text fill="#6b6666" layoutX="155.0" layoutY="144.0" nodeOrientation="LEFT_TO_RIGHT" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-text-alignment: right;" text="3500 DZ" wrappingWidth="189.00000374019146">
-         <font>
-            <Font size="25.0" />
-         </font>
-      </Text>
-      <Text layoutX="133.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="الطاولة رقم">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Text>
-      <Text layoutX="87.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="01">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Text>
-      <ImageView fitHeight="91.0" fitWidth="100.0" layoutX="260.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../personAvatar.png" />
-         </image>
-      </ImageView>
-      <Text layoutX="14.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="يمكنك من خلال الضغط على دفع المستحقات من افراغ الطاولة و مستحقاتها" textAlignment="RIGHT" wrappingWidth="220.6767578125" />
+      <VBox alignment="CENTER" layoutX="30.0" layoutY="15.0" prefHeight="162.0" prefWidth="303.0" styleClass="container-table" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="1.0">
+         <children>
+            <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" styleClass="container-table">
+               <children>
+                  <VBox alignment="CENTER" prefHeight="100.0" prefWidth="238.0">
+                     <children>
+                        <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Text fx:id="tableNumber" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="font-hs-dream" text="01">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Text>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="font-hs-dream" text="الطاولة رقم ">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </HBox>
+                        <Label contentDisplay="RIGHT" nodeOrientation="RIGHT_TO_LEFT" prefHeight="84.0" prefWidth="232.0" styleClass="font-hs-dream" text="يمكنك من خلال الضفط على دفع المستحقات&#10; من افراغ الطاولة و أخد مستحقاتها&#10;">
+                           <VBox.margin>
+                              <Insets bottom="2.0" left="2.0" right="2.0" />
+                           </VBox.margin></Label>
+                     </children>
+                  </VBox>
+                  <ImageView fitHeight="113.0" fitWidth="91.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../Images/table.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </HBox.margin>
+                  </ImageView>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="310.0" styleClass="container-table">
+               <children>
+                  <Button fx:id="detailsButton" mnemonicParsing="false" onAction="#openDrawer" prefHeight="26.0" prefWidth="122.0" styleClass="remove-picture-food" text="تفاصيل الطلب" textFill="WHITE">
+                     <HBox.margin>
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                     </HBox.margin></Button>
+                  <HBox alignment="CENTER_LEFT" prefHeight="53.0" prefWidth="180.0">
+                     <children>
+                        <Text fx:id="orderPrice" fill="#e40000" nodeOrientation="LEFT_TO_RIGHT" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-text-alignment: right;" styleClass="font2" text="3500 " wrappingWidth="130.00000374019146">
+                           <font>
+                              <Font size="25.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets bottom="3.0" right="10.0" top="3.0" />
+                           </HBox.margin>
+                        </Text>
+                        <Label prefHeight="20.0" prefWidth="38.0" styleClass="font2" text="DA" textAlignment="CENTER" textFill="#e40000" />
+                     </children>
+                  </HBox>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+               </VBox.margin>
+            </HBox>
+         </children>
+         <padding>
+            <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+         </padding>
+      </VBox>
    </children>
+   <padding>
+      <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+   </padding>
 </AnchorPane>

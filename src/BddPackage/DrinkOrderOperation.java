@@ -10,10 +10,10 @@ public class DrinkOrderOperation extends BDD<DrinksOrder> {
     @Override
     public boolean insert(DrinksOrder o) {
         boolean ins = false;
-        String query = "INSERT INTO `DRINKS_ORDER`(`ID_ORDER`, `ID_Drinks`,`ORDER_QUANTITY`) VALUES (?,?,?)";
+        String query = "INSERT INTO `drinks_order`(`ID_ORDER`, `ID_Drinks`,`ORDER_QUANTITY`) VALUES (?,?,?)";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
-            preparedStmt.setInt(1,o.getId_order());
+            preparedStmt.setInt(1,OrdersOperation.lastId);
             preparedStmt.setInt(2,o.getId_drink());
             preparedStmt.setInt(3,o.getQuantity());
             int insert = preparedStmt.executeUpdate();
@@ -27,7 +27,7 @@ public class DrinkOrderOperation extends BDD<DrinksOrder> {
     @Override
     public boolean update(DrinksOrder o1, DrinksOrder o2) {
         boolean upd = false;
-        String query = "UPDATE `DRINKS_ORDER` SET `ID_DRINKS`=? ,`ORDER_QUANTITY`= ? " +
+        String query = "UPDATE `drinks_order` SET `ID_DRINKS`=? ,`ORDER_QUANTITY`= ? " +
                 "WHERE ID_ORDER = ? ";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
@@ -45,7 +45,7 @@ public class DrinkOrderOperation extends BDD<DrinksOrder> {
     @Override
     public boolean delete(DrinksOrder o) {
         boolean del = false;
-        String query = "DELETE FROM `DRINKS_ORDER` WHERE `ID_ORDER` = ? ";
+        String query = "DELETE FROM `drinks_order` WHERE `ID_ORDER` = ? ";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             preparedStmt.setInt(1,o.getId_order());

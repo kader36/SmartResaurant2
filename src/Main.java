@@ -1,31 +1,55 @@
+import Controllers.Tables.OrdersServer;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-
-import java.lang.reflect.Field;
-import java.nio.charset.Charset;
+import javafx.stage.StageStyle;
 
 public class Main extends Application {
+    Parent root;
+    double xOffset, yOffset;
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
-     /*   System.setProperty("prism.text","t2k");
-        System.setProperty("prism.lcdtext","false");
-      */  //System.setProperty("file.encoding", "UTF-8");
+    public void start(Stage primaryStage) throws Exception {
+        // lunch the serve thread to listen to new orders from the tablet application.
+        Thread serverThread = new Thread(() -> {
+            OrdersServer.startListeningToOrders();
+        });
+        serverThread.start();
+        try {
+            root = FXMLLoader.load(getClass().getClassLoader().getResource("Views/login.fxml"));
+            Scene scene = new Scene(root);
+            primaryStage.initStyle(StageStyle.TRANSPARENT);
+            primaryStage.setScene(scene);
+            primaryStage.show();
+                scene.setFill(Color.TRANSPARENT);
+            root.setOnMousePressed(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    xOffset = event.getSceneX();
+                    yOffset = event.getSceneY();
+                }
+            });
+            root.setOnMouseDragged(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    primaryStage.setX(event.getScreenX() - xOffset);
+                    primaryStage.setY(event.getScreenY() - yOffset);
+                }
+            });
 
-        //Parent root = FXMLLoader.load(getClass().getResource("Views/MainScreen.fxml")); // for storeKeeper Screen
-        Parent root = FXMLLoader.load(getClass().getResource("Views/MainScreenKitchenChef.fxml")); // for kitchenChef Screen
-        primaryStage.setTitle("Hello World");
-        root.getStylesheets().add("Style.css");
-        primaryStage.setScene(new Scene(root));
-        primaryStage.setMaximized(true);
-        primaryStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+        public static void main(String[] args)
+        {
+            launch(args);
 
+        }
 
-    public static void main(String[] args) {
-        launch(args);
-    }
 }

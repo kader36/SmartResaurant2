@@ -7,13 +7,13 @@ public class Provider {
     private String  phone_number;
     private String job;
     private String adress;
-    private String creditor;
+    private double creditor;
     private String creditor_to;
 
     public Provider() {
     }
 
-    public Provider(int id, String first_name, String last_name, String phone_number, String job, String adress, String creditor, String creditor_to) {
+    public Provider(int id, String first_name, String last_name, String phone_number, String job, String adress, double creditor, String creditor_to) {
         this.id = id;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -72,11 +72,11 @@ public class Provider {
         this.adress = adress;
     }
 
-    public String getCreditor() {
+    public double getCreditor() {
         return creditor;
     }
 
-    public void setCreditor(String creditor) {
+    public void setCreditor(double creditor) {
         this.creditor = creditor;
     }
 

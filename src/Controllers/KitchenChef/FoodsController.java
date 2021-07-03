@@ -2,10 +2,7 @@ package Controllers.KitchenChef;
 
 import BddPackage.FoodOperation;
 import Controllers.ValuesStatic;
-import Controllers.stroreKeeper.ProductController;
-import Controllers.stroreKeeper.ProviderController;
 import Models.Food;
-import Models.Product;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -15,13 +12,12 @@ import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.fxml.Initializable;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
@@ -32,7 +28,8 @@ import java.util.function.Predicate;
 
 public class FoodsController implements Initializable {
 
-
+    @FXML
+    private AnchorPane mainPain;
     @FXML
     private BorderPane mainPane;
 
@@ -47,6 +44,9 @@ public class FoodsController implements Initializable {
 
     @FXML
     private TableColumn<?, ?> col_name;
+
+    @FXML
+    private TableColumn<?, ?> col_category;
 
     @FXML
     private TableColumn<?, ?> col_description;
@@ -83,10 +83,10 @@ public class FoodsController implements Initializable {
         col_id.setCellValueFactory(new PropertyValueFactory<>("id"));
         col_name.setCellValueFactory(new PropertyValueFactory<>("name"));
         col_img.setCellValueFactory(new PropertyValueFactory<>("image"));
-        //col_img.setPrefH();
+        col_category.setCellValueFactory(new PropertyValueFactory<>("category_name"));
         col_description.setCellValueFactory(new PropertyValueFactory<>("description"));
         col_price.setCellValueFactory(new PropertyValueFactory<>("price"));
-        sortedCombo.getItems().addAll("رقم الوجبة","اسم الوجبة","سعر الوجبة","وصف الوجبة");
+      //  sortedCombo.getItems().addAll("رقم الوجبة","اسم الوجبة","سعر الوجبة","صورة الوجبة","وصف الوجبة");
         sortedByCombo();
         list_Food = foodOperation.getAll();
         dataTable.setAll(list_Food);
@@ -103,6 +103,22 @@ public class FoodsController implements Initializable {
             AddFoodController addFoodController = loader.getController();
             addFoodController.Init(temp);
             mainPane.getChildren().setAll(temp);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    void ShowListeCategory(ActionEvent event) {
+        try {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/KitchenChef/FoodCategories.fxml"));
+            DialogPane temp = loader.load();
+            CategoryFoodController categoryFoodController = loader.getController();
+            categoryFoodController.InitCategoryList();
+            Dialog<ButtonType> dialog = new Dialog<>();
+            dialog.setDialogPane(temp);
+            dialog.initStyle(StageStyle.UNDECORATED);
+            dialog.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -207,6 +223,7 @@ public class FoodsController implements Initializable {
         dataTable.setAll(list_Food);
         foodTable.setItems(dataTable);
         totalFood.setText(String.valueOf(foodOperation.getCountFood()));
+
 
     }
 

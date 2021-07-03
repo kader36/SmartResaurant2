@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #F8F8F8;" stylesheets="@css/style.css" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.stroreKeeper.ProviderController">
+<BorderPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #F8F8F8;" stylesheets="@css/style.css" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.stroreKeeper.ProviderController">
    <center>
       <AnchorPane styleClass="container" BorderPane.alignment="CENTER">
          <children>
@@ -24,7 +24,7 @@
                <children>
                   <AnchorPane>
                      <children>
-                        <TableView fx:id="providerTable" prefHeight="400.0" prefWidth="778.0" styleClass="table" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="70.0">
+                        <TableView fx:id="providerTable" prefHeight="400.0" prefWidth="845.0" styleClass="table" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <columns>
                             <TableColumn fx:id="col_id" prefWidth="101.0" styleClass="column-table" text="رقم التسجيل" />
                             <TableColumn fx:id="col_name" prefWidth="76.0" styleClass="column-table">
@@ -39,6 +39,9 @@
                               <TableColumn fx:id="col_creditor" prefWidth="74.0" styleClass="column-table" text="دائن" />
                               <TableColumn fx:id="col_creditor_to" prefWidth="156.0" styleClass="column-table" text="مدان بـ" />
                           </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
                         </TableView>
                      </children>
                   </AnchorPane>

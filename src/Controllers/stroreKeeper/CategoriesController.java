@@ -3,7 +3,6 @@ package Controllers.stroreKeeper;
 import BddPackage.ProductCategoryOperation;
 import Controllers.ValidateController;
 import Models.ProductCategory;
-import Models.ProviderJob;
 import javafx.animation.FadeTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -40,6 +39,7 @@ public class CategoriesController implements Initializable {
     @FXML
     private TableView<ProductCategory> productCategoryTable;
 
+
     @FXML
     private TableColumn<ProductCategory, Integer> col_category_number;
 
@@ -48,7 +48,6 @@ public class CategoriesController implements Initializable {
 
     private ProductCategory productCategory = new ProductCategory();
     private ProductCategoryOperation productCategoryOperation = new ProductCategoryOperation();
-
     private ObservableList<ProductCategory> dataTable = FXCollections.observableArrayList();
     private ArrayList<ProductCategory> listPoductCategory = new ArrayList<>();
     private ValidateController validateController = new ValidateController();
@@ -83,14 +82,14 @@ public class CategoriesController implements Initializable {
     }
 
     @FXML
-    void cancel(ActionEvent event) {
-
+    private void cancel(Button btn) {
+        Stage stage = (Stage) btn.getScene().getWindow();
+        stage.close();
     }
 
     @FXML
     void clickedMouse(MouseEvent event) {
-        vboxOptionCategory.setVisible(false);
-        visibleCategory = false;
+        closeDialog(cancelButtonCategory);
     }
 
     @FXML
@@ -153,6 +152,7 @@ public class CategoriesController implements Initializable {
 
     @FXML
     void showHideCategoryOperation(ActionEvent event) {
+        productCategoryTable.setDisable(true);
         visibleCategory = showHideListOperation(vboxOptionCategory,visibleCategory);
     }
 
@@ -229,9 +229,15 @@ public class CategoriesController implements Initializable {
             fadeIn.setAutoReverse(true);
             lbl_valide.setVisible(true);
             fadeIn.playFromStart();
+            /////////////////////////////////////////////////////////////////////
+
         } else {
             errAddCategory.setText("ادخل اسم الصنف الجديد");
         }
+    }
+    @FXML
+    void ShowCategoryTable(MouseEvent event) {
+        productCategoryTable.setDisable(false);
     }
 
     @FXML
@@ -243,6 +249,10 @@ public class CategoriesController implements Initializable {
     void txt_category_Pressed(KeyEvent event) {
 
 
+    }
+    private void closeDialog(Button btn) {
+        Stage stage = (Stage) btn.getScene().getWindow();
+        stage.close();
     }
 
 

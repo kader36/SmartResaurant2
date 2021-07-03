@@ -11,7 +11,7 @@ public class ProductCategoryOperation extends BDD<ProductCategory> {
     @Override
     public boolean insert(ProductCategory o) {
         boolean ins = false;
-        String query = "INSERT INTO `PRODUCT_CATEGORY`(`CATEGORY_NAME`) VALUES (?)";
+        String query = "INSERT INTO `product_category`(`CATEGORY_NAME`) VALUES (?)";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             preparedStmt.setString(1,o.getName());
@@ -26,7 +26,7 @@ public class ProductCategoryOperation extends BDD<ProductCategory> {
     @Override
     public boolean update(ProductCategory o1, ProductCategory o2) {
         boolean upd = false;
-        String query = "UPDATE `PRODUCT_CATEGORY` SET `CATEGORY_NAME`=? WHERE `ID_CATEGORY` = ?";
+        String query = "UPDATE `product_category` SET `CATEGORY_NAME`=? WHERE `ID_CATEGORY` = ?";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             preparedStmt.setString(1,o1.getName());
@@ -41,7 +41,7 @@ public class ProductCategoryOperation extends BDD<ProductCategory> {
     @Override
     public boolean delete(ProductCategory o) {
         boolean del = false;
-        String query = "DELETE FROM `PRODUCT_CATEGORY` WHERE  `ID_CATEGORY` = ? ";
+        String query = "DELETE FROM `product_category` WHERE  `ID_CATEGORY` = ? ";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             preparedStmt.setInt(1,o.getId());
@@ -60,7 +60,7 @@ public class ProductCategoryOperation extends BDD<ProductCategory> {
     @Override
     public ArrayList<ProductCategory> getAll() {
         ArrayList<ProductCategory> list = new ArrayList<>();
-        String query = "SELECT * FROM `PRODUCT_CATEGORY`";
+        String query = "SELECT * FROM `product_category`";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             ResultSet resultSet = preparedStmt.executeQuery();

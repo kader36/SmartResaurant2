@@ -1,7 +1,6 @@
 package BddPackage;
 
 import Controllers.ValuesStatic;
-import Models.BillList;
 import Models.StoreBill;
 
 import java.sql.PreparedStatement;
@@ -16,7 +15,7 @@ public class StorBilleOperation extends BDD<StoreBill> {
     @Override
     public boolean insert(StoreBill o) {
         boolean ins = false;
-        String query = "INSERT INTO `STORE_BILL`( `ID_USER_OPERATION`, `ID_PROVIDER_OPERATION`, `PAID_UP`)\n" +
+        String query = "INSERT INTO `store_bill`( `ID_USER_OPERATION`, `ID_PROVIDER_OPERATION`, `PAID_UP`)\n" +
                 "VALUES (?,?,?)";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
@@ -35,7 +34,7 @@ public class StorBilleOperation extends BDD<StoreBill> {
     @Override
     public boolean update(StoreBill o1, StoreBill o2) {
         boolean upd = false;
-        String query = "UPDATE `STORE_BILL` SET `ID_USER_OPERATION`=?,`ID_PROVIDER_OPERATION`=?,`PAID_UP`=? WHERE `ID_STORE_BILL` = ?";
+        String query = "UPDATE `store_bill` SET `ID_USER_OPERATION`=?,`ID_PROVIDER_OPERATION`=?,`PAID_UP`=? WHERE `ID_STORE_BILL` = ?";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             preparedStmt.setInt(1, o1.getId_user());
@@ -53,7 +52,7 @@ public class StorBilleOperation extends BDD<StoreBill> {
     @Override
     public boolean delete(StoreBill o) {
         boolean del = false;
-        String query = "DELETE FROM `STORE_BILL` WHERE ID_STORE_BILL = ? ";
+        String query = "DELETE FROM `store_bill` WHERE ID_STORE_BILL = ? ";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             preparedStmt.setInt(1, o.getId());
@@ -74,7 +73,7 @@ public class StorBilleOperation extends BDD<StoreBill> {
     @Override
     public ArrayList<StoreBill> getAll() {
         ArrayList<StoreBill> list = new ArrayList<>();
-        String query = "SELECT * FROM `STORE_BILL`";
+        String query = "SELECT * FROM `store_bill`";
         //SELECT `ID_STORE_BILL`, `STORE_BILL_DATE`, `ID_USER_OPERATION`, `ID_PROVIDER_OPERATION`,
         // `PAID_UP` FROM `STORE_BILL` WHERE 1
         try {
@@ -94,7 +93,7 @@ public class StorBilleOperation extends BDD<StoreBill> {
                 storeBill.setId_user(resultSet.getInt("ID_USER_OPERATION"));
                 storeBill.setId_provider(resultSet.getInt("ID_PROVIDER_OPERATION"));
                 storeBill.setPaid_up(resultSet.getInt("PAID_UP"));
-                storeBill.setTotal(resultSet.getInt("TOTAL"));
+               // storeBill.setTotal(resultSet.getInt("TOTAL"));
                 list.add(storeBill);
                 if (storeBill.getDate().toString().equals(LocalDate.now().toString())) {
                     ValuesStatic.factToday++;
@@ -125,7 +124,7 @@ public class StorBilleOperation extends BDD<StoreBill> {
 
 
     public int getIdStorBill(int idProvider, int idUser, int paid) {
-        String query = "SELECT * FROM `STORE_BILL`";
+        String query = "SELECT * FROM `store_bill`";
         //SELECT `ID_STORE_BILL`, `STORE_BILL_DATE`, `ID_USER_OPERATION`, `ID_PROVIDER_OPERATION`,
         // `PAID_UP` FROM `STORE_BILL` WHERE 1
         try {
@@ -149,7 +148,7 @@ public class StorBilleOperation extends BDD<StoreBill> {
 
     public int getCountStoreBill() {
         int total = 0;
-        String query = "SELECT COUNT(*) AS total FROM STORE_BILL";
+        String query = "SELECT COUNT(*) AS total FROM store_bill";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             ResultSet resultSet = preparedStmt.executeQuery();
@@ -163,7 +162,7 @@ public class StorBilleOperation extends BDD<StoreBill> {
 
     public ArrayList<StoreBill> getAllBy(String orderBY) {
         ArrayList<StoreBill> list = new ArrayList<>();
-        String query = "SELECT * FROM `STORE_BILL` ORDER BY " + orderBY + " ASC ";
+        String query = "SELECT * FROM `store_bill` ORDER BY " + orderBY + " ASC ";
         try {
 
             chargeData(list, query);

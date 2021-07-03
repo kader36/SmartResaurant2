@@ -12,7 +12,7 @@ public class TabelsOperation extends BDD<Tables> {
     public boolean insert(Tables o) {
 
             boolean ins = false;
-            String query = "INSERT INTO restaurantDB.`TABLES` (`TABLE_NUMBER`) VALUES (?);";
+            String query = "INSERT INTO `tables` (`TABLE_NUMBER`) VALUES (?);";
             try {
                 PreparedStatement preparedStmt = conn.prepareStatement(query);
                 preparedStmt.setInt(   1,o.getNumber());
@@ -28,7 +28,7 @@ public class TabelsOperation extends BDD<Tables> {
     @Override
     public boolean update(Tables o1, Tables o2) {
         boolean upd = false;
-        String query = "UPDATE restaurantDB.`TABLES` SET `TABLE_NUMBER`=?  WHERE `ID_TABLE` = ?";
+        String query = "UPDATE `tables` SET `TABLE_NUMBER`=?  WHERE `ID_TABLE` = ?";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             preparedStmt.setInt(   1,o1.getNumber());
@@ -45,7 +45,7 @@ public class TabelsOperation extends BDD<Tables> {
     @Override
     public boolean delete(Tables o) {
         boolean del = false;
-        String query = "DELETE FROM restaurantDB.`TABLES` WHERE ID_TABLE = ?";
+        String query = "DELETE FROM `tables` WHERE ID_TABLE = ?";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             preparedStmt.setInt(   1,o.getId());
@@ -61,7 +61,7 @@ public class TabelsOperation extends BDD<Tables> {
     @Override
     public boolean isExist(Tables o) {
      boolean exist = false;
-     String query = "SELECT * FROM restaurantDB.`TABLES` WHERE `ID_TABLE` = ?";
+     String query = "SELECT * FROM `tables` WHERE `TABLE_NUMBER` = ?";
 
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
@@ -78,7 +78,7 @@ public class TabelsOperation extends BDD<Tables> {
     @Override
     public ArrayList<Tables> getAll() {
         ArrayList<Tables> list = new ArrayList<>();
-        String query = "SELECT * FROM restaurantDB.`TABLES`";
+        String query = "SELECT * FROM `tables`";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             ResultSet resultSet = preparedStmt.executeQuery();

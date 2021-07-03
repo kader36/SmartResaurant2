@@ -11,13 +11,18 @@ public class StoreBillProductOperation extends BDD<StoreBillProduct> {
     @Override
     public boolean insert(StoreBillProduct o) {
         boolean ins = false;
-        String query = "INSERT INTO `STORE_BILL_PRODUCT`(`ID_STORE_BILL`, `ID_PRODUCT`, `PRICE`, `PRODUCT_QUANTITY`) VALUES (?,?,?,?)";
+        String query = "INSERT INTO `store_bill_product`(`ID_STORE_BILL`, `ID_PRODUCT`, `PRICE`, `PRODUCT_QUANTITY`) VALUES (?,?,?,?)";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
-            preparedStmt.setInt(1, o.getId_stor_bill());
+            preparedStmt.setInt(1,o.getId_stor_bill());
             preparedStmt.setInt(2, o.getId_product());
             preparedStmt.setInt(3, o.getPrice());
             preparedStmt.setInt(4, o.getProduct_quantity());
+            System.out.println(o.getId_stor_bill());
+            System.out.println(o.getId_product());
+            System.out.println(o.getPrice());
+            System.out.println(o.getProduct_quantity());
+
             int insert = preparedStmt.executeUpdate();
             if (insert != -1) ins = true;
         } catch (SQLException e) {
@@ -48,7 +53,7 @@ public class StoreBillProductOperation extends BDD<StoreBillProduct> {
     @Override
     public boolean update(StoreBillProduct o1, StoreBillProduct o2) {
         boolean upd = false;
-        String query = "UPDATE `STORE_BILL_PRODUCT` SET `ID_PRODUCT`= ?,`PRICE`= ?,`PRODUCT_QUANTITY`= ? WHERE `ID_STORE_BILL`= ?";
+        String query = "UPDATE `store_bill_product` SET `ID_PRODUCT`= ?,`PRICE`= ?,`PRODUCT_QUANTITY`= ? WHERE `ID_STORE_BILL`= ?";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             preparedStmt.setInt(1, o1.getId_product());
@@ -63,6 +68,8 @@ public class StoreBillProductOperation extends BDD<StoreBillProduct> {
         return upd;
     }
 
+
+
     @Override
     public boolean delete(StoreBillProduct o) {
         return false;
@@ -71,7 +78,7 @@ public class StoreBillProductOperation extends BDD<StoreBillProduct> {
 
     public boolean delete(int o) {
         boolean del = false;
-        String query = "DELETE FROM `STORE_BILL_PRODUCT` WHERE ID_STORE_BILL = ? ";
+        String query = "DELETE FROM `store_bill_product` WHERE ID_STORE_BILL = ? ";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             preparedStmt.setInt(1, o);
@@ -92,7 +99,7 @@ public class StoreBillProductOperation extends BDD<StoreBillProduct> {
     @Override
     public ArrayList<StoreBillProduct> getAll() {
         ArrayList<StoreBillProduct> list = new ArrayList<>();
-        String query = "SELECT * FROM `STORE_BILL_PRODUCT`";
+        String query = "SELECT * FROM `store_bill_product`";
         try {
             chargeData(list, query);
         } catch (SQLException e) {

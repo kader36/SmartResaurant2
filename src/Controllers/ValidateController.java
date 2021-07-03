@@ -1,6 +1,5 @@
 package Controllers;
 
-import com.jfoenix.controls.JFXTextField;
 import javafx.scene.control.TextField;
 
 public class ValidateController {
@@ -17,11 +16,11 @@ public class ValidateController {
 
     public void inputNumberValueType(TextField txt_number) {
         txt_number.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue.length() > 10) {
+            if (newValue.length() > 13) {
                 txt_number.setText(oldValue.replaceAll("[^\\d]", ""));
                 return;
             }
-            if (newValue.matches("[0-9]{10}")) return;
+            if (newValue.matches("[0-9]*")) return;
             txt_number.setText(oldValue);
         });
     }
@@ -37,5 +36,15 @@ public class ValidateController {
             }
         });
 
+    }
+    public void inputNumberphone(TextField txt_number) {
+        txt_number.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.length() > 12) {
+                txt_number.setText(oldValue.replaceAll("[^\\d]", ""));
+                return;
+            }
+            if (newValue.matches("[0]{1}[0-9]{10}")) return;
+            txt_number.setText(oldValue);
+        });
     }
 }

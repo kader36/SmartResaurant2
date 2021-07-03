@@ -1,13 +1,12 @@
 package Controllers.KitchenChef;
 
 import Controllers.stroreKeeper.BillListController;
-import Controllers.stroreKeeper.DashboardController;
-import Controllers.stroreKeeper.ProductController;
-import Controllers.stroreKeeper.ProviderController;
+import Models.CurrentUser;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -23,17 +22,26 @@ public class Controller implements Initializable {
 
     @FXML
     private ImageView logo,userVector;
+    @FXML
+    private Label userName;
+    @FXML
+    private Label Type;
     /**
      * load screen controller
      * */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        /*Image image = new Image("Images/Logo.png");
-        logo.setImage(image);
-        image = new Image("Images/Vector.png");
-        userVector.setImage(image);*/
-
-        //LaunchProviderScreen();
+        userName.setText(CurrentUser.getEmloyer_name());
+        Type.setText(CurrentUser.getType());
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/foods.fxml"));
+            BorderPane temp = loader.load();
+            FoodsController foodsController = loader.getController();
+            foodsController.Init(temp);
+            mainPane.getChildren().setAll(temp);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void LaunchProviderScreen(){
@@ -73,13 +81,12 @@ public class Controller implements Initializable {
     }
 
     @FXML
-    void loadDashboardScreen(ActionEvent event) {
+    void loadAvailableItemScreen(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Dashboard.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/KitchenChef/availableFoods.fxml"));
 
             BorderPane temp = loader.load();
-            DashboardController dashboardController = loader.getController();
-            dashboardController.Init(temp);
+
             mainPane.getChildren().setAll(temp);
         } catch (IOException e) {
             e.printStackTrace();
@@ -87,25 +94,33 @@ public class Controller implements Initializable {
     }
 
     @FXML
-    void loadProductScreen(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/ProductsScreen.fxml"));
-            BorderPane temp = loader.load();
-            ProductController productController = loader.getController();
-            productController.Init(temp);
-            mainPane.getChildren().setAll(temp);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    void loadProviderScreen(ActionEvent event) {
+    void loadFoodScreen(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/foods.fxml"));
             BorderPane temp = loader.load();
             FoodsController foodsController = loader.getController();
             foodsController.Init(temp);
+            mainPane.getChildren().setAll(temp);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    void ProductCompositeScrenn(ActionEvent event){
+            try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/KitchenChef/ProductComposite.fxml"));
+        BorderPane temp = loader.load();
+        mainPane.getChildren().setAll(temp);
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
+
+    @FXML
+    void OrderScreen(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/KitchenChef/kitchenOrdersView.fxml"));
+            BorderPane temp = loader.load();
             mainPane.getChildren().setAll(temp);
         } catch (IOException e) {
             e.printStackTrace();
