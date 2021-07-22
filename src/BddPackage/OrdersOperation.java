@@ -13,11 +13,12 @@ public class OrdersOperation extends BDD <Orders> {
     @Override
     public boolean insert(Orders o) {
         boolean ins = false;
-        String query = "INSERT INTO `orders`( `ID_TABLE_ORDER`,`ORDER_PRICE`) VALUES (?,?)";
+        String query = "INSERT INTO `orders`( `ID_TABLE_ORDER`,`ORDER_PRICE`,`Order_Active`) VALUES (?,?,?)";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             preparedStmt.setInt(1,o.getId_table());
             preparedStmt.setInt(2,(int)o.getPrice());
+            preparedStmt.setInt(3,1);
             int insert = preparedStmt.executeUpdate();
             if(insert != -1) ins = true;
 
@@ -51,6 +52,21 @@ public class OrdersOperation extends BDD <Orders> {
         }
         return upd;
     }
+    public boolean update(Orders o) {
+        boolean upd = false;
+        String query = "UPDATE `orders` SET `Order_Active`=?  " +
+                "WHERE ID_ORDER = ? ";
+        try {
+            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            preparedStmt.setInt(1,0);
+            preparedStmt.setInt(2,o.getId());
+            int update = preparedStmt.executeUpdate();
+            if(update != -1) upd = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return upd;
+    }
 
     @Override
     public boolean delete(Orders o) {
@@ -74,6 +90,26 @@ public class OrdersOperation extends BDD <Orders> {
 
     @Override
     public ArrayList<Orders> getAll() {
-        return null;
+        ArrayList<Orders> list = new ArrayList<>();
+        String query = "SELECT * FROM `orders` WHERE `Order_Active`=1";
+        try {
+            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            ResultSet resultSet = preparedStmt.executeQuery();
+            while (resultSet.next()) {
+                Orders orders = new Orders();
+                orders.setId(resultSet.getInt("ID_ORDER"));
+                orders.setId_table(resultSet.getInt("ID_TABLE_ORDER"));
+                orders.setPrice(resultSet.getInt("ORDER_PRICE"));
+                orders.setTime(resultSet.getTime("ORDER_TIME"));
+
+
+                list.add(orders);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
     }
+
+
 }

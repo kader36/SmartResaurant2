@@ -1,9 +1,9 @@
 package Controllers.newKitchenChef;
 
-import BddPackage.DrinksOperation;
 import BddPackage.FoodOperation;
+import BddPackage.FoodOrderOperation;
+import BddPackage.OrdersOperation;
 import Controllers.Tables.OrdersServer;
-import Models.Drinks;
 import Models.Food;
 import Models.Orders;
 import javafx.beans.property.BooleanProperty;
@@ -12,12 +12,16 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,9 +47,8 @@ public class KitchenOrdersControlleur implements Initializable {
 
     // variables.
     public static BooleanProperty newOrder = new SimpleBooleanProperty();
-    //public static Queue<Orders> ordersQueue = new PriorityQueue<Orders>();
     public static Queue<String> ordersIdsQueue = new PriorityQueue<String>();
-    public static Orders curentOrder;
+    public Orders curentOrder;
     public static String curentOrderId = "";
     int tableOrderColumn = 0;
     int tableOrderRow = 1;
@@ -64,7 +67,7 @@ public class KitchenOrdersControlleur implements Initializable {
         });
 
         // set teh new order refresh listener.
-        newOrder.addListener((observableValue, aBoolean, t1) -> {
+     newOrder.addListener((observableValue, aBoolean, t1) -> {
             try {
                 // only if no order is shown in the interface
                 if (orderGridView.getChildren().size() == 0){
@@ -83,6 +86,7 @@ public class KitchenOrdersControlleur implements Initializable {
             e.printStackTrace();
         }
 
+
     }
 
     // method to load the current order data.
@@ -90,14 +94,14 @@ public class KitchenOrdersControlleur implements Initializable {
 
         // only if the queue of orders is not mepty.
         if (ordersIdsQueue.isEmpty() == false){
-            //orderGridView.getChildren().clear();
             // load the current order.
-            curentOrderId = ordersIdsQueue.poll();
+            curentOrderId = ordersIdsQueue.element();
             for (int orderIndex = 0; orderIndex < OrdersServer.ordersList.size(); orderIndex++) {
                 if (String.valueOf(OrdersServer.ordersList.get(orderIndex).getId()).equals(curentOrderId)){
                     curentOrder = OrdersServer.ordersList.get(orderIndex);
                 }
             }
+
 
             // reset the column and row counters.
             tableOrderColumn = 0;
@@ -148,67 +152,62 @@ public class KitchenOrdersControlleur implements Initializable {
                 orderGridView.setMinHeight(180);
                 orderGridView.setMaxHeight(Region.USE_PREF_SIZE);
                 orderGridView.setPrefHeight(Region.USE_COMPUTED_SIZE);
+                Rectangle clip = new Rectangle();
+                clip.setWidth(160);
+                clip.setHeight(180);
 
+                clip.setArcHeight(25);
+                clip.setArcWidth(25);
+                clip.setStroke(Color.BLACK);
+                orderGridView.setClip(clip);
+
+                // snapshot the rounded image.
+                SnapshotParameters parameters = new SnapshotParameters();
+                parameters.setFill(Color.TRANSPARENT);
+
+
+                // remove the rounding clip so that our effect can show through.
+                orderGridView.setClip(null);
+                orderGridView.setEffect(new DropShadow(1, Color.BLACK));
                 GridPane.setMargin(anchorPane,new Insets(10));
 
+
             }
-            // add the drinks items.
-            DrinksOperation drinksDataBaseConnector = new DrinksOperation();
-            for (int drinkItemsIndex = 0; drinkItemsIndex < curentOrder.getDrinksList().size(); drinkItemsIndex++) {
-                if (tableOrderColumn == 2){
-                    tableOrderColumn = 0;
-                    tableOrderRow = tableOrderRow +1;
-                }
 
-                FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(getClass().getResource("/Views/KitchenChef/kitchenOrderItem.fxml"));
-                AnchorPane anchorPane = loader.load();
-                KitchenOrderItemControlleur tableGridItemControlleur = loader.getController();
-                // get the drink data from database.
-                Drinks curentDrink = drinksDataBaseConnector.getDrinkByID(
-                        curentOrder.getFoodsList().get(drinkItemsIndex).getId_food()
-                );
-                // create the image.
-                File file = new File(curentDrink.getImage_path());
-                Image image = new Image(file.toURI().toString());
-                tableGridItemControlleur.loadData(
-                        image,
-                        curentDrink.getName(),
-                        String.valueOf(curentOrder.getFoodsList().get(drinkItemsIndex).getQuantity())
-
-                );
-
-                // add to the grid view.
-                orderGridView.add(anchorPane, tableOrderColumn++, tableOrderRow);
-                //column = column + 1;
-                // set the width.
-                orderGridView.setMinWidth(Region.USE_COMPUTED_SIZE);
-                orderGridView.setMaxWidth(Region.USE_PREF_SIZE);
-                orderGridView.setPrefWidth(Region.USE_COMPUTED_SIZE);
-                // set the height.
-                orderGridView.setMinHeight(Region.USE_COMPUTED_SIZE);
-                orderGridView.setMaxHeight(Region.USE_PREF_SIZE);
-                orderGridView.setPrefHeight(Region.USE_COMPUTED_SIZE);
-
-                GridPane.setMargin(anchorPane,new Insets(10));
-            }
-        }
+    }
 
     }
 
 
     // method to confirm the order.
     void confirmOrder() throws IOException {
+        curentOrderId=ordersIdsQueue.element();
+        for (int orderIndex = 0; orderIndex < OrdersServer.ordersList.size(); orderIndex++) {
+            if (String.valueOf(OrdersServer.ordersList.get(orderIndex).getId()).equals(curentOrderId)){
+                curentOrder = OrdersServer.ordersList.get(orderIndex);
+            }
+        }
+        OrdersOperation orderDatabaseConnector = new OrdersOperation();
+        System.out.println(curentOrder.getId());
+        System.out.println(curentOrder.getPrice());
+        System.out.println(curentOrder.getId_table());
+        orderDatabaseConnector.insert(curentOrder);
+        // add the food order.
+        FoodOrderOperation foodDatabaseConnector = new FoodOrderOperation();
+        for (int foodIndex = 0; foodIndex < curentOrder.getFoodsList().size(); foodIndex++) {
+            foodDatabaseConnector.insert(curentOrder.getFoodsList().get(foodIndex));
+        }
         // do what when the order is confirmed ?????
         // load the next order.
         if (ordersIdsQueue.isEmpty() == false){
+            ordersIdsQueue.poll();
             loadData();
-        }
-        if (ordersIdsQueue.isEmpty() ==  true){
+        if(ordersIdsQueue.isEmpty()){
             // reset the view
             orderGridView.getChildren().clear();
-            tableNumberLabel.setText("");
             orerTotalPriceLabel.setText("");
+            tableNumberLabel.setText("");
+        }
         }
     }
 }

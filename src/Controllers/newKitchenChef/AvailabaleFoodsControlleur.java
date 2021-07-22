@@ -6,10 +6,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Button;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -97,6 +102,24 @@ public class AvailabaleFoodsControlleur implements Initializable {
                 goodItemsGrid.setMinHeight(Region.USE_COMPUTED_SIZE);
                 goodItemsGrid.setMaxHeight(Region.USE_PREF_SIZE);
                 goodItemsGrid.setPrefHeight(Region.USE_COMPUTED_SIZE);
+                Rectangle clip = new Rectangle();
+                clip.setWidth(155);
+                clip.setHeight(190);
+
+                clip.setArcHeight(25);
+                clip.setArcWidth(25);
+                clip.setStroke(Color.BLACK);
+                goodItemsGrid.setClip(clip);
+
+                // snapshot the rounded image.
+                SnapshotParameters parameters = new SnapshotParameters();
+                parameters.setFill(Color.TRANSPARENT);
+
+
+                // remove the rounding clip so that our effect can show through.
+                goodItemsGrid.setClip(null);
+                goodItemsGrid.setEffect(new DropShadow(1, Color.BLACK));
+
 
                 GridPane.setMargin(anchorPane,new Insets(20));
 

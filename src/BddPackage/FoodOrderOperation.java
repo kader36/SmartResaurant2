@@ -1,8 +1,10 @@
 package BddPackage;
 
 import Models.FoodOrder;
+import Models.Orders;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -66,5 +68,26 @@ public class FoodOrderOperation extends BDD<FoodOrder> {
     @Override
     public ArrayList<FoodOrder> getAll() {
         return null;
+    }
+    public ArrayList<FoodOrder> getElement(Orders orders)
+    {
+        ArrayList<FoodOrder> list = new ArrayList<>();
+        String query = "SELECT * FROM `food_order` WHERE `ID_ORDER`=?";
+        try {
+            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            preparedStmt.setInt(1,orders.getId());
+            ResultSet resultSet = preparedStmt.executeQuery();
+            while (resultSet.next()) {
+                FoodOrder food = new FoodOrder();
+                food.setId_food(resultSet.getInt("ID_FOOD"));
+                food.setId_order(resultSet.getInt("ID_ORDER"));
+                food.setQuantity(resultSet.getInt("ORDER_QUANTITY"));
+
+                list.add(food);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 }

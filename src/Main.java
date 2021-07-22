@@ -16,6 +16,8 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         // lunch the serve thread to listen to new orders from the tablet application.
+
+
         Thread serverThread = new Thread(() -> {
             OrdersServer.startListeningToOrders();
         });

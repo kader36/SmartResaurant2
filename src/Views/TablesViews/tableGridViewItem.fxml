@@ -21,12 +21,12 @@
                      <children>
                         <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Text fx:id="tableNumber" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="font-hs-dream" text="01">
+                              <Text fx:id="tableNumber" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="font2" text="01">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                               </Text>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="font-hs-dream" text="الطاولة رقم ">
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="font2" text="الطاولة رقم ">
                                  <font>
                                     <Font size="20.0" />
                                  </font>

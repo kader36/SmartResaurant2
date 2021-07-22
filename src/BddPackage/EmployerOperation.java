@@ -58,7 +58,7 @@ public class EmployerOperation extends BDD<Employer> {
             ResultSet resultSet = preparedStmt.executeQuery();
             while (resultSet.next()) {
                Employer employer=new Employer();
-
+                employer.setId(resultSet.getInt("ID_EMPLOYER"));
                 employer.setFirst_name(resultSet.getString("EMPLOYER_NAME"));
                 employer.setLast_name(resultSet.getString("EMPLOYER_LAST_NAME"));
                 employer.setPhone_number(resultSet.getString("EMPLOYER_PHONE_NUMBER"));

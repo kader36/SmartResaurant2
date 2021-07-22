@@ -1,14 +1,15 @@
 package BddPackage;
 
-import Models.MoneyWithdrawal;
-import Models.ProductCategory;
 import Models.TableGainedMoney;
+import Models.Tables;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class TablegainsOperationsBDD  extends BDD<TableGainedMoney>{
 
@@ -62,5 +63,26 @@ public class TablegainsOperationsBDD  extends BDD<TableGainedMoney>{
     @Override
     public ArrayList<TableGainedMoney> getAll() {
         return null;
+    }
+    public TableGainedMoney getElement(Tables o){
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd ");
+        Date date = new Date();
+        TableGainedMoney tableGainedMoney=new TableGainedMoney();
+        String query = "SELECT sum(GAINED_MONEY) FROM `table_gaines` WHERE `DATE`=? and `ID_TABLE`=?";
+        try {
+            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            preparedStmt.setDate(1,new java.sql.Date(millis));
+            preparedStmt.setInt(2,o.getId());
+            ResultSet resultSet = preparedStmt.executeQuery();
+            while (resultSet.next()){
+
+                tableGainedMoney.setGainedMoney(resultSet.getDouble(1));
+                tableGainedMoney.setTableId(o.getId());
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return tableGainedMoney;
     }
 }

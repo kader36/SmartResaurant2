@@ -6,6 +6,7 @@ public class Employer {
     private int id;
     private String first_name;
     private String last_name;
+    private String last_nameANDfirst_name;
     private String  phone_number;
     private String job;
     private Date work_strat;
@@ -34,6 +35,7 @@ public class Employer {
 
     public void setFirst_name(String first_name) {
         this.first_name = first_name;
+
     }
 
     public String getLast_name() {
@@ -42,6 +44,7 @@ public class Employer {
 
     public void setLast_name(String last_name) {
         this.last_name = last_name;
+        this.last_nameANDfirst_name=this.first_name+" "+last_name;
     }
 
     public String getPhone_number() {
@@ -50,7 +53,7 @@ public class Employer {
 
     public void setPhone_number(String phone_number) {
         this.phone_number = phone_number;
-        this.numberphone="0";
+
     }
 
     public String getJob() {
@@ -91,5 +94,9 @@ public class Employer {
 
     public void setSalary(int salary) {
         this.salary = salary;
+    }
+
+    public String getLast_nameANDfirst_name() {
+        return last_nameANDfirst_name;
     }
 }

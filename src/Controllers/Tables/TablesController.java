@@ -1,5 +1,7 @@
 package Controllers.Tables;
+import BddPackage.OrdersOperation;
 import BddPackage.TabelsOperation;
+import BddPackage.TablegainsOperationsBDD;
 import Models.Orders;
 import Models.TableGainedMoney;
 import Models.Tables;
@@ -13,7 +15,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -32,10 +36,14 @@ public class TablesController implements Initializable {
 
     @FXML
     private BorderPane mainPane;
+    @FXML
+    private ScrollPane ScrollpaneTab;
 
     // fxml elements.
     @FXML
     private Text totalDayEarnings;
+    @FXML
+    private Label NumberOrders;
 
     @FXML
     private ListView<?> tableEarningListView;
@@ -65,159 +73,50 @@ public class TablesController implements Initializable {
     // test data.
     // table order details.
     static ArrayList<Orders> tabelsOrders = new ArrayList<Orders>();
+    static ArrayList<Orders> listeorder = new ArrayList<Orders>();
     // tables gaines.
-    static ArrayList<TableGainedMoney> tablesGainedMoney = new ArrayList<>();
+    public ArrayList<TableGainedMoney> tablesGainedMoney = new ArrayList<>();
 
 
     // variables.
+    public ArrayList<Orders> tabelsOrder = new ArrayList<Orders>();
     public static BooleanProperty drawerOpening = new SimpleBooleanProperty();
     public static BooleanProperty newOrder = new SimpleBooleanProperty();
     public static BooleanProperty orderConfirmed = new SimpleBooleanProperty();
     public static BooleanProperty totalEarningsrefreshed = new SimpleBooleanProperty();
     public static int selectedFoodIndex;
+    public static Orders CurentOrder;
     int tableOrderColumn = 0;
     int tableOrderRow = 1;
     int tableOrderColumnRefreshed = 0;
     int tableOrderRowRefreshed = 1;
     static int numberOfORders = 0;
-    static double totalEarnings = 0;
+    private double totalEarnings = 0;
     int removingIndex = 2;
+
 
 
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        lodeData();
+        CalculeTotal();
         // the variable that we will listen to.
          drawerOpening.setValue(false); // drawer opening/closing.
         // newOrder.setValue(false); // new order coming from the tablet.
 
         // get the tables list from database.
-        TabelsOperation tablesDataBaseConnector = new TabelsOperation();
-        ArrayList<Tables> tablesList = new ArrayList<>();
-        tablesList = tablesDataBaseConnector.getAll();
-        for (int tabelIndex = 0; tabelIndex <tablesList.size() ; tabelIndex++) {
-            tablesGainedMoney.add(new TableGainedMoney(
-                    tablesList.get(tabelIndex).getNumber(),
-                    0
-            ));
-        }
 
 
-        // add the listener to teh new orders.
-        newOrder.addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
-                //  get the added order. (add the first one that has the value false).
-
-                for (int orderIndex = OrdersServer.ordersList.size()-1; orderIndex >= 0 ; orderIndex--) {
-                    // check if the order has been added or not.
-                    if (OrdersServer.orderSeenState.get(orderIndex) == false){
-
-                        // add the order.
-                        // first to the list of orders.
-                        tabelsOrders.add(OrdersServer.ordersList.get(orderIndex));
-                        // then to the interface.
-                        // tow columns only.
-                        if (tableOrderColumn == 2){
-                            tableOrderColumn = 0;
-                            tableOrderRow = tableOrderRow +1;
-                        }
-
-                        try {
-                            FXMLLoader loader = new FXMLLoader();
-                            loader.setLocation(getClass().getResource("/Views/TablesViews/tableGridViewItem.fxml"));
-                            AnchorPane anchorPane = loader.load();
-                            TableGridItemControlleur tableGridItemControlleur = loader.getController();
-                            tableGridItemControlleur.setGridItemData(
-                                    String.valueOf(OrdersServer.ordersList.get(orderIndex).getId_table()),
-                                    OrdersServer.ordersList.get(orderIndex).getPrice(),
-                                    orderIndex
-                            );
-
-                            tablesGridPane.add(anchorPane, tableOrderColumn++, tableOrderRow);
-                            //column = column + 1;
-                            // set the width.
-                            tablesGridPane.setMinWidth(Region.USE_COMPUTED_SIZE);
-                            tablesGridPane.setMaxWidth(Region.USE_PREF_SIZE);
-                            tablesGridPane.setPrefWidth(Region.USE_COMPUTED_SIZE);
-                            // set the height.
-                            tablesGridPane.setMinHeight(Region.USE_COMPUTED_SIZE);
-                            tablesGridPane.setMaxHeight(Region.USE_PREF_SIZE);
-                            tablesGridPane.setPrefHeight(Region.USE_COMPUTED_SIZE);
-
-
-                            GridPane.setMargin(anchorPane,new Insets(10));
-
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        // change the state of the order.
-                        OrdersServer.orderSeenState.set(orderIndex,true);
-
-                    }
-                }
-
-                //  add the order to the page.
-            }
-        });
 
         // listener for the confirmation of the orders so it can be removed from the view
         orderConfirmed.addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
-
-
-                 tableOrderColumnRefreshed = 0;
-                 tableOrderRowRefreshed = 1;
-
-                // refresh the view.
                 tablesGridPane.getChildren().clear();
-                for (int orderIndex = 0; orderIndex < tabelsOrders.size(); orderIndex++) {
-                    if (tableOrderColumnRefreshed == 2){
-                        tableOrderColumnRefreshed = 0;
-                        tableOrderRowRefreshed = tableOrderRowRefreshed + 1;
-                    }
-
-                    try {
-                        FXMLLoader loader = new FXMLLoader();
-                        loader.setLocation(getClass().getResource("/Views/TablesViews/tableGridViewItem.fxml"));
-                        AnchorPane anchorPane = loader.load();
-                        TableGridItemControlleur tableGridItemControlleur = loader.getController();
-                        tableGridItemControlleur.setGridItemData(
-                                String.valueOf(tabelsOrders.get(orderIndex).getId_table()),
-                                tabelsOrders.get(orderIndex).getPrice(),
-                                orderIndex
-                        );
-
-                        tablesGridPane.add(anchorPane, tableOrderColumnRefreshed++, tableOrderRowRefreshed);
-                        //column = column + 1;
-                        // set the width.
-                        tablesGridPane.setMinWidth(Region.USE_COMPUTED_SIZE);
-                        tablesGridPane.setMaxWidth(Region.USE_PREF_SIZE);
-                        tablesGridPane.setPrefWidth(Region.USE_COMPUTED_SIZE);
-                        // set the height.
-                        tablesGridPane.setMinHeight(Region.USE_COMPUTED_SIZE);
-                        tablesGridPane.setMaxHeight(Region.USE_PREF_SIZE);
-                        tablesGridPane.setPrefHeight(Region.USE_COMPUTED_SIZE);
-
-
-                        GridPane.setMargin(anchorPane,new Insets(10));
-
-                        // synchronizing the add order columns and rows.
-                        if (removingIndex == 0){
-                            tableOrderColumn --;
-                            tableOrderRow = 0;
-                        }else{
-                            tableOrderRow --;
-                            removingIndex --;
-                        }
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
+                lodeData();
+                CalculeTotal();
             }
         });
 
@@ -254,26 +153,27 @@ public class TablesController implements Initializable {
         drawerOpening.addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
+                drawerSlider.setVisible(true);
                 if (drawerSlider.isShown()){
                     drawerSlider.close();
+                    drawerSlider.setVisible(false);
                 }else{
                     // set the data.
-                    TableOrderDetailsControlleur.curentOrder = tabelsOrders.get(selectedFoodIndex);
+                    TableOrderDetailsControlleur.curentOrder = CurentOrder;
                     // prepare the drawer slider.
                     FXMLLoader loader = new FXMLLoader();
                     AnchorPane box ;
                     try {
                         // get the slider fxml file.
                         box = loader.load(getClass().getClassLoader().getResource("Views/TablesViews/tableDetails.fxml"));
-                        box.setMinHeight(Screen.getPrimary().getVisualBounds().getHeight());
-                        //box.setMaxHeight(Screen.getPrimary().getVisualBounds().getHeight());
+                        box.setMaxHeight(Screen.getPrimary().getVisualBounds().getHeight());
+                        box.setMaxWidth(Screen.getPrimary().getVisualBounds().getWidth());
                         // initialize the controller.
                         //TableOrderDetailsControlleur controlleur = loader.getController();
                         // set the data.
-                        TableOrderDetailsControlleur.curentOrder = tabelsOrders.get(selectedFoodIndex);
+                        //TableOrderDetailsControlleur.curentOrder = tabelsOrder.get(selectedFoodIndex);
                         // show the drawer slider.
                         drawerSlider.setSidePane(box);
-                        drawerSlider.setMaxHeight(box.getMaxHeight()-10);
                         drawerSlider.open();
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -288,7 +188,7 @@ public class TablesController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
                 // refresh teh total.
-                totalDayEarnings.setText(String.valueOf(totalEarnings));
+                CalculeTotal();
                 // refresh the exact table.
                 // set th tables gains grid view.
                 int tableGainescolumn = 1;
@@ -318,26 +218,85 @@ public class TablesController implements Initializable {
             }
         });
 
-        /*logOutButton.setOnAction(e ->{
-
-            OrdersServer.addOrder("3@3500@1=2,2=1@+5=6,3=5");
-        });*/
 
     }
 
 
-    // a method to go to other views.
-    void goTo(){
-
-    }
 
 
 
 
     // a method to change teh color of the selected table based on teh cursor dragging.
-    void changeColorOfHover(){
-        // maybe just do it in CSS it's better just a :hover code
+     void lodeData(){
+
+        OrdersOperation ordersOperation=new OrdersOperation();
+        tabelsOrder=ordersOperation.getAll();
+        listeorder=ordersOperation.getAll();
+         NumberOrders.setText(String.valueOf(listeorder.size()));
+        for (int orderIndex = listeorder.size()-1; orderIndex >= 0 ; orderIndex--) {
+
+            // then to the interface.
+            // tow columns only.
+            if (tableOrderColumn == 2){
+                tableOrderColumn = 0;
+                tableOrderRow = tableOrderRow +1;
+            }
+
+            try {
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/Views/TablesViews/tableGridViewItem.fxml"));
+                AnchorPane anchorPane = loader.load();
+                TableGridItemControlleur tableGridItemControlleur = loader.getController();
+                tableGridItemControlleur.setGridItemData(
+                        String.valueOf(listeorder.get(orderIndex).getId_table()),
+                        listeorder.get(orderIndex).getPrice(),
+                        listeorder.get(orderIndex)
+                );
+
+                tablesGridPane.add(anchorPane, tableOrderColumn++, tableOrderRow);
+                //column = column + 1;
+                // set the width.
+                tablesGridPane.setMinWidth(Region.USE_COMPUTED_SIZE);
+                tablesGridPane.setMaxWidth(Region.USE_PREF_SIZE);
+                tablesGridPane.setPrefWidth(Region.USE_COMPUTED_SIZE);
+                // set the height.
+                tablesGridPane.setMinHeight(Region.USE_COMPUTED_SIZE);
+                tablesGridPane.setMaxHeight(Region.USE_PREF_SIZE);
+                tablesGridPane.setPrefHeight(Region.USE_COMPUTED_SIZE);
+
+
+                GridPane.setMargin(anchorPane,new Insets(10));
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+
+        }
+    }
+    public void CalculeTotal(){
+        totalEarnings=0;
+        TabelsOperation tablesDataBaseConnector = new TabelsOperation();
+        ArrayList<Tables> tablesList = new ArrayList<>();
+        tablesList = tablesDataBaseConnector.getAll();
+        tablesGainedMoney.clear();
+        for (int tabelIndex = 0; tabelIndex <tablesList.size() ; tabelIndex++) {
+            TableGainedMoney tableGainedMoney=new TableGainedMoney();
+            TablegainsOperationsBDD tablegainsOperationsBDD=new TablegainsOperationsBDD();
+            tableGainedMoney=tablegainsOperationsBDD.getElement(tablesList.get(tabelIndex));
+            tablesGainedMoney.add(new TableGainedMoney(
+                    tableGainedMoney.getTableId(),
+                    tableGainedMoney.getGainedMoney()
+            ));
+        }
+        for(int i=0;i<tablesGainedMoney.size();i++){
+            totalEarnings=totalEarnings+tablesGainedMoney.get(i).getGainedMoney();
+        }
+        totalDayEarnings.setText(String.valueOf(totalEarnings));
+    }
     }
 
 
-}
+
+

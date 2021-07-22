@@ -98,7 +98,7 @@
                               <Image url="@../Images/logo.png" />
                            </image>
                         </ImageView>
-								<Label styleClass="username" text="برنامج إدارة المطاعم " textAlignment="CENTER" textFill="WHITE">
+								<Label styleClass="font-hs-dream" text="برنامج إدارة المطاعم " textAlignment="CENTER" textFill="WHITE">
 									<font>
 										<Font name="HSDream-Regular" size="25.0" />
 									</font>

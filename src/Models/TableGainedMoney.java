@@ -5,6 +5,9 @@ public class TableGainedMoney {
     private int tableId;
     private double gainedMoney;
 
+    public TableGainedMoney() {
+    }
+
     public TableGainedMoney(int tableId, double gainedMoney) {
         this.tableId = tableId;
         this.gainedMoney = gainedMoney;

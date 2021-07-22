@@ -1,11 +1,14 @@
 package Models;
 
 import BddPackage.FoodCategoryOperation;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.CheckBox;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 import java.io.File;
 
@@ -136,8 +139,24 @@ public class Food {
          ImageView image=new ImageView(this.image_path);
          image.setFitHeight(80);
          image.setFitWidth(140);
-         image.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0.3,0,0.3), 5, 0, 0, 0);");
-         image.setEffect(new DropShadow(20, Color.BLACK));
+        Rectangle clip = new Rectangle();
+        clip.setWidth(140);
+        clip.setHeight(80);
+
+        clip.setArcHeight(25);
+        clip.setArcWidth(25);
+        clip.setStroke(Color.BLACK);
+        image.setClip(clip);
+
+        // snapshot the rounded image.
+        SnapshotParameters parameters = new SnapshotParameters();
+        parameters.setFill(Color.TRANSPARENT);
+        WritableImage myimage = image.snapshot(parameters, null);
+
+        // remove the rounding clip so that our effect can show through.
+        image.setClip(null);
+        image.setEffect(new DropShadow(3, Color.BLACK));
+        image.setImage(myimage);
          return image;
     }
 

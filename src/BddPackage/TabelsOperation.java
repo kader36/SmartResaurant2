@@ -12,10 +12,11 @@ public class TabelsOperation extends BDD<Tables> {
     public boolean insert(Tables o) {
 
             boolean ins = false;
-            String query = "INSERT INTO `tables` (`TABLE_NUMBER`) VALUES (?);";
+            String query = "INSERT INTO `tables` (ID_TABLE,`TABLE_NUMBER`) VALUES (?,?);";
             try {
                 PreparedStatement preparedStmt = conn.prepareStatement(query);
                 preparedStmt.setInt(   1,o.getNumber());
+                preparedStmt.setInt(   2,o.getNumber());
                 int insert = preparedStmt.executeUpdate();
                 if(insert != -1) ins = true;
             } catch (SQLException e) {

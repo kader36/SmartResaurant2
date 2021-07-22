@@ -10,7 +10,22 @@ import java.util.ArrayList;
 public class UserOperation extends BDD<User>{
     @Override
     public boolean insert(User o) {
-        return false;
+        boolean ins = false;
+        String query = "INSERT INTO `users`( `ID_EMPLOYER`, `USERNAME`, `PASSWORD`, `TYPE`)  \n" +
+                "VALUES (?,?,?,?)";
+        try {
+            PreparedStatement preparedStmt = conn.prepareStatement(query);
+
+            preparedStmt.setInt(1, o.getId_emloyer());
+            preparedStmt.setString(2, o.getUserName());
+            preparedStmt.setString(3, o.getPassWord());
+            preparedStmt.setString(4, o.getType());
+            int insert = preparedStmt.executeUpdate();
+            if (insert != -1) ins = true;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return ins;
     }
 
     @Override
@@ -25,7 +40,17 @@ public class UserOperation extends BDD<User>{
 
     @Override
     public boolean isExist(User o) {
-        return false;
+        boolean exist=false;
+        String query = "SELECT * FROM `users` WHERE `USERNAME`=?";
+        try {
+            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            preparedStmt.setString(1,o.getUserName());
+            ResultSet resultSet = preparedStmt.executeQuery();
+            if (resultSet.next()) exist = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return exist;
     }
 
     @Override
