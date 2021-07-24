@@ -2,6 +2,7 @@ package BddPackage;
 
 import Models.MoneyWithdrawal;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -59,12 +60,13 @@ public class MoneyWithdrawalOperationsBDD extends BDD<MoneyWithdrawal> {
 
     @Override
     public ArrayList<MoneyWithdrawal> getAll() {
-
+        Connet connet=new Connet();
+        Connection con =connet.connect();
         ArrayList<MoneyWithdrawal> operationsList = new ArrayList<>();
         String query;
         query = "SELECT * FROM `money_withdrawal_operations`";
         try {
-            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            PreparedStatement preparedStmt = con.prepareStatement(query);
             ResultSet resultSet = preparedStmt.executeQuery();
 
             while (resultSet.next()) {
@@ -78,7 +80,7 @@ public class MoneyWithdrawalOperationsBDD extends BDD<MoneyWithdrawal> {
                         )
                 );
             }
-
+        con.close();
         }catch (SQLException e){
             e.printStackTrace();
         }

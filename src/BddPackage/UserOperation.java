@@ -2,6 +2,7 @@ package BddPackage;
 
 import Models.User;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -55,10 +56,12 @@ public class UserOperation extends BDD<User>{
 
     @Override
     public ArrayList<User> getAll() {
+        Connet connet=new Connet();
+        Connection con =connet.connect();
         ArrayList<User> list = new ArrayList<>();
         String query = "SELECT * FROM `users`,employer WHERE users.ID_EMPLOYER=employer.ID_EMPLOYER";
         try {
-            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            PreparedStatement preparedStmt = con.prepareStatement(query);
             ResultSet resultSet = preparedStmt.executeQuery();
             while (resultSet.next()) {
                 User user=new User();
@@ -68,10 +71,13 @@ public class UserOperation extends BDD<User>{
                 user.setType(resultSet.getString("TYPE"));
 
                 list.add(user);
+
             }
+            con.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         return list;
 
     }
@@ -87,6 +93,8 @@ public class UserOperation extends BDD<User>{
             System.out.println(exist);
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            close();
         }
         return exist;
     }

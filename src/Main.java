@@ -9,6 +9,11 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 public class Main extends Application {
     Parent root;
     double xOffset, yOffset;
@@ -16,8 +21,14 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         // lunch the serve thread to listen to new orders from the tablet application.
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd ");
+        Date date = new Date(System.currentTimeMillis());
+        GregorianCalendar ge=new GregorianCalendar();
+        long millis=System.currentTimeMillis();
 
-
+        System.out.println("1...."+dateFormat.format(date));
+        System.out.println("date...."+date.getMonth()+1);
+        System.out.println("date...."+ge.getTime());
         Thread serverThread = new Thread(() -> {
             OrdersServer.startListeningToOrders();
         });
@@ -51,6 +62,7 @@ public class Main extends Application {
         public static void main(String[] args)
         {
             launch(args);
+
 
         }
 

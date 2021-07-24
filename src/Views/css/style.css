@@ -469,6 +469,15 @@
     -fx-border-width: 5px;
     -fx-border-color: 4A8E16;
 }
+.dashboard-item-image{
+	-fx-hgap: 20px;
+	-fx-background-color: #4A8E16;
+	-fx-background-radius: 40px;
+	-fx-font-family: 'HSDream-Regular';
+	-fx-border-radius: 40px;
+	-fx-border-width: 5px;
+	-fx-border-color: 4A8E16;
+}
 .container-order-food{
     -fx-background-radius: 40px;
 	-fx-font-family: 'HSDream-Regular';

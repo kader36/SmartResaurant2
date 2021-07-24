@@ -2,6 +2,8 @@ package BddPackage;
 
 import Models.Food;
 import javafx.scene.image.Image;
+
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -127,10 +129,12 @@ public class FoodOperation extends BDD<Food> {
 
     @Override
     public ArrayList<Food> getAll() {
+        Connet connet=new Connet();
+        Connection con =connet.connect();
         ArrayList<Food> list = new ArrayList<>();
         String query = "SELECT * FROM `food`";
         try {
-            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            PreparedStatement preparedStmt = con.prepareStatement(query);
             ResultSet resultSet = preparedStmt.executeQuery();
             while (resultSet.next()) {
                 Food food = new Food();
@@ -146,6 +150,7 @@ public class FoodOperation extends BDD<Food> {
 
                 list.add(food);
             }
+            con.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -215,6 +220,7 @@ public class FoodOperation extends BDD<Food> {
         int total = 0;
         String query = "SELECT COUNT(*) AS total FROM food";
         try {
+
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             ResultSet resultSet = preparedStmt.executeQuery();
             while (resultSet.next())

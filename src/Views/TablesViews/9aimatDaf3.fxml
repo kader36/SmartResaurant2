@@ -30,7 +30,7 @@
                      <children>
                         <HBox alignment="CENTER" prefHeight="64.0" prefWidth="337.0">
                            <children>
-                              <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="137.0" style="-fx-background-color: #3DAABB;" styleClass="btn-menu" text="تحديث" />
+                              <Button mnemonicParsing="false" onAction="#UpdateTables" prefHeight="36.0" prefWidth="137.0" style="-fx-background-color: #3DAABB;" styleClass="btn-menu" text="تحديث" />
                            </children></HBox>
                         <HBox alignment="CENTER" prefHeight="64.0" prefWidth="421.0">
                            <children>
@@ -93,11 +93,15 @@
                               <Insets left="5.0" top="30.0" />
                            </HBox.margin>
                         </VBox>
-                        <ImageView fitHeight="43.0" fitWidth="56.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../Images/PngItem.png" />
-                           </image>
-                        </ImageView>
+                        <AnchorPane maxHeight="50.0" maxWidth="50.0" prefHeight="50.0" prefWidth="50.0" styleClass="dashboard-item-image">
+                           <children>
+                              <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="9.799999237060547" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                                 <image>
+                                    <Image url="@../../Images/money.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </AnchorPane>
                      </children>
                      <padding>
                         <Insets left="5.0" right="5.0" />
@@ -126,7 +130,7 @@
             <JFXDrawer fx:id="drawerSlider" alignment="TOP_CENTER" defaultDrawerSize="282.0" maxHeight="1.7976931348623157E308" prefHeight="501.0" prefWidth="282.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
          </children>
          <BorderPane.margin>
-            <Insets top="10.0" />
+            <Insets left="5.0" top="10.0" />
          </BorderPane.margin>
       </AnchorPane>
    </left>

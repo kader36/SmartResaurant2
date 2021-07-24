@@ -1,7 +1,6 @@
 package Controllers.Tables;
 import BddPackage.OrdersOperation;
 import BddPackage.TabelsOperation;
-import BddPackage.TablegainsOperationsBDD;
 import Models.Orders;
 import Models.TableGainedMoney;
 import Models.Tables;
@@ -10,6 +9,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -121,7 +121,7 @@ public class TablesController implements Initializable {
         });
 
 
-
+        CalculeTotal();
         // set th tables gains grid view.
         int tableGainescolumn = 1;
         int tableGainesrow = 1;
@@ -232,7 +232,7 @@ public class TablesController implements Initializable {
         OrdersOperation ordersOperation=new OrdersOperation();
         tabelsOrder=ordersOperation.getAll();
         listeorder=ordersOperation.getAll();
-         NumberOrders.setText(String.valueOf(listeorder.size()));
+
         for (int orderIndex = listeorder.size()-1; orderIndex >= 0 ; orderIndex--) {
 
             // then to the interface.
@@ -274,8 +274,9 @@ public class TablesController implements Initializable {
 
 
         }
+         NumberOrders.setText(String.valueOf(listeorder.size()));
     }
-    public void CalculeTotal(){
+    public  void CalculeTotal(){
         totalEarnings=0;
         TabelsOperation tablesDataBaseConnector = new TabelsOperation();
         ArrayList<Tables> tablesList = new ArrayList<>();
@@ -283,17 +284,21 @@ public class TablesController implements Initializable {
         tablesGainedMoney.clear();
         for (int tabelIndex = 0; tabelIndex <tablesList.size() ; tabelIndex++) {
             TableGainedMoney tableGainedMoney=new TableGainedMoney();
-            TablegainsOperationsBDD tablegainsOperationsBDD=new TablegainsOperationsBDD();
+            OrdersOperation tablegainsOperationsBDD=new OrdersOperation();
             tableGainedMoney=tablegainsOperationsBDD.getElement(tablesList.get(tabelIndex));
             tablesGainedMoney.add(new TableGainedMoney(
                     tableGainedMoney.getTableId(),
                     tableGainedMoney.getGainedMoney()
             ));
-        }
-        for(int i=0;i<tablesGainedMoney.size();i++){
-            totalEarnings=totalEarnings+tablesGainedMoney.get(i).getGainedMoney();
+            totalEarnings=totalEarnings+tablesGainedMoney.get(tabelIndex).getGainedMoney();
         }
         totalDayEarnings.setText(String.valueOf(totalEarnings));
+    }
+    @FXML
+    void UpdateTables(ActionEvent event){
+        tablesGridPane.getChildren().clear();
+        lodeData();
+        CalculeTotal();
     }
     }
 

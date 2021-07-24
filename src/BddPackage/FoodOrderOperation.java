@@ -3,12 +3,14 @@ package BddPackage;
 import Models.FoodOrder;
 import Models.Orders;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class FoodOrderOperation extends BDD<FoodOrder> {
+    Connection con = connect();
     @Override
     public boolean insert(FoodOrder o) {
         boolean ins = false;

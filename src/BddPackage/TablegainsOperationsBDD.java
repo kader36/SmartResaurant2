@@ -72,6 +72,8 @@ public class TablegainsOperationsBDD  extends BDD<TableGainedMoney>{
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             preparedStmt.setDate(1,new java.sql.Date(millis));
+            System.out.println(new java.sql.Date(millis));
+            System.out.println(date);
             preparedStmt.setInt(2,o.getId());
             ResultSet resultSet = preparedStmt.executeQuery();
             while (resultSet.next()){

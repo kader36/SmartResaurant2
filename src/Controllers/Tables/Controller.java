@@ -24,6 +24,24 @@ public class Controller implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         userName.setText(CurrentUser.getEmloyer_name());
         Type.setText(CurrentUser.getType());
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../../Views/TablesViews/Dashboard.fxml"));
+            BorderPane temp = loader.load();
+            mainPane.getChildren().setAll(temp);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+    @FXML
+    void showDashborde(ActionEvent event){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../../Views/TablesViews/Dashboard.fxml"));
+            BorderPane temp = loader.load();
+            mainPane.getChildren().setAll(temp);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
     @FXML

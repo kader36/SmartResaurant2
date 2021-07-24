@@ -2,9 +2,7 @@ package BddPackage;
 
 import Models.IngredientsFood;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class IngredientsFoodOperation extends BDD<IngredientsFood> {
@@ -79,7 +77,9 @@ public class IngredientsFoodOperation extends BDD<IngredientsFood> {
     }
 
     private ArrayList<IngredientsFood> chargeData(ArrayList<IngredientsFood> list, String query) throws SQLException {
-        PreparedStatement preparedStmt = conn.prepareStatement(query);
+        Connet connet=new Connet();
+        Connection con =connet.connect();
+        PreparedStatement preparedStmt = con.prepareStatement(query);
         ResultSet resultSet = preparedStmt.executeQuery();
         while (resultSet.next()) {
             IngredientsFood ingredientsFood = new IngredientsFood();
@@ -88,14 +88,17 @@ public class IngredientsFoodOperation extends BDD<IngredientsFood> {
             ingredientsFood.setQuantity(resultSet.getInt("INGREDIENT_QUANTITY"));
             list.add(ingredientsFood);
         }
+        con.close();
         return list;
     }
 
     public ArrayList<IngredientsFood> getIngredientsFood(int idFood) {
+        Connet connet=new Connet();
+        Connection con =connet.connect();
         ArrayList<IngredientsFood> list = new ArrayList<>();
         String query = "SELECT `ID_FOOD_INGREDIENT`,`ID_PRODUCT_INGREDIENT`, `INGREDIENT_QUANTITY`,`PRODUCT_NAME` FROM`ingredients_food`,product WHERE `ID_FOOD_INGREDIENT` = ? AND ID_PRODUCT_INGREDIENT = product.ID_PRODUCT ";
         try {
-            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            PreparedStatement preparedStmt = con.prepareStatement(query);
             preparedStmt.setInt(1, idFood);
             ResultSet resultSet = preparedStmt.executeQuery();
             while (resultSet.next()) {
@@ -106,7 +109,7 @@ public class IngredientsFoodOperation extends BDD<IngredientsFood> {
                 ingredientsFood.setProduct_name(resultSet.getString("PRODUCT_NAME"));
                 list.add(ingredientsFood);
             }
-
+            con.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

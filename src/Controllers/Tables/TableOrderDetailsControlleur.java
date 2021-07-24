@@ -129,6 +129,7 @@ public class TableOrderDetailsControlleur implements Initializable {
         // close the drawer.
         TablesController.drawerOpening.setValue(! TablesController.drawerOpening.getValue());
 
+
     }
 
     // method to cancle.

@@ -215,6 +215,7 @@ public class ProductOperation extends BDD<Product> {
                 product.setTot_quantity(resultSet.getInt("QUANTITY"));
                 product.setStorage_Unit(resultSet.getString("STORAGE_UNIT"));
                 product.setLess_quantity(resultSet.getInt("LESS_QUANTITY"));
+                product.setCoefficient(resultSet.getInt("coefficient"));
             }
 
         }catch (SQLException e){

@@ -1,5 +1,6 @@
 package BddPackage;
 
+import Models.Product;
 import Models.StoreBillProduct;
 
 import java.sql.PreparedStatement;
@@ -121,5 +122,45 @@ public class StoreBillProductOperation extends BDD<StoreBillProduct> {
             list.add(storeBillProduct);
         }
         return list;
+    }
+    public ArrayList<StoreBillProduct> getParProduite(Product product) {
+        ArrayList<StoreBillProduct> list = new ArrayList<>();
+        String query = "SELECT * FROM `store_bill_product` where ID_PRODUCT=?";
+        try {
+
+            PreparedStatement preparedStmt = null;
+            preparedStmt = conn.prepareStatement(query);
+            preparedStmt.setInt(1, product.getId());
+            ResultSet resultSet = preparedStmt.executeQuery();
+        while (resultSet.next()){
+            StoreBillProduct storeBillProduct = new StoreBillProduct();
+            storeBillProduct.setId_stor_bill(resultSet.getInt(           "ID_STORE_BILL"));
+            storeBillProduct.setId_product(resultSet.getInt("ID_PRODUCT"));
+            storeBillProduct.setPrice(resultSet.getInt( "PRICE"));
+            storeBillProduct.setProduct_quantity(resultSet.getInt( "PRODUCT_QUANTITY"));
+            list.add(storeBillProduct);
+        }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return list;
+
+    }
+    public int  getMouyenPrice(Product product) {
+        int price =0;
+        String query = "SELECT avg(`PRICE`) as 'PRICE' FROM `store_bill_product` WHERE `ID_PRODUCT`=?";
+        try {
+            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            preparedStmt.setInt(1, product.getId());
+            ResultSet resultSet = preparedStmt.executeQuery();
+            while (resultSet.next()){
+                price=resultSet.getInt( "PRICE");
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return price;
     }
 }

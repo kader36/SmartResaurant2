@@ -1,14 +1,20 @@
 package BddPackage;
 
 import Models.Orders;
+import Models.TableGainedMoney;
+import Models.Tables;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class OrdersOperation extends BDD <Orders> {
-
+    long millis=System.currentTimeMillis();
     static int lastId;
     @Override
     public boolean insert(Orders o) {
@@ -90,11 +96,15 @@ public class OrdersOperation extends BDD <Orders> {
 
     @Override
     public ArrayList<Orders> getAll() {
+
+        Connet connet=new Connet();
+        Connection con =connet.connect();
         ArrayList<Orders> list = new ArrayList<>();
         String query = "SELECT * FROM `orders` WHERE `Order_Active`=1";
         try {
-            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            PreparedStatement preparedStmt = con.prepareStatement(query);
             ResultSet resultSet = preparedStmt.executeQuery();
+
             while (resultSet.next()) {
                 Orders orders = new Orders();
                 orders.setId(resultSet.getInt("ID_ORDER"));
@@ -104,10 +114,167 @@ public class OrdersOperation extends BDD <Orders> {
 
 
                 list.add(orders);
+
             }
+            connet.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        return list;
+    }
+    public ArrayList<Orders> getAllOrder() {
+
+        Connet connet=new Connet();
+        Connection con =connet.connect();
+        ArrayList<Orders> list = new ArrayList<>();
+        String query = "SELECT * FROM `orders`";
+        try {
+            PreparedStatement preparedStmt = con.prepareStatement(query);
+            ResultSet resultSet = preparedStmt.executeQuery();
+
+            while (resultSet.next()) {
+                Orders orders = new Orders();
+                orders.setId(resultSet.getInt("ID_ORDER"));
+                orders.setId_table(resultSet.getInt("ID_TABLE_ORDER"));
+                orders.setPrice(resultSet.getInt("ORDER_PRICE"));
+                orders.setTime(resultSet.getTime("ORDER_TIME"));
+
+
+                list.add(orders);
+
+            }
+            connet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+    public TableGainedMoney getElement(Tables o){
+        Connet connet=new Connet();
+        Connection con =connet.connect();
+        DateFormat dateFormat = new SimpleDateFormat("dd");
+        Date date = new Date();
+        System.out.println("la date ="+Integer.parseInt(dateFormat.format(date)));
+        Models.TableGainedMoney tableGainedMoney=new TableGainedMoney();
+        String query = "SELECT sum(`ORDER_PRICE`) FROM orders WHERE DAY(`ORDER_TIME`)=? and `ID_TABLE_ORDER`=?";
+        try {
+            PreparedStatement preparedStmt = con.prepareStatement(query);
+            preparedStmt.setInt(1, Integer.parseInt(dateFormat.format(date)));
+            preparedStmt.setInt(2,o.getId());
+            ResultSet resultSet = preparedStmt.executeQuery();
+            while (resultSet.next()){
+
+                tableGainedMoney.setGainedMoney(resultSet.getDouble(1));
+                tableGainedMoney.setTableId(o.getId());
+
+            }
+            connet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return tableGainedMoney;
+    }
+
+    public ArrayList<Orders> getelementDay() {
+
+        Connet connet=new Connet();
+        Connection con =connet.connect();
+        DateFormat dateFormat = new SimpleDateFormat("dd");
+        DateFormat dateMonth = new SimpleDateFormat("MM");
+        DateFormat dateYear = new SimpleDateFormat("yyyy");
+        Date date = new Date();
+        ArrayList<Orders> list = new ArrayList<>();
+        String query = "SELECT * FROM orders WHERE DAY(`ORDER_TIME`)=? and MONTH(`ORDER_TIME`)=? and YEAR(ORDER_TIME)=?";
+        try {
+            PreparedStatement preparedStmt = con.prepareStatement(query);
+            preparedStmt.setInt(1, Integer.parseInt(dateFormat.format(date)));
+            preparedStmt.setInt(2, Integer.parseInt(dateMonth.format(date)));
+            preparedStmt.setInt(3, Integer.parseInt(dateYear.format(date)));
+            ResultSet resultSet = preparedStmt.executeQuery();
+
+            while (resultSet.next()) {
+                Orders orders = new Orders();
+                orders.setId(resultSet.getInt("ID_ORDER"));
+                orders.setId_table(resultSet.getInt("ID_TABLE_ORDER"));
+                orders.setPrice(resultSet.getInt("ORDER_PRICE"));
+                orders.setTime(resultSet.getTime("ORDER_TIME"));
+
+
+                list.add(orders);
+
+            }
+            connet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+    public ArrayList<Orders> getelementMonth() {
+
+        Connet connet=new Connet();
+        Connection con =connet.connect();
+        DateFormat dateMonth = new SimpleDateFormat("MM");
+        DateFormat dateYear = new SimpleDateFormat("yyyy");
+        Date date = new Date();
+        ArrayList<Orders> list = new ArrayList<>();
+        String query = "SELECT * FROM orders WHERE MONTH(`ORDER_TIME`)=? and YEAR(ORDER_TIME)=?";
+        try {
+            PreparedStatement preparedStmt = con.prepareStatement(query);
+            preparedStmt.setInt(1, Integer.parseInt(dateMonth.format(date)));
+            preparedStmt.setInt(2, Integer.parseInt(dateYear.format(date)));
+            ResultSet resultSet = preparedStmt.executeQuery();
+
+            while (resultSet.next()) {
+                Orders orders = new Orders();
+                orders.setId(resultSet.getInt("ID_ORDER"));
+                orders.setId_table(resultSet.getInt("ID_TABLE_ORDER"));
+                orders.setPrice(resultSet.getInt("ORDER_PRICE"));
+                orders.setTime(resultSet.getTime("ORDER_TIME"));
+
+
+                list.add(orders);
+
+            }
+            connet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+    public ArrayList<Orders> getelementYear() {
+
+        Connet connet=new Connet();
+        Connection con =connet.connect();
+        DateFormat dateMonth = new SimpleDateFormat("MM");
+        DateFormat dateYear = new SimpleDateFormat("yyyy");
+        Date date = new Date();
+        ArrayList<Orders> list = new ArrayList<>();
+        String query = "SELECT * FROM orders WHERE YEAR(ORDER_TIME)=?";
+        try {
+            PreparedStatement preparedStmt = con.prepareStatement(query);
+            preparedStmt.setInt(1, Integer.parseInt(dateYear.format(date)));
+            ResultSet resultSet = preparedStmt.executeQuery();
+
+            while (resultSet.next()) {
+                Orders orders = new Orders();
+                orders.setId(resultSet.getInt("ID_ORDER"));
+                orders.setId_table(resultSet.getInt("ID_TABLE_ORDER"));
+                orders.setPrice(resultSet.getInt("ORDER_PRICE"));
+                orders.setTime(resultSet.getTime("ORDER_TIME"));
+
+
+                list.add(orders);
+
+            }
+            connet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         return list;
     }
 
