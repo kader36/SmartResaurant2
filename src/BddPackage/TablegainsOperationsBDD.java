@@ -19,7 +19,7 @@ public class TablegainsOperationsBDD  extends BDD<TableGainedMoney>{
 
     //@Override
     public boolean insertNewGain(TableGainedMoney o, double money) {
-
+        conn=connect();
         boolean ins = false;
         String query = "INSERT INTO `table_gaines` (`ID_TABLE`, `DATE`, `GAINED_MONEY`) VALUES (?,?,?)";
         try {
@@ -65,6 +65,7 @@ public class TablegainsOperationsBDD  extends BDD<TableGainedMoney>{
         return null;
     }
     public TableGainedMoney getElement(Tables o){
+        conn=connect();
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd ");
         Date date = new Date();
         TableGainedMoney tableGainedMoney=new TableGainedMoney();

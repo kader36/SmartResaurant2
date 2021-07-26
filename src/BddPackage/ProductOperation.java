@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class ProductOperation extends BDD<Product> {
     @Override
     public boolean insert(Product o) {
+        conn=connect();
         boolean ins = false;
         String query = "INSERT INTO `product`(`ID_PRODUCT`, `ID_PRODUCT_CATEGORY`, `PRODUCT_NAME`, `QUANTITY`, `STORAGE_UNIT`, `LESS_QUANTITY`, `Unity_Food`, `coefficient`)\n" +
                 "VALUES (?,?,?,?,?,?,?,?)";
@@ -34,6 +35,7 @@ public class ProductOperation extends BDD<Product> {
 
     @Override
     public boolean update(Product o1, Product o2) {
+        conn=connect();
         boolean upd = false;
         String query = "UPDATE `product` SET `ID_PRODUCT_CATEGORY`=?,`PRODUCT_NAME`=?,`QUANTITY`=?,`STORAGE_UNIT`=?,`LESS_QUANTITY`=? WHERE `ID_PRODUCT` = ?";
         try {
@@ -52,6 +54,7 @@ public class ProductOperation extends BDD<Product> {
         return upd;
     }
     public boolean update(Product o1) {
+        conn=connect();
         boolean upd = false;
         String query = "UPDATE `product` SET `QUANTITY`=? WHERE `ID_PRODUCT`=?";
         try {
@@ -69,6 +72,7 @@ public class ProductOperation extends BDD<Product> {
 
     @Override
     public boolean delete(Product o) {
+        conn=connect();
         boolean del = false;
         String query = "DELETE FROM `product` WHERE  `ID_PRODUCT` = ? ";
         try {
@@ -89,6 +93,7 @@ public class ProductOperation extends BDD<Product> {
 
     @Override
     public ArrayList<Product> getAll() {
+        conn=connect();
         ArrayList<Product> list = new ArrayList<>();
         String query = "SELECT `ID_PRODUCT`, `ID_PRO" +
                 "" +
@@ -138,6 +143,7 @@ public class ProductOperation extends BDD<Product> {
     }
 
     private ArrayList<Product> chargeData(ArrayList<Product> list, String query) throws SQLException {
+        conn=connect();
         PreparedStatement preparedStmt = conn.prepareStatement(query);
         ResultSet resultSet = preparedStmt.executeQuery();
         while (resultSet.next()) {
@@ -154,6 +160,7 @@ public class ProductOperation extends BDD<Product> {
     }
 
     public int getNbDeadProduct() {
+        conn=connect();
         int emptyQuantity = 0;
         String query = "SELECT `ID_PRODUCT`, `ID_PRODUCT_CATEGORY`, `CATEGORY_NAME`, `PRODUCT_NAME`, `STORAGE_UNIT`, `QUANTITY` FROM `product`,`product_category` WHERE product.ID_PRODUCT_CATEGORY = product_category.ID_CATEGORY";
         try {
@@ -171,6 +178,7 @@ public class ProductOperation extends BDD<Product> {
     }
 
     public int getNbLessQuantity() {
+        conn=connect();
         int emptyQuantity = 0;
         String query = "SELECT `ID_PRODUCT`, `ID_PRODUCT_CATEGORY`, `CATEGORY_NAME`, `PRODUCT_NAME`, `STORAGE_UNIT`, `QUANTITY` FROM `product`,`product_category` WHERE product.ID_PRODUCT_CATEGORY = product_category.ID_CATEGORY";
         try {
@@ -188,6 +196,7 @@ public class ProductOperation extends BDD<Product> {
     }
 
     public int getCountProduct(){
+        conn=connect();
         int total = 0;
         String query = "SELECT COUNT(*) AS total FROM product";
         try {
@@ -201,6 +210,7 @@ public class ProductOperation extends BDD<Product> {
         return total;
     }
     public  Product GetProduct(int  idProduct){
+        conn=connect();
         String query = "SELECT * FROM `product` WHERE `ID_PRODUCT` =?";
         Product product=new Product();
         try {
@@ -225,6 +235,7 @@ public class ProductOperation extends BDD<Product> {
 
     }
     public  Product GetProduct(String  nameProduct){
+        conn=connect();
         String query = "SELECT * FROM `product` WHERE `PRODUCT_NAME` =?";
         Product product=new Product();
         try {

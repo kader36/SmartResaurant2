@@ -87,7 +87,7 @@ public class ProviderOperation extends BDD<Provider> {
 
     @Override
     public ArrayList<Provider> getAll() {
-
+        conn=connect();
         ArrayList<Provider> list = new ArrayList<>();
         String query = "SELECT * FROM `provider`";
         try {
@@ -124,6 +124,7 @@ public class ProviderOperation extends BDD<Provider> {
 
 
     private ArrayList<Provider> chargeData(ArrayList<Provider> list, String query) throws SQLException {
+        conn=connect();
         PreparedStatement preparedStmt = conn.prepareStatement(query);
         ResultSet resultSet = preparedStmt.executeQuery();
         ValuesStatic.totCreditor = 0;
@@ -157,6 +158,7 @@ public class ProviderOperation extends BDD<Provider> {
     }
 
     public int getCountProvider() {
+        conn=connect();
         int total = 0;
         String query = "SELECT COUNT(*) AS total FROM provider";
         try {

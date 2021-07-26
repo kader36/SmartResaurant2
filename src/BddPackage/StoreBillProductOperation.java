@@ -99,6 +99,7 @@ public class StoreBillProductOperation extends BDD<StoreBillProduct> {
 
     @Override
     public ArrayList<StoreBillProduct> getAll() {
+        conn=connect();
         ArrayList<StoreBillProduct> list = new ArrayList<>();
         String query = "SELECT * FROM `store_bill_product`";
         try {
@@ -111,6 +112,7 @@ public class StoreBillProductOperation extends BDD<StoreBillProduct> {
     }
 
     private ArrayList<StoreBillProduct> chargeData(ArrayList<StoreBillProduct> list, String query) throws SQLException {
+        conn=connect();
         PreparedStatement preparedStmt = conn.prepareStatement(query);
         ResultSet resultSet = preparedStmt.executeQuery();
         while (resultSet.next()){
@@ -150,14 +152,14 @@ public class StoreBillProductOperation extends BDD<StoreBillProduct> {
         int price =0;
         String query = "SELECT avg(`PRICE`) as 'PRICE' FROM `store_bill_product` WHERE `ID_PRODUCT`=?";
         try {
+            conn=connect();
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             preparedStmt.setInt(1, product.getId());
             ResultSet resultSet = preparedStmt.executeQuery();
             while (resultSet.next()){
                 price=resultSet.getInt( "PRICE");
             }
-
-
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

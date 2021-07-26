@@ -56,12 +56,11 @@ public class UserOperation extends BDD<User>{
 
     @Override
     public ArrayList<User> getAll() {
-        Connet connet=new Connet();
-        Connection con =connet.connect();
+        conn=connect();
         ArrayList<User> list = new ArrayList<>();
         String query = "SELECT * FROM `users`,employer WHERE users.ID_EMPLOYER=employer.ID_EMPLOYER";
         try {
-            PreparedStatement preparedStmt = con.prepareStatement(query);
+            PreparedStatement preparedStmt = conn.prepareStatement(query);
             ResultSet resultSet = preparedStmt.executeQuery();
             while (resultSet.next()) {
                 User user=new User();
@@ -73,7 +72,7 @@ public class UserOperation extends BDD<User>{
                 list.add(user);
 
             }
-            con.close();
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -82,6 +81,7 @@ public class UserOperation extends BDD<User>{
 
     }
     public boolean getUser(User o){
+         conn=connect();
        boolean exist=false;
         String query = " SELECT * FROM `users` WHERE `USERNAME`=? and `PASSWORD`=?";
         try {
@@ -94,7 +94,11 @@ public class UserOperation extends BDD<User>{
         } catch (SQLException e) {
             e.printStackTrace();
         }finally {
-            close();
+            try {
+                conn.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         }
         return exist;
     }

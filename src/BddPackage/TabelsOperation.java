@@ -79,18 +79,17 @@ public class TabelsOperation extends BDD<Tables> {
 
     @Override
     public ArrayList<Tables> getAll() {
-        Connet connet=new Connet();
-        Connection con =connet.connect();
+        conn=connect();
         ArrayList<Tables> list = new ArrayList<>();
         String query = "SELECT * FROM `tables`";
         try {
-            PreparedStatement preparedStmt = con.prepareStatement(query);
+            PreparedStatement preparedStmt = conn.prepareStatement(query);
             ResultSet resultSet = preparedStmt.executeQuery();
             while (resultSet.next()){
                Tables tables = new Tables(resultSet.getInt(1),resultSet.getInt(2),resultSet.getString(3));
                 list.add(tables);
             }
-            con.close();
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

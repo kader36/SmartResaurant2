@@ -3,7 +3,6 @@ package BddPackage;
 import Models.Food;
 import javafx.scene.image.Image;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -129,12 +128,11 @@ public class FoodOperation extends BDD<Food> {
 
     @Override
     public ArrayList<Food> getAll() {
-        Connet connet=new Connet();
-        Connection con =connet.connect();
+        conn=connect();
         ArrayList<Food> list = new ArrayList<>();
         String query = "SELECT * FROM `food`";
         try {
-            PreparedStatement preparedStmt = con.prepareStatement(query);
+            PreparedStatement preparedStmt = conn.prepareStatement(query);
             ResultSet resultSet = preparedStmt.executeQuery();
             while (resultSet.next()) {
                 Food food = new Food();
@@ -150,7 +148,7 @@ public class FoodOperation extends BDD<Food> {
 
                 list.add(food);
             }
-            con.close();
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -174,9 +172,11 @@ public class FoodOperation extends BDD<Food> {
     }
 
     public Food getFoodByID(int idFood) {
+
         Food food = new Food();
         String query = "select  * from `food` WHERE `ID_FOOD` = ? ";
         try {
+            conn=connect();
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             preparedStmt.setInt(1, idFood);
 
@@ -191,6 +191,7 @@ public class FoodOperation extends BDD<Food> {
                 food.setRating(resultSet.getInt("RATING"));
                 food.setAvailabale(resultSet.getBoolean("AVAILABLE"));
             }
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -198,6 +199,7 @@ public class FoodOperation extends BDD<Food> {
     }
 
     public int getIdFood(Food food) {
+        conn=connect();
         int i=0;
         String query = "select  * from food ";
         try {
@@ -210,6 +212,7 @@ public class FoodOperation extends BDD<Food> {
                 System.out.println("values of data : " + resultSet.getInt("ID_PROVIDER_OPERATION") + " " + resultSet.getInt("ID_USER_OPERATION") + " " + resultSet.getInt("PAID_UP"));
 
             }
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

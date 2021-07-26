@@ -7,30 +7,24 @@ import java.util.ArrayList;
 
 abstract class BDD<Object> {
 
-    Connection conn=null;
+    Connection conn;
 
-    BDD() {
-        connect();
-    }
 
     public Connection connect(){
-
+        conn=null;
         // db parameters
         // localhost:3306/ResturantDB?useSSL=false
         String url = "jdbc:mysql://localhost/resaturentdb";
         String user = "root";
         String password = "";
-        String unicode= "?useUnicode=yes&characterEncoding=UTF-8";
         try {
-
             conn = DriverManager.getConnection(url, user, password);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
             if (conn != null) {
                 System.out.println("Connected to the database");
             }
-        } catch (SQLException throwables) {
-            System.out.println("An error occurred. Maybe user/password is invalid");
-            throwables.printStackTrace();
-        }
 
         return conn;
 

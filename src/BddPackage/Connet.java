@@ -1,13 +1,12 @@
 package BddPackage;
 
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Connet {
     Connection conn=null;
-    public Connection connect()  {
+    public Connection connection()  {
 
         // db parameters
         // localhost:3306/ResturantDB?useSSL=false
@@ -16,7 +15,7 @@ public class Connet {
         String password = "";
         String unicode= "?useUnicode=yes&characterEncoding=UTF-8";
         try {
-
+            conn=null;
             conn = DriverManager.getConnection(url, user, password);
             if (conn != null) {
                 System.out.println("Connected to the database");
@@ -32,6 +31,7 @@ public class Connet {
 
     }
     void close(){
-        if (conn != null) try { conn.close(); } catch (SQLException ignore) {}
+       try { conn.close(); } catch (SQLException ignore) {}
     }
+
 }

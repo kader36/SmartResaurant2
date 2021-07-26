@@ -77,9 +77,8 @@ public class IngredientsFoodOperation extends BDD<IngredientsFood> {
     }
 
     private ArrayList<IngredientsFood> chargeData(ArrayList<IngredientsFood> list, String query) throws SQLException {
-        Connet connet=new Connet();
-        Connection con =connet.connect();
-        PreparedStatement preparedStmt = con.prepareStatement(query);
+        connect();
+        PreparedStatement preparedStmt = conn.prepareStatement(query);
         ResultSet resultSet = preparedStmt.executeQuery();
         while (resultSet.next()) {
             IngredientsFood ingredientsFood = new IngredientsFood();
@@ -88,17 +87,16 @@ public class IngredientsFoodOperation extends BDD<IngredientsFood> {
             ingredientsFood.setQuantity(resultSet.getInt("INGREDIENT_QUANTITY"));
             list.add(ingredientsFood);
         }
-        con.close();
+        conn.close();
         return list;
     }
 
     public ArrayList<IngredientsFood> getIngredientsFood(int idFood) {
-        Connet connet=new Connet();
-        Connection con =connet.connect();
+        connect();
         ArrayList<IngredientsFood> list = new ArrayList<>();
         String query = "SELECT `ID_FOOD_INGREDIENT`,`ID_PRODUCT_INGREDIENT`, `INGREDIENT_QUANTITY`,`PRODUCT_NAME` FROM`ingredients_food`,product WHERE `ID_FOOD_INGREDIENT` = ? AND ID_PRODUCT_INGREDIENT = product.ID_PRODUCT ";
         try {
-            PreparedStatement preparedStmt = con.prepareStatement(query);
+            PreparedStatement preparedStmt = conn.prepareStatement(query);
             preparedStmt.setInt(1, idFood);
             ResultSet resultSet = preparedStmt.executeQuery();
             while (resultSet.next()) {
@@ -109,7 +107,7 @@ public class IngredientsFoodOperation extends BDD<IngredientsFood> {
                 ingredientsFood.setProduct_name(resultSet.getString("PRODUCT_NAME"));
                 list.add(ingredientsFood);
             }
-            con.close();
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

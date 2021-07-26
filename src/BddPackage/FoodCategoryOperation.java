@@ -80,7 +80,7 @@ public class FoodCategoryOperation extends BDD<FoodCategory> {
         return list;
     }
     public FoodCategory getCategory(int o) {
-
+        conn=connect();
         String query = "SELECT * FROM `food_category` WHERE `ID_Food_Category`=?";
         FoodCategory foodCategory = new FoodCategory();
         try {

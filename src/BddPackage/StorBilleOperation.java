@@ -72,6 +72,7 @@ public class StorBilleOperation extends BDD<StoreBill> {
 
     @Override
     public ArrayList<StoreBill> getAll() {
+        conn=connect();
         ArrayList<StoreBill> list = new ArrayList<>();
         String query = "SELECT * FROM `store_bill`";
         //SELECT `ID_STORE_BILL`, `STORE_BILL_DATE`, `ID_USER_OPERATION`, `ID_PROVIDER_OPERATION`,
@@ -115,7 +116,7 @@ public class StorBilleOperation extends BDD<StoreBill> {
                     ValuesStatic.credetorWeek += storeBill.getTotal() - storeBill.getPaid_up();
                 }
             }
-
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -147,6 +148,7 @@ public class StorBilleOperation extends BDD<StoreBill> {
     }
 
     public int getCountStoreBill() {
+        conn=connect();
         int total = 0;
         String query = "SELECT COUNT(*) AS total FROM store_bill";
         try {
