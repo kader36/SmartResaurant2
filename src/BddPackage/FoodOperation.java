@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class FoodOperation extends BDD<Food> {
 
     public boolean changeAvailability(Food o){
+        conn=connect();
         boolean ins = false;
         String query = "UPDATE `food` SET `AVAILABLE` = ? WHERE `ID_FOOD` = ?";
         try {
@@ -27,6 +28,7 @@ public class FoodOperation extends BDD<Food> {
 
     @Override
     public boolean insert(Food o) {
+        conn=connect();
         boolean ins = false;
         String query = "INSERT INTO `food`(`ID_Food_Category`, `FOOD_NAME`, `DESCRIPTION`, `FOOD_PRICE`, `FOOD_IMAGE`, `ID_FOOD`) \n" +
                 "VALUES (?,?,?,?,?,?)";
@@ -49,6 +51,7 @@ public class FoodOperation extends BDD<Food> {
 
     @Override
     public boolean update(Food o1, Food o2) {
+        conn=connect();
         boolean upd = false;
         String query = "UPDATE `food` SET `ID_Food_Category`= ?,`FOOD_NAME`= ?,`DESCRIPTION`= ?,`FOOD_PRICE`= ?,`FOOD_IMAGE`= ? WHERE `ID_FOOD`= ?";
         try {
@@ -68,6 +71,7 @@ public class FoodOperation extends BDD<Food> {
 
     }
     public ArrayList<Food> getAllBy(String orderBY) {
+        conn=connect();
         ArrayList<Food> list = new ArrayList<>();
         String query = "SELECT * FROM `food` ORDER BY " + orderBY + " ASC ";
         try {
@@ -80,6 +84,7 @@ public class FoodOperation extends BDD<Food> {
     }
 
     private ArrayList<Food> chargeData(ArrayList<Food> list, String query) throws SQLException{
+        conn=connect();
         PreparedStatement preparedStmt = conn.prepareStatement(query);
         ResultSet resultSet = preparedStmt.executeQuery();
         while (resultSet.next()) {
@@ -97,6 +102,7 @@ public class FoodOperation extends BDD<Food> {
 
     @Override
     public boolean delete(Food o) {
+        conn=connect();
         boolean del = false;
         String query = "DELETE FROM `food` WHERE `ID_FOOD` = ?";
         try {
@@ -112,6 +118,7 @@ public class FoodOperation extends BDD<Food> {
 
     @Override
     public boolean isExist(Food o) {
+        conn=connect();
         String query = "SELECT * FROM `food`";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
@@ -156,6 +163,7 @@ public class FoodOperation extends BDD<Food> {
     }
 
     public int lastID() {
+        conn=connect();
         int idlastFood = 0;
         String query = "select `ID_FOOD` from `food` ORDER BY `ID_FOOD` DESC LIMIT 1 ";
         try {
@@ -172,7 +180,7 @@ public class FoodOperation extends BDD<Food> {
     }
 
     public Food getFoodByID(int idFood) {
-
+        conn=connect();
         Food food = new Food();
         String query = "select  * from `food` WHERE `ID_FOOD` = ? ";
         try {
@@ -220,6 +228,7 @@ public class FoodOperation extends BDD<Food> {
     }
 
     public int getCountFood() {
+        conn=connect();
         int total = 0;
         String query = "SELECT COUNT(*) AS total FROM food";
         try {

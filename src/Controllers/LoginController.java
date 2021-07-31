@@ -51,6 +51,11 @@ public class LoginController {
                     CurrentUser.setType(list.get(i).getType());
                 }
             }
+            UserOperation userOperation1=new UserOperation();
+            User user1=new User();
+            user=userOperation1.getUserParUser(CurrentUser.getUserName());
+            CurrentUser.setId(user.getId());
+
 
             try {
                 root = FXMLLoader.load(getClass().getResource("../Views/MainScreen.fxml"));

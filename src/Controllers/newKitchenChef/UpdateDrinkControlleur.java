@@ -1,7 +1,7 @@
 package Controllers.newKitchenChef;
 
 import BddPackage.DrinksCategoryOperation;
-import BddPackage.DrinksOperation;
+import BddPackage.FoodProductComposeOperation;
 import Models.Drinks;
 import Models.DrinksCategory;
 import javafx.fxml.FXML;
@@ -104,7 +104,7 @@ public class UpdateDrinkControlleur implements Initializable {
     // method to confirm the update.
     void updateDrinkData(){
 
-        DrinksOperation databaseConnector = new DrinksOperation();
+        FoodProductComposeOperation databaseConnector = new FoodProductComposeOperation();
         if (
                 drinkNameTextField.getText().isEmpty() == true ||
                         drinkDescriptionTextArea.getText().isEmpty() == true ||
@@ -137,7 +137,7 @@ public class UpdateDrinkControlleur implements Initializable {
             newDrink.setDescription(drinkDescriptionTextArea.getText());
             newDrink.setId_category(selectedCategoryID);
             newDrink.setAvailable(selectedDrinkData.isAvailable());
-            databaseConnector.update(newDrink,newDrink);
+           // databaseConnector.update(newDrink,newDrink);
 
             PDFReportGenerators.showNotification(
                     "تحديث المعلومات",

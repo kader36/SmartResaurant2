@@ -2,7 +2,6 @@ package BddPackage;
 
 import Models.User;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,6 +10,7 @@ import java.util.ArrayList;
 public class UserOperation extends BDD<User>{
     @Override
     public boolean insert(User o) {
+        conn=connect();
         boolean ins = false;
         String query = "INSERT INTO `users`( `ID_EMPLOYER`, `USERNAME`, `PASSWORD`, `TYPE`)  \n" +
                 "VALUES (?,?,?,?)";
@@ -41,6 +41,7 @@ public class UserOperation extends BDD<User>{
 
     @Override
     public boolean isExist(User o) {
+        conn=connect();
         boolean exist=false;
         String query = "SELECT * FROM `users` WHERE `USERNAME`=?";
         try {
@@ -101,5 +102,31 @@ public class UserOperation extends BDD<User>{
             }
         }
         return exist;
+    }
+    public User getUserParUser(String username){
+        conn=connect();
+        User user=new User();
+        String query = " SELECT * FROM `users` WHERE `USERNAME`=? ";
+        try {
+            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            preparedStmt.setString(1,username);
+            ResultSet resultSet = preparedStmt.executeQuery();
+
+
+            while (resultSet.next()) {
+                user.setId(resultSet.getInt("ID_USER"));
+                user.setUserName(resultSet.getString("USERNAME"));
+                user.setType(resultSet.getString("TYPE"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                conn.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        return user;
     }
 }

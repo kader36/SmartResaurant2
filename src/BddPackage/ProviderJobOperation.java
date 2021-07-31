@@ -1,6 +1,5 @@
 package BddPackage;
 
-import Models.Provider;
 import Models.ProviderJob;
 
 import java.sql.PreparedStatement;
@@ -11,7 +10,7 @@ import java.util.ArrayList;
 public class ProviderJobOperation extends BDD<ProviderJob> {
     @Override
     public boolean insert(ProviderJob o) {
-        //INSERT INTO `PROVIDER_jOB`(`ID`, `TYPE`) VALUES ([value-1],[value-2])
+        conn=connect();
         boolean ins = false;
         String query = "INSERT INTO `provider_job`(`TYPE`) VALUES (?)";
         try {
@@ -27,6 +26,7 @@ public class ProviderJobOperation extends BDD<ProviderJob> {
 
     @Override
     public boolean update(ProviderJob o1, ProviderJob o2) {
+        conn=connect();
         boolean upd = false;
         String query = "UPDATE `provider_job` SET `TYPE`=? WHERE `ID` = ? ";
         try {
@@ -42,6 +42,7 @@ public class ProviderJobOperation extends BDD<ProviderJob> {
 
     @Override
     public boolean delete(ProviderJob o) {
+        conn=connect();
         boolean del = false;
         String query = "DELETE FROM `provider_job` WHERE ID = ? ";
         try {
@@ -62,6 +63,7 @@ public class ProviderJobOperation extends BDD<ProviderJob> {
 
     @Override
     public ArrayList<ProviderJob> getAll() {
+        conn=connect();
         ArrayList<ProviderJob> list = new ArrayList<>();
         String query = "SELECT * FROM `provider_job`";
         try {

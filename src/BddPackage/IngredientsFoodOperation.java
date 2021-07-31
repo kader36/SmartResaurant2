@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class IngredientsFoodOperation extends BDD<IngredientsFood> {
     @Override
     public boolean insert(IngredientsFood o) {
-
+        conn=connect();
         boolean ins = false;
         String query = "INSERT INTO `ingredients_food`(`ID_FOOD_INGREDIENT`, `ID_PRODUCT_INGREDIENT`,`INGREDIENT_QUANTITY`) VALUES (?,?,?)";
         try {
@@ -26,6 +26,7 @@ public class IngredientsFoodOperation extends BDD<IngredientsFood> {
 
     @Override
     public boolean update(IngredientsFood o1, IngredientsFood o2) {
+        conn=connect();
         boolean upd = false;
         String query = "UPDATE `ingredients_food` SET  `INGREDIENT_QUANTITY`=? WHERE `ID_FOOD_INGREDIENT`= ? AND `ID_PRODUCT_INGREDIENT` = ?";
         try {
@@ -44,6 +45,7 @@ public class IngredientsFoodOperation extends BDD<IngredientsFood> {
 
     @Override
     public boolean delete(IngredientsFood o) {
+        conn=connect();
         String query = "DELETE FROM `ingredients_food` WHERE `ID_FOOD_INGREDIENT` = ? AND `ID_PRODUCT_INGREDIENT` = ?";
         boolean del = false;
         try {
@@ -77,7 +79,7 @@ public class IngredientsFoodOperation extends BDD<IngredientsFood> {
     }
 
     private ArrayList<IngredientsFood> chargeData(ArrayList<IngredientsFood> list, String query) throws SQLException {
-        connect();
+        conn=connect();
         PreparedStatement preparedStmt = conn.prepareStatement(query);
         ResultSet resultSet = preparedStmt.executeQuery();
         while (resultSet.next()) {
@@ -92,7 +94,7 @@ public class IngredientsFoodOperation extends BDD<IngredientsFood> {
     }
 
     public ArrayList<IngredientsFood> getIngredientsFood(int idFood) {
-        connect();
+        conn=connect();
         ArrayList<IngredientsFood> list = new ArrayList<>();
         String query = "SELECT `ID_FOOD_INGREDIENT`,`ID_PRODUCT_INGREDIENT`, `INGREDIENT_QUANTITY`,`PRODUCT_NAME` FROM`ingredients_food`,product WHERE `ID_FOOD_INGREDIENT` = ? AND ID_PRODUCT_INGREDIENT = product.ID_PRODUCT ";
         try {

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class StoreBillProductOperation extends BDD<StoreBillProduct> {
     @Override
     public boolean insert(StoreBillProduct o) {
+        conn=connect();
         boolean ins = false;
         String query = "INSERT INTO `store_bill_product`(`ID_STORE_BILL`, `ID_PRODUCT`, `PRICE`, `PRODUCT_QUANTITY`) VALUES (?,?,?,?)";
         try {
@@ -53,6 +54,7 @@ public class StoreBillProductOperation extends BDD<StoreBillProduct> {
 
     @Override
     public boolean update(StoreBillProduct o1, StoreBillProduct o2) {
+        conn=connect();
         boolean upd = false;
         String query = "UPDATE `store_bill_product` SET `ID_PRODUCT`= ?,`PRICE`= ?,`PRODUCT_QUANTITY`= ? WHERE `ID_STORE_BILL`= ?";
         try {
@@ -78,6 +80,7 @@ public class StoreBillProductOperation extends BDD<StoreBillProduct> {
 
 
     public boolean delete(int o) {
+        conn=connect();
         boolean del = false;
         String query = "DELETE FROM `store_bill_product` WHERE ID_STORE_BILL = ? ";
         try {
@@ -126,6 +129,7 @@ public class StoreBillProductOperation extends BDD<StoreBillProduct> {
         return list;
     }
     public ArrayList<StoreBillProduct> getParProduite(Product product) {
+        conn=connect();
         ArrayList<StoreBillProduct> list = new ArrayList<>();
         String query = "SELECT * FROM `store_bill_product` where ID_PRODUCT=?";
         try {
@@ -149,6 +153,7 @@ public class StoreBillProductOperation extends BDD<StoreBillProduct> {
 
     }
     public int  getMouyenPrice(Product product) {
+        conn=connect();
         int price =0;
         String query = "SELECT avg(`PRICE`) as 'PRICE' FROM `store_bill_product` WHERE `ID_PRODUCT`=?";
         try {

@@ -1,16 +1,16 @@
 package Controllers.stroreKeeper;
 
 
-import BddPackage.ProductOperation;
-import BddPackage.ProviderOperation;
-import BddPackage.StorBilleOperation;
-import BddPackage.StoreBillProductOperation;
-import Controllers.ValuesStatic;
+import BddPackage.*;
 import Models.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.AreaChart;
+import javafx.scene.chart.PieChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -18,10 +18,15 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 public class DashboardController implements Initializable {
+    @FXML
+    private Label totalefact;
 
     @FXML
     private BorderPane mainPane;
@@ -94,6 +99,12 @@ public class DashboardController implements Initializable {
 
     @FXML
     private TableColumn<?, ?> col_Total;
+    @FXML
+    private PieChart piechart;
+    @FXML
+    private AreaChart<?, ?> areachart;
+    @FXML
+    private Label Incomee;
 
 
     StorBilleOperation storBilleOperation = new StorBilleOperation();
@@ -106,9 +117,16 @@ public class DashboardController implements Initializable {
     private ObservableList<Provider> dataTableProvider = FXCollections.observableArrayList();
     private ObservableList<BillList> dataTableFact = FXCollections.observableArrayList();
     private StoreBillProductOperation storeBillProductOperation = new StoreBillProductOperation();
+    private ObservableList<PieChart.Data> datapiechart ;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        chargepiechart();
+        totalAmountCalculation();
+        IncomeCalculation("day");
+        masarif("day");
+        AreaChartDay();
+        credetCalcule();
+        ProductFinished();
     }
 
     public void Init(BorderPane mainPane){
@@ -116,29 +134,14 @@ public class DashboardController implements Initializable {
         storBilleOperation.getAll();
         totFact.setText(String.valueOf(storBilleOperation.getCountStoreBill()));
         totProvider.setText(String.valueOf(providerOperation.getCountProvider()));
-        totCreditor.setText(ValuesStatic.totCreditor + ".00");
-        factToday.setText(String.valueOf(ValuesStatic.factToday));
-        credetorToday.setText( "00");
-        factMonth.setText(String.valueOf(ValuesStatic.factMonth));
-        CredetorMonth.setText(ValuesStatic.credetorMonth + ".00");
-        factWeek.setText(String.valueOf(ValuesStatic.factWeek));
-        credetorWeek.setText(ValuesStatic.credetorWeek + ".00");
+
+
 
         //chargeProductFinishedTable();
         chargeCredtorProviderTable();
-        chargeFactTable();
+
     }
 
-    private void chargeFactTable() {
-        col_Bill_number.setCellValueFactory(new PropertyValueFactory<>("number"));
-        col_Date.setCellValueFactory(new PropertyValueFactory<>("date"));
-        col_Provider.setCellValueFactory(new PropertyValueFactory<>("provider_name"));
-        col_Paid.setCellValueFactory(new PropertyValueFactory<>("Paid_up"));
-        col_Total.setCellValueFactory(new PropertyValueFactory<>("total"));
-        list_Fact = chargeListBill();
-        dataTableFact.setAll(list_Fact);
-        factTable.setItems(dataTableFact);
-    }
 
     private ArrayList<BillList> chargeListBill() {
         ArrayList<BillList> list = new ArrayList<>();
@@ -186,4 +189,264 @@ public class DashboardController implements Initializable {
         dataTableProduct.setAll(list_Products);
         productFinishedTable.setItems(dataTableProduct);
     }
+    private void chargepiechart() {
+        ArrayList<FoodOrder> list = new ArrayList<>();
+        FoodOrderOperation food=new FoodOrderOperation();
+        int max1 =0,max2 =0,max3=0;
+        int number=0,index1=0,index2=0,index3=0;
+        list=food.getAll();
+        for ( int j=1;j<=list.get(list.size()-1).getId_food();j++){
+            number=food.getTopFood(j);
+            if(number > max1){
+                max3=max2;
+                index3=index2;
+                max2=max1;
+                index2=index1;
+                max1=number;
+                index1=j;
+                System.out.println("max1="+max1);
+                System.out.println("max2="+max2);
+                System.out.println("max2="+max3);
+                System.out.println("===========");
+            }else {
+                if(number > max2){
+                    max3=max2;
+                    index3=index2;
+                    max2=number;
+                    index2=j;
+                    System.out.println("max1="+max2);
+                    System.out.println("max2="+max3);
+                    System.out.println("===========");
+                }else {
+                    if(number > max3){
+                        max3=number;
+                        index3=j;
+                        System.out.println("max2="+max2);
+                        System.out.println("max3="+max3);
+                        System.out.println("===========");
+                    }
+
+                }
+            }
+        }
+        Food food1 =new Food();
+        Food food2 =new Food();
+        Food food3 =new Food();
+        FoodOperation foodOperation =new FoodOperation();
+        food1=foodOperation.getFoodByID(index1);
+        food2=foodOperation.getFoodByID(index2);
+        food3=foodOperation.getFoodByID(index3);
+
+        datapiechart = FXCollections.observableArrayList();
+        datapiechart.add(new PieChart.Data(food1.getName(), max1));
+        datapiechart.add(new PieChart.Data(food2.getName(), max2));
+        datapiechart.add(new PieChart.Data(food3.getName(), max3));
+        piechart.setData(datapiechart);
+    }
+
+    void AreaChartDay(){
+        areachart.getData().clear();
+        areachart.getData().removeAll();
+
+        OrdersOperation ordersOperation1=new OrdersOperation();
+        MoneyWithdrawalOperationsBDD moneyWithdrawalOperationsBDD=new MoneyWithdrawalOperationsBDD();
+        XYChart.Series p1=new XYChart.Series();
+        p1.setName("المدخيل");
+        int price=0;
+        int j=0;
+
+        DateFormat dateFormat = new SimpleDateFormat("dd");
+        Date date = new Date();
+        for ( j=1;j<32;j++){
+            price=ordersOperation1.getelementDay(j);
+            p1.getData().add(new XYChart.Data (""+j,price));
+
+        }
+        XYChart.Series p2=new XYChart.Series();
+        p2.setName("المصاريف");
+        StorBilleOperation storBilleOperation=new StorBilleOperation();
+        for ( j=1;j<32;j++){
+            price=storBilleOperation.getBillParDy(j);
+            p2.getData().add(new XYChart.Data (""+j,price));
+
+        }
+
+        XYChart.Series p3=new XYChart.Series();
+        p3.setName("المال المستخرج ");
+        for ( j=1;j<32;j++){
+            price=moneyWithdrawalOperationsBDD.getMonyDay(j);
+            p3.getData().add(new XYChart.Data (""+j,price));
+
+        }
+        areachart.getData().addAll(p1,p2,p3);
+
+    }
+    void AreaChartMonth(){
+        areachart.getData().clear();
+        areachart.getData().removeAll();
+
+        OrdersOperation ordersOperation1=new OrdersOperation();
+        MoneyWithdrawalOperationsBDD moneyWithdrawalOperationsBDD=new MoneyWithdrawalOperationsBDD();
+        XYChart.Series p1=new XYChart.Series();
+        p1.setName("المدخيل");
+        int price=0;
+        int j=0;
+
+        DateFormat dateFormat = new SimpleDateFormat("dd");
+        Date date = new Date();
+        for ( j=1;j<13;j++){
+            price=ordersOperation1.getelementMonth(j);
+            p1.getData().add(new XYChart.Data (""+j,price));
+
+        }
+        XYChart.Series p2=new XYChart.Series();
+        p2.setName("المصاريف");
+        StorBilleOperation storBilleOperation=new StorBilleOperation();
+        for ( j=1;j<13;j++){
+            price=storBilleOperation.getBillParMonth(j);
+            p2.getData().add(new XYChart.Data (""+j,price));
+
+        }
+
+        XYChart.Series p3=new XYChart.Series();
+        p3.setName("المال المستخرج ");
+        for ( j=1;j<13;j++){
+            price=moneyWithdrawalOperationsBDD.getMonyMonth(j);
+            p3.getData().add(new XYChart.Data (""+j,price));
+
+        }
+        areachart.getData().addAll(p1,p2,p3);
+
+    }
+    void AreaChartYear(){
+        areachart.getData().clear();
+        areachart.getData().removeAll();
+
+        OrdersOperation ordersOperation1=new OrdersOperation();
+        MoneyWithdrawalOperationsBDD moneyWithdrawalOperationsBDD=new MoneyWithdrawalOperationsBDD();
+        XYChart.Series p1=new XYChart.Series();
+        p1.setName("المدخيل");
+        int price=0;
+        int j=0;
+
+        DateFormat dateYear = new SimpleDateFormat("yyyy");
+        Date date = new Date();
+        int i=Integer.parseInt(dateYear.format(date))-5;
+        for ( j=i;j<i+6;j++){
+            price=ordersOperation1.getelementYear(j);
+            p1.getData().add(new XYChart.Data (""+j,price));
+
+        }
+        XYChart.Series p2=new XYChart.Series();
+        p2.setName("المصاريف");
+        StorBilleOperation storBilleOperation=new StorBilleOperation();
+        for ( j=i;j<i+6;j++){
+            price=storBilleOperation.getBillParYear(j);
+            p2.getData().add(new XYChart.Data (""+j,price));
+
+        }
+
+        XYChart.Series p3=new XYChart.Series();
+        p3.setName("المال المستخرج ");
+        for ( j=i;j<i+6;j++){
+            price=moneyWithdrawalOperationsBDD.getMonyYear(j);
+            p3.getData().add(new XYChart.Data (""+j,price));
+
+        }
+        areachart.getData().addAll(p1,p2,p3);
+
+    }
+    void totalAmountCalculation(){
+        double Income=0.0;
+
+        ArrayList<Orders> list = new ArrayList<>();
+        OrdersOperation ordersOperation=new OrdersOperation();
+        list=ordersOperation.getAllOrder();
+        for (int i=0;i<list.size();i++){
+            Income=Income+list.get(i).getPrice();
+        }
+        ArrayList<MoneyWithdrawal> listmony = new ArrayList<>();
+        MoneyWithdrawalOperationsBDD mony =new MoneyWithdrawalOperationsBDD();
+        listmony=mony.getAll();
+        for (int j=0;j<listmony.size();j++){
+            Income=Income-listmony.get(j).getMoneyWithdrawn();
+        }
+
+        int da= (int) Income;
+        totalefact.setText(String.valueOf(da+",00"));
+
+    }
+    void IncomeCalculation(String dat){
+        double Income=0.0;
+        ArrayList<Orders> list = new ArrayList<>();
+        OrdersOperation ordersOperation=new OrdersOperation();
+        if(dat.equals("day"))
+            list=ordersOperation.getelementDay();
+        else{
+            if(dat.equals("month"))
+                list=ordersOperation.getelementMonth();
+            else
+                list=ordersOperation.getelementYear();
+        }
+        for (int i=0;i<list.size();i++){
+            Income+=list.get(i).getPrice();
+        }
+        int da=(int)Income;
+        Incomee.setText(String.valueOf(da+",00"));
+
+
+    }
+    void masarif(String dat){
+        int price=0;
+        StorBilleOperation storBilleOperation=new StorBilleOperation();
+        DateFormat dateFormat = new SimpleDateFormat("dd");
+        DateFormat dateMonth = new SimpleDateFormat("MM");
+        DateFormat dateYear = new SimpleDateFormat("yyyy");
+        Date date = new Date();
+        if(dat.equals("day"))
+            price+=storBilleOperation.getBillParDy(Integer.parseInt(dateFormat.format(date)));
+        else {
+            if(dat.equals("month"))
+                price+=storBilleOperation.getBillParMonth(Integer.parseInt(dateMonth.format(date)));
+            else
+                price+=storBilleOperation.getBillParYear(Integer.parseInt(dateYear.format(date)));
+        }
+        CredetorMonth.setText(String.valueOf(price)+",00");
+
+    }
+    void credetCalcule(){
+        ProviderOperation providerOperation=new ProviderOperation();
+        ArrayList<Provider> list = new ArrayList<>();
+        list=providerOperation.getAll();
+        int prix=0;
+        for (int i=0;i<list.size();i++){
+            prix+=list.get(i).getCreditor();
+        }
+        credetorToday.setText(String.valueOf(prix)+",00");
+    }
+    void ProductFinished(){
+        ArrayList<Product> list = new ArrayList<>();
+        ProductOperation productOperation=new ProductOperation();
+        list=productOperation.getProductFinished();
+        totCreditor.setText(String.valueOf(list.size()));
+    }
+    @FXML
+    void Day(ActionEvent event){
+        IncomeCalculation("day");
+        masarif("day");
+        AreaChartDay();
+    }
+    @FXML
+    void Month(ActionEvent event){
+        IncomeCalculation("month");
+        masarif("month");
+        AreaChartMonth();
+    }
+    @FXML
+    void Year(ActionEvent event){
+        IncomeCalculation("year");
+        masarif("yeaa");
+        AreaChartYear();
+    }
+
 }

@@ -6,6 +6,7 @@ public class IngredientsFood {
     private String Product_name;
     private int quantity;
     private String unity;
+    private int type;
 
 
     public IngredientsFood() {
@@ -62,5 +63,13 @@ public class IngredientsFood {
 
     public void setUnity(String unity) {
         this.unity = unity;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 }

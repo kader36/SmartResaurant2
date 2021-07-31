@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class FoodMenuOperation extends BDD<FoodMenu> {
     @Override
     public boolean insert(FoodMenu o) {
+        conn=connect();
         boolean ins = false;
         String query = "INSERT INTO `food_menu`(`ID_FOOD`, `ID_MENU`) VALUES (?,?)";
         try {
@@ -25,6 +26,7 @@ public class FoodMenuOperation extends BDD<FoodMenu> {
 
     @Override
     public boolean update(FoodMenu o1, FoodMenu o2) {
+        conn=connect();
         boolean upd = false;
         String query = "UPDATE `food_menu` SET `ID_MENU`=?,`ID_FOOD`=? WHERE ID_MENU = ? and ID_FOOD = ?";
         try {
@@ -43,6 +45,7 @@ public class FoodMenuOperation extends BDD<FoodMenu> {
 
     @Override
     public boolean delete(FoodMenu o) {
+        conn=connect();
         boolean del = false;
         String query = "DELETE FROM `food_menu` WHERE ID_MENU = ? ";
         try {

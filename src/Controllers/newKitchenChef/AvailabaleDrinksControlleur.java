@@ -1,6 +1,6 @@
 package Controllers.newKitchenChef;
 
-import BddPackage.DrinksOperation;
+import BddPackage.FoodProductComposeOperation;
 import Models.Drinks;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -58,9 +58,9 @@ public class AvailabaleDrinksControlleur implements Initializable {
     void loadData(){
 
         // get food data from database.
-        DrinksOperation databaseConnector = new DrinksOperation();
-        drinksList = databaseConnector.getAll();
-        temporaryDrinksList = databaseConnector.getAll();
+        FoodProductComposeOperation databaseConnector = new FoodProductComposeOperation();
+       // drinksList = databaseConnector.getAll();
+        //temporaryDrinksList = databaseConnector.getAll();
 
         // set the gridItems.
         int tableOrderColumn = 0;
@@ -112,24 +112,9 @@ public class AvailabaleDrinksControlleur implements Initializable {
     void saveChanges(){
 
         // save the changes to database.
-        DrinksOperation databaseConnector =  new DrinksOperation();
-        for (int drinkIndex = 0; drinkIndex < temporaryDrinksList.size(); drinkIndex++) {
-            databaseConnector.changeAvailability(temporaryDrinksList.get(drinkIndex));
-        }
+
         // synchronize the data.
-        drinksList.clear();
-        for (int drinkIndex = 0; drinkIndex < temporaryDrinksList.size(); drinkIndex++) {
-            drinksList.add(new Drinks(
-                    temporaryDrinksList.get(drinkIndex).getId(),
-                    temporaryDrinksList.get(drinkIndex).getId_category(),
-                    temporaryDrinksList.get(drinkIndex).getName(),
-                    temporaryDrinksList.get(drinkIndex).getDescription(),
-                    temporaryDrinksList.get(drinkIndex).getPrice(),
-                    temporaryDrinksList.get(drinkIndex).getImage_path(),
-                    temporaryDrinksList.get(drinkIndex).getRating(),
-                    temporaryDrinksList.get(drinkIndex).isAvailable()
-            ));
-        }
+
 
     }
 

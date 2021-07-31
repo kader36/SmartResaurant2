@@ -34,9 +34,9 @@
       </AnchorPane>
    </top>
    <center>
-      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="675.0" prefWidth="959.0" styleClass="container" BorderPane.alignment="CENTER">
+      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="675.0" prefWidth="1095.0" styleClass="container" BorderPane.alignment="CENTER">
          <children>
-            <VBox layoutX="394.0" layoutY="189.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: FFF;" styleClass="container-table" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="320.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="15.0">
+            <VBox layoutX="394.0" layoutY="189.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="600.0" prefWidth="743.0" style="-fx-background-color: FFF;" styleClass="container-table" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="320.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="15.0">
                <children>
                   <AnchorPane minHeight="100.0" prefHeight="100.0">
                      <children>

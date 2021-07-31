@@ -2,7 +2,6 @@ package BddPackage;
 
 import Models.Tables;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,7 +10,7 @@ import java.util.ArrayList;
 public class TabelsOperation extends BDD<Tables> {
     @Override
     public boolean insert(Tables o) {
-
+            conn=connect();
             boolean ins = false;
             String query = "INSERT INTO `tables` (ID_TABLE,`TABLE_NUMBER`) VALUES (?,?);";
             try {
@@ -29,6 +28,7 @@ public class TabelsOperation extends BDD<Tables> {
 
     @Override
     public boolean update(Tables o1, Tables o2) {
+        conn=connect();
         boolean upd = false;
         String query = "UPDATE `tables` SET `TABLE_NUMBER`=?  WHERE `ID_TABLE` = ?";
         try {
@@ -46,6 +46,7 @@ public class TabelsOperation extends BDD<Tables> {
 
     @Override
     public boolean delete(Tables o) {
+        conn=connect();
         boolean del = false;
         String query = "DELETE FROM `tables` WHERE ID_TABLE = ?";
         try {
@@ -62,6 +63,7 @@ public class TabelsOperation extends BDD<Tables> {
 
     @Override
     public boolean isExist(Tables o) {
+        conn=connect();
      boolean exist = false;
      String query = "SELECT * FROM `tables` WHERE `TABLE_NUMBER` = ?";
 

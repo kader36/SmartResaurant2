@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" style="-fx-background-color: #F8F8F8;" stylesheets="@css/style.css" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.KitchenChef.EditFoodController">
+<BorderPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" style="-fx-background-color: #F8F8F8;" stylesheets="@css/style.css" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.KitchenChef.EditFoodController">
     <top>
         <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" style="-fx-background-color: FFF;" styleClass="bar-top" BorderPane.alignment="CENTER">
             <children>
@@ -33,15 +33,15 @@
         </AnchorPane>
     </top>
     <center>
-        <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" styleClass="container" BorderPane.alignment="CENTER">
+        <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="691.0" prefWidth="1084.0" styleClass="container" BorderPane.alignment="CENTER">
             <children>
-                <VBox layoutX="394.0" layoutY="189.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: FFF;" styleClass="container-table" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="320.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="15.0">
+                <VBox layoutX="394.0" layoutY="189.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="585.0" prefWidth="734.0" style="-fx-background-color: FFF;" styleClass="container-table" AnchorPane.bottomAnchor="91.0" AnchorPane.leftAnchor="320.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="15.0">
                     <children>
                         <AnchorPane minHeight="100.0" prefHeight="150.0">
                             <children>
                                 <HBox layoutX="19.0" layoutY="14.0" prefHeight="40.0" prefWidth="220.0">
                                     <children>
-                                        <Label styleClass="font-hs-dream" text="إسم الوجبة" textFill="#2d8b9a">
+                                        <Label prefHeight="20.0" prefWidth="71.0" styleClass="font-hs-dream" text="إسم الوجبة" textFill="#2d8b9a">
                                             <font>
                                                 <Font name="HSDream-Regular" size="15.0" />
                                             </font>
@@ -70,9 +70,9 @@
                                         </Label>
                                     </children>
                                 </HBox>
-                                <HBox layoutX="20.0" layoutY="88.0" prefHeight="40.0" prefWidth="200.0">
+                                <HBox layoutX="20.0" layoutY="88.0" prefHeight="40.0" prefWidth="220.0">
                                     <children>
-                                        <Label styleClass="font-hs-dream" text="السعر" textFill="#2d8b9a">
+                                        <Label prefHeight="20.0" prefWidth="51.0" styleClass="font-hs-dream" text="السعر" textFill="#2d8b9a">
                                             <font>
                                                 <Font name="HSDream-Regular" size="15.0" />
                                             </font>
@@ -103,7 +103,7 @@
                         </AnchorPane>
                         <AnchorPane>
                             <children>
-                                <TableView fx:id="table_food" styleClass="table" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+                                <TableView fx:id="table_food" layoutY="20.0" prefHeight="359.0" prefWidth="672.0" styleClass="table" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
                                     <columns>
                                         <TableColumn maxWidth="70.0" prefWidth="70.0" styleClass="column-table">
                                             <graphic>
@@ -196,7 +196,7 @@
                                 <Insets bottom="10.0" />
                             </VBox.margin>
                         </AnchorPane>
-                        <HBox>
+                        <HBox prefHeight="43.0" prefWidth="692.0">
                             <children>
                                 <HBox maxWidth="1.7976931348623157E308" spacing="15.0" HBox.hgrow="ALWAYS">
                                     <children>
@@ -285,9 +285,9 @@
                         <Insets bottom="30.0" left="20.0" right="20.0" top="10.0" />
                     </padding>
                 </VBox>
-                <AnchorPane layoutX="34.0" layoutY="57.0" prefWidth="270.0" style="-fx-background-color: white;" styleClass="select-product-factory" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="15.0">
+                <AnchorPane layoutX="34.0" layoutY="57.0" prefHeight="585.0" prefWidth="270.0" style="-fx-background-color: white;" styleClass="select-product-factory" AnchorPane.bottomAnchor="91.0" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="15.0">
                     <children>
-                        <JFXListView fx:id="listViewProduct" layoutX="7.0" layoutY="71.0" prefHeight="334.0" prefWidth="258.0" styleClass="list-view-products" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="6.0" />
+                        <JFXListView fx:id="listViewProduct" layoutX="10.0" layoutY="71.0" prefHeight="401.0" prefWidth="252.0" styleClass="list-view-products" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="9.0" />
                         <TextField fx:id="txt_search" layoutX="14.0" layoutY="24.0" onAction="#searchProduct" prefHeight="28.0" prefWidth="220.0" promptText="بحث عن منتوج" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
                             <font>
                                 <Font name="HSDream-Regular" size="13.0" />

@@ -9,7 +9,7 @@ public class Product {
     private String Unity_Food;
     private int Coefficient;
     private int less_quantity;
-    private int tot_quantity;
+    private double tot_quantity;
 
     public Product() {
     }
@@ -74,11 +74,11 @@ public class Product {
         this.less_quantity = less_quantity;
     }
 
-    public int getTot_quantity() {
+    public double getTot_quantity() {
         return tot_quantity;
     }
 
-    public void setTot_quantity(int tot_quantity) {
+    public void setTot_quantity(double tot_quantity) {
         this.tot_quantity = tot_quantity;
     }
 }

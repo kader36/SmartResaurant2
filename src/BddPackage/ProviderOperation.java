@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class ProviderOperation extends BDD<Provider> {
     @Override
     public boolean insert(Provider o) {
+        conn=connect();
         boolean ins = false;
         String query = "INSERT INTO `provider`( `PROVIDER_FIRST_NAME`, `PROVIDER_LAST_NAME`, `PROVIDER_PHONE_NUMBER`,\n" +
                 "`PROVIDER_JOB`,`PROVIDER_ADRESS`) \n" +
@@ -32,6 +33,7 @@ public class ProviderOperation extends BDD<Provider> {
 
     @Override
     public boolean update(Provider o1, Provider o2) {
+        conn=connect();
         boolean upd = false;
         String query = "UPDATE `provider` SET `PROVIDER_FIRST_NAME`= ?,`PROVIDER_LAST_NAME`= ?,\n" +
                 "    `PROVIDER_JOB`=? ,`PROVIDER_ADRESS`= ? WHERE ID_PROVIDER = ? ";
@@ -50,6 +52,7 @@ public class ProviderOperation extends BDD<Provider> {
         return upd;
     }
     public boolean update(Provider o1) {
+        conn=connect();
         boolean upd = false;
         String query = "UPDATE `provider` SET `PROVIDER_CREDITOR`= ? WHERE `ID_PROVIDER`= ?" ;
 
@@ -67,6 +70,7 @@ public class ProviderOperation extends BDD<Provider> {
 
     @Override
     public boolean delete(Provider o) {
+        conn=connect();
         boolean del = false;
         String query = "DELETE FROM `provider` WHERE ID_PROVIDER = ? ";
         try {

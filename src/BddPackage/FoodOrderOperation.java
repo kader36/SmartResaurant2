@@ -13,6 +13,7 @@ public class FoodOrderOperation extends BDD<FoodOrder> {
     Connection con = connect();
     @Override
     public boolean insert(FoodOrder o) {
+        conn=connect();
         boolean ins = false;
         String query = "INSERT INTO `food_order`(`ID_ORDER`, `ID_FOOD`,`ORDER_QUANTITY`) VALUES (?,?,?)";
         try {
@@ -31,6 +32,7 @@ public class FoodOrderOperation extends BDD<FoodOrder> {
 
     @Override
     public boolean update(FoodOrder o1, FoodOrder o2) {
+        conn=connect();
         boolean upd = false;
         String query = "UPDATE `food_order` SET `ID_FOOD`=? ,`ORDER_QUANTITY`= ? " +
                 "WHERE ID_ORDER = ? ";
@@ -49,6 +51,7 @@ public class FoodOrderOperation extends BDD<FoodOrder> {
 
     @Override
     public boolean delete(FoodOrder o) {
+        conn=connect();
         boolean del = false;
         String query = "DELETE FROM `food_order` WHERE `ID_ORDER` = ? ";
         try {
@@ -69,10 +72,28 @@ public class FoodOrderOperation extends BDD<FoodOrder> {
 
     @Override
     public ArrayList<FoodOrder> getAll() {
-        return null;
+        conn=connect();
+        ArrayList<FoodOrder> list = new ArrayList<>();
+        String query = "SELECT * FROM `food_order` ORDER BY `food_order`.`ID_FOOD` ASC;";
+        try {
+            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            ResultSet resultSet = preparedStmt.executeQuery();
+            while (resultSet.next()) {
+                FoodOrder food = new FoodOrder();
+                food.setId_food(resultSet.getInt("ID_FOOD"));
+                food.setId_order(resultSet.getInt("ID_ORDER"));
+                food.setQuantity(resultSet.getInt("ORDER_QUANTITY"));
+
+                list.add(food);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
     }
     public ArrayList<FoodOrder> getElement(Orders orders)
     {
+        conn=connect();
         ArrayList<FoodOrder> list = new ArrayList<>();
         String query = "SELECT * FROM `food_order` WHERE `ID_ORDER`=?";
         try {
@@ -91,5 +112,23 @@ public class FoodOrderOperation extends BDD<FoodOrder> {
             e.printStackTrace();
         }
         return list;
+    }
+    public int getTopFood(int idFood)
+    {conn=connect();
+        int number=0;
+        ArrayList<FoodOrder> list = new ArrayList<>();
+        String query = "SELECT sum(`ORDER_QUANTITY`) as 'Number'  FROM `food_order` WHERE `ID_FOOD`=?";
+        try {
+            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            preparedStmt.setInt(1,idFood);
+            ResultSet resultSet = preparedStmt.executeQuery();
+            while (resultSet.next()) {
+                number=resultSet.getInt("Number");
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return number;
     }
 }

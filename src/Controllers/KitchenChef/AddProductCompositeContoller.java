@@ -247,6 +247,9 @@ public class AddProductCompositeContoller implements Initializable {
                                     Product product=new Product();
                                     ProductComposite productComposite=new ProductComposite();
                                     product=productOperation.GetProduct(ingredientsProductCompsite.getProduct_name());
+                                    double quantity=product.getTot_quantity()-ingredientsProductCompsite.getQuantity()/product.getCoefficient();
+                                    product.setTot_quantity(quantity);
+                                    productOperation.update(product);
                                     productComposite=productCompositeOperation.GetProductComposite(IdProduteComposet.getSelectionModel().getSelectedItem().toString());
                                     ingredientsProductCompsite.setId_productCompsite(productComposite.getId());
                                     ingredientsProductCompsite.setId_product(product.getId());

@@ -11,6 +11,7 @@ public class EmployerOperation extends BDD<Employer> {
 
     @Override
     public boolean insert(Employer o) {
+        conn=connect();
         boolean ins = false;
         String query = "INSERT INTO `employer`( `EMPLOYER_NAME`, `EMPLOYER_LAST_NAME`, `EMPLOYER_PHONE_NUMBER`,\n" +
                 "`EMPLOYER_JOB`, `SALARY`) \n" +
@@ -51,6 +52,7 @@ public class EmployerOperation extends BDD<Employer> {
 
     @Override
     public ArrayList<Employer> getAll() {
+        conn=connect();
         ArrayList<Employer> list = new ArrayList<>();
         String query = "SELECT * FROM `employer`";
         try {

@@ -31,7 +31,6 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 
-
 public class TablesController implements Initializable {
 
     @FXML

@@ -59,8 +59,8 @@ public class KitchenOrderItemControlleur implements Initializable {
         WritableImage myimage = itemImage.snapshot(parameters, null);
 
         // remove the rounding clip so that our effect can show through.
-        itemImage.setClip(null);
-        itemImage.setEffect(new DropShadow(1, Color.BLACK));
+
+        itemImage.setEffect(new DropShadow(5, Color.BLACK));
         itemImage.setImage(myimage);
 
         this.itemTitle.setText(itemTitle);

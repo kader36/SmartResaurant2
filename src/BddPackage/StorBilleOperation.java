@@ -6,14 +6,18 @@ import Models.StoreBill;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.temporal.WeekFields;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
 
 public class StorBilleOperation extends BDD<StoreBill> {
     @Override
     public boolean insert(StoreBill o) {
+        conn=connect();
         boolean ins = false;
         String query = "INSERT INTO `store_bill`( `ID_USER_OPERATION`, `ID_PROVIDER_OPERATION`, `PAID_UP`)\n" +
                 "VALUES (?,?,?)";
@@ -33,6 +37,7 @@ public class StorBilleOperation extends BDD<StoreBill> {
 
     @Override
     public boolean update(StoreBill o1, StoreBill o2) {
+        conn=connect();
         boolean upd = false;
         String query = "UPDATE `store_bill` SET `ID_USER_OPERATION`=?,`ID_PROVIDER_OPERATION`=?,`PAID_UP`=? WHERE `ID_STORE_BILL` = ?";
         try {
@@ -51,6 +56,7 @@ public class StorBilleOperation extends BDD<StoreBill> {
 
     @Override
     public boolean delete(StoreBill o) {
+        conn=connect();
         boolean del = false;
         String query = "DELETE FROM `store_bill` WHERE ID_STORE_BILL = ? ";
         try {
@@ -125,6 +131,7 @@ public class StorBilleOperation extends BDD<StoreBill> {
 
 
     public int getIdStorBill(int idProvider, int idUser, int paid) {
+        conn=connect();
         String query = "SELECT * FROM `store_bill`";
         //SELECT `ID_STORE_BILL`, `STORE_BILL_DATE`, `ID_USER_OPERATION`, `ID_PROVIDER_OPERATION`,
         // `PAID_UP` FROM `STORE_BILL` WHERE 1
@@ -175,6 +182,7 @@ public class StorBilleOperation extends BDD<StoreBill> {
     }
 
     private ArrayList<StoreBill> chargeData(ArrayList<StoreBill> list, String query) throws SQLException {
+        conn=connect();
         PreparedStatement preparedStmt = conn.prepareStatement(query);
         ResultSet resultSet = preparedStmt.executeQuery();
         while (resultSet.next()) {
@@ -187,5 +195,93 @@ public class StorBilleOperation extends BDD<StoreBill> {
             list.add(storeBill);
         }
         return list;
+    }
+    public int getBillParDy(int day) {
+        int Paid=0;
+        conn=connect();
+        DateFormat dateFormat = new SimpleDateFormat("dd");
+        DateFormat dateMonth = new SimpleDateFormat("MM");
+        DateFormat dateYear = new SimpleDateFormat("yyyy");
+        Date date = new Date();
+        ArrayList<StoreBill> list = new ArrayList<>();
+        String query = "SELECT SUM(`PAID_UP`) as 'PAID'\n" +
+                "FROM `store_bill` \n" +
+                "WHERE DAY(`STORE_BILL_DATE`)=? \n" +
+                "and MONTH(`STORE_BILL_DATE`)=?\n" +
+                "and YEAR(`STORE_BILL_DATE`)=?";
+
+        try {
+            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            preparedStmt.setInt(1, day);
+            preparedStmt.setInt(2, Integer.parseInt(dateMonth.format(date)));
+            preparedStmt.setInt(3, Integer.parseInt(dateYear.format(date)));
+            ResultSet resultSet = preparedStmt.executeQuery();
+            while (resultSet.next()) {
+                Paid=resultSet.getInt("PAID");
+                }
+            conn.close();
+            } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+
+        return Paid;
+    }
+    public int getBillParMonth(int month) {
+        int Paid=0;
+        conn=connect();
+        DateFormat dateFormat = new SimpleDateFormat("dd");
+        DateFormat dateMonth = new SimpleDateFormat("MM");
+        DateFormat dateYear = new SimpleDateFormat("yyyy");
+        Date date = new Date();
+        ArrayList<StoreBill> list = new ArrayList<>();
+        String query = "SELECT SUM(`PAID_UP`) as 'PAID'\n" +
+                "FROM `store_bill` \n" +
+                "WHERE  MONTH(`STORE_BILL_DATE`)=?\n" +
+                "and YEAR(`STORE_BILL_DATE`)=?";
+
+        try {
+            PreparedStatement preparedStmt = conn.prepareStatement(query);
+
+            preparedStmt.setInt(1, month);
+            preparedStmt.setInt(2, Integer.parseInt(dateYear.format(date)));
+            ResultSet resultSet = preparedStmt.executeQuery();
+            while (resultSet.next()) {
+                Paid=resultSet.getInt("PAID");
+            }
+            conn.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+
+        return Paid;
+    }
+    public int getBillParYear(int year) {
+        int Paid=0;
+        conn=connect();
+        DateFormat dateFormat = new SimpleDateFormat("dd");
+        DateFormat dateMonth = new SimpleDateFormat("MM");
+        DateFormat dateYear = new SimpleDateFormat("yyyy");
+        Date date = new Date();
+        ArrayList<StoreBill> list = new ArrayList<>();
+        String query = "SELECT SUM(`PAID_UP`) as 'PAID'\n" +
+                "FROM `store_bill` \n" +
+                "WHERE  YEAR(`STORE_BILL_DATE`)=?";
+
+        try {
+            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            preparedStmt.setInt(1, year);
+            ResultSet resultSet = preparedStmt.executeQuery();
+            while (resultSet.next()) {
+                Paid=resultSet.getInt("PAID");
+            }
+            conn.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+
+        return Paid;
     }
 }

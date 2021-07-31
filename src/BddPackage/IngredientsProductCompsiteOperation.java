@@ -9,9 +9,9 @@ import java.util.ArrayList;
 public class IngredientsProductCompsiteOperation extends BDD<IngredientsProductCompsite>{
     @Override
     public boolean insert(IngredientsProductCompsite o) {
-
+        conn=connect();
         boolean ins = false;
-        String query = "INSERT INTO `ingredients_ProductCompsite`(`id_product`, `id_producComposite`, `quantity`)VALUES (?,?,?)";
+        String query = "INSERT INTO `ingredients_productcompsite`(`id_product`, `id_producComposite`, `quantity`)VALUES (?,?,?)";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             preparedStmt.setInt(1, o.getId_product());

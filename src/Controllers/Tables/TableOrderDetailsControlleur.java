@@ -15,8 +15,11 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
@@ -78,7 +81,7 @@ public class TableOrderDetailsControlleur implements Initializable {
             Food food=new Food();
             FoodOperation foodOperation=new FoodOperation();
             food=foodOperation.getFoodByID(list.get(foodIndex).getId_food());
-
+            Image image=new Image(food.getImage_path());
             try {
                 FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(getClass().getResource("/Views/TablesViews/tabelDetailsItem.fxml"));
@@ -88,8 +91,11 @@ public class TableOrderDetailsControlleur implements Initializable {
                 tableGridItemControlleur.setDetailsItemdData(
                         String.valueOf(food.getName()),
                         String.valueOf(food.getPrice()),
-                        String.valueOf(list.get(foodIndex).getQuantity())
+                        String.valueOf(list.get(foodIndex).getQuantity()),
+                        image
+
                 );
+                anchorPane.setEffect(new DropShadow(20, Color.BLACK));
                 itemsGridView.add(anchorPane,column,row);
                 row++;
                 itemsGridView.setMargin(anchorPane,new Insets(5));
@@ -112,23 +118,19 @@ public class TableOrderDetailsControlleur implements Initializable {
         // add the order to the table order.
         OrdersOperation orderDatabaseConnector = new OrdersOperation();
         orderDatabaseConnector.update(curentOrder);
-        System.out.println(curentOrder.getId());
 
         // delete the order from teh view.
         TablesController.tabelsOrders.removeIf(orders -> orders.getId() == curentOrder.getId());
         // delet from the server orders list.
 
-
         // refresh the view.
         TablesController.orderConfirmed.setValue(! TablesController.orderConfirmed.getValue());
-
 
         // refresh teh table gains.
         refrechTableGains(curentOrder.getId_table(),curentOrder.getPrice());
 
         // close the drawer.
         TablesController.drawerOpening.setValue(! TablesController.drawerOpening.getValue());
-
 
     }
 

@@ -19,7 +19,7 @@ public class ProductOperation extends BDD<Product> {
             preparedStmt.setInt(1, o.getId());
             preparedStmt.setInt(2, o.getId_category());
             preparedStmt.setString(3, o.getName());
-            preparedStmt.setInt(4, o.getTot_quantity());
+            preparedStmt.setDouble(4, o.getTot_quantity());
             preparedStmt.setString(5, o.getStorage_Unit());
             preparedStmt.setInt(6, o.getLess_quantity());
             preparedStmt.setString(7, o.getUnity_Food());
@@ -42,7 +42,7 @@ public class ProductOperation extends BDD<Product> {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             preparedStmt.setInt(1, o1.getId_category());
             preparedStmt.setString(2, o1.getName());
-            preparedStmt.setInt(3, o1.getTot_quantity());
+            preparedStmt.setDouble(3, o1.getTot_quantity());
             preparedStmt.setString(4, o1.getStorage_Unit());
             preparedStmt.setInt(5, o1.getLess_quantity());
             preparedStmt.setInt(6, o2.getId());
@@ -60,7 +60,7 @@ public class ProductOperation extends BDD<Product> {
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
 
-            preparedStmt.setInt(1, o1.getTot_quantity());
+            preparedStmt.setDouble(1, o1.getTot_quantity());
             preparedStmt.setInt(2, o1.getId());
             int update = preparedStmt.executeUpdate();
             if (update != -1) upd = true;
@@ -108,7 +108,7 @@ public class ProductOperation extends BDD<Product> {
                 product.setCategory_name(resultSet.getString("CATEGORY_NAME"));
                 product.setName(resultSet.getString("PRODUCT_NAME"));
                 product.setStorage_Unit(resultSet.getString("STORAGE_UNIT"));
-                product.setTot_quantity(resultSet.getInt("QUANTITY"));
+                product.setTot_quantity(resultSet.getDouble("QUANTITY"));
                 //product.setLess_quantity(resultSet.getInt("LESS_QUANTITY"));
                 list.add(product);
             }
@@ -132,7 +132,7 @@ public class ProductOperation extends BDD<Product> {
 
     public ArrayList<Product> getProductFinished() {
         ArrayList<Product> list = new ArrayList<>();
-        String query = "SELECT * FROM `product` WHERE QUANTITY = 0";
+        String query = "SELECT * FROM `product` WHERE QUANTITY <= `LESS_QUANTITY`;";
         try {
 
             chargeData(list, query);
@@ -151,7 +151,7 @@ public class ProductOperation extends BDD<Product> {
             product.setId(resultSet.getInt("ID_PRODUCT"));
             product.setId_category(resultSet.getInt("ID_PRODUCT_CATEGORY"));
             product.setName(resultSet.getString("PRODUCT_NAME"));
-            product.setTot_quantity(resultSet.getInt("QUANTITY"));
+            product.setTot_quantity(resultSet.getDouble("QUANTITY"));
             product.setStorage_Unit(resultSet.getString("STORAGE_UNIT"));
             //product.setLess_quantity(resultSet.getInt("LESS_QUANTITY"));
             list.add(product);
@@ -222,7 +222,7 @@ public class ProductOperation extends BDD<Product> {
                 product.setId(resultSet.getInt("ID_PRODUCT"));
                 product.setId_category(resultSet.getInt("ID_PRODUCT_CATEGORY"));
                 product.setName(resultSet.getString("PRODUCT_NAME"));
-                product.setTot_quantity(resultSet.getInt("QUANTITY"));
+                product.setTot_quantity(resultSet.getDouble("QUANTITY"));
                 product.setStorage_Unit(resultSet.getString("STORAGE_UNIT"));
                 product.setLess_quantity(resultSet.getInt("LESS_QUANTITY"));
                 product.setCoefficient(resultSet.getInt("coefficient"));
@@ -247,9 +247,10 @@ public class ProductOperation extends BDD<Product> {
                 product.setId(resultSet.getInt("ID_PRODUCT"));
                 product.setId_category(resultSet.getInt("ID_PRODUCT_CATEGORY"));
                 product.setName(resultSet.getString("PRODUCT_NAME"));
-                product.setTot_quantity(resultSet.getInt("QUANTITY"));
+                product.setTot_quantity(resultSet.getDouble("QUANTITY"));
                 product.setStorage_Unit(resultSet.getString("STORAGE_UNIT"));
                 product.setLess_quantity(resultSet.getInt("LESS_QUANTITY"));
+                product.setCoefficient(resultSet.getInt("coefficient"));
             }
 
         }catch (SQLException e){

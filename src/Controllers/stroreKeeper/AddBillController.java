@@ -327,7 +327,6 @@ public class AddBillController implements Initializable {
                     provider = comboProvider.getSelectionModel().getSelectedItem();
                     String[] tab = comboProvider.getSelectionModel().getSelectedItem().split("");
                     String s = tab[tab.length - 1];
-                    System.out.println(provider);
                     Provider provider1=GetIdProvider(provider);
                     int idProvider = provider1.getId();
                     int paid;
@@ -335,15 +334,15 @@ public class AddBillController implements Initializable {
                         paid = 0;
                     else
                         paid = Integer.parseInt(txt_Paid.getText());
-                    System.out.println("idProvider");
 
-                    Double Creditor=provider1.getCreditor();
+
+                    double Creditor=provider1.getCreditor();
                     provider1.setCreditor(Creditor+(Double.parseDouble(lbl_bill_total.getText()) - paid));
                     providerOperation.update(provider1);
                     // insert into store bill
                     StoreBill storeBill = new StoreBill();
                     storeBill.setId_provider(idProvider);
-                    storeBill.setId_user(1);
+                    storeBill.setId_user(CurrentUser.getId());
                     storeBill.setPaid_up(paid);
                     storBilleOperation.insert(storeBill);
                     try {

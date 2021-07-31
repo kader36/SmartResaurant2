@@ -1,7 +1,7 @@
 package Controllers.newKitchenChef;
 
 import BddPackage.DrinksCategoryOperation;
-import BddPackage.DrinksOperation;
+import BddPackage.FoodProductComposeOperation;
 import Models.Drinks;
 import Models.DrinksCategory;
 import javafx.fxml.FXML;
@@ -108,7 +108,7 @@ public class NewDrinkAddControlleur implements Initializable {
             );
 
         }else{
-            DrinksOperation databaseConnector = new DrinksOperation();
+            FoodProductComposeOperation databaseConnector = new FoodProductComposeOperation();
             Drinks newDrink = new Drinks();
             // get the selected category id
             int selectedCategoryID = 0 ;
@@ -125,7 +125,7 @@ public class NewDrinkAddControlleur implements Initializable {
             newDrink.setId_category(selectedCategoryID);
             newDrink.setAvailable(true);
 
-            databaseConnector.insert(newDrink);
+          //  databaseConnector.insert(newDrink);
         }
 
     }

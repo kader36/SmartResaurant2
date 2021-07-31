@@ -1,11 +1,8 @@
 package Controllers.newKitchenChef;
 
-import BddPackage.DrinksOperation;
-import BddPackage.FoodOperation;
+import BddPackage.FoodProductComposeOperation;
 import Models.Drinks;
-import Models.Food;
 import com.itextpdf.text.*;
-import com.itextpdf.text.Font;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -215,12 +212,8 @@ public class DrinksManagmentControlleur implements Initializable {
     void loadData(){
 
         // get the data from database.
-        DrinksOperation databaseConenctor = new DrinksOperation();
-        ArrayList<Drinks> dataBaseFood = databaseConenctor.getAll();
-        for (int foodIndex = 0; foodIndex < dataBaseFood.size(); foodIndex++) {
-            originalDrinksList.add(dataBaseFood.get(foodIndex));
-            tableViewDrinkList.add(dataBaseFood.get(foodIndex));
-        }
+        FoodProductComposeOperation databaseConenctor = new FoodProductComposeOperation();
+
 
         // set teh table view.
         drinkPriceColumn.setCellValueFactory( new PropertyValueFactory<Drinks,Double>("price"));
@@ -233,8 +226,8 @@ public class DrinksManagmentControlleur implements Initializable {
         drinksTabel.setItems(originalDrinksList);
 
         // set the number of found food items label.
-        int foundFoodItems = databaseConenctor.getCountDrink();
-        drinkNumberLabel.setText(String.valueOf(foundFoodItems));
+        //int foundFoodItems = databaseConenctor.getCountDrink();
+       // drinkNumberLabel.setText(String.valueOf(foundFoodItems));
 
     }
 
@@ -370,11 +363,11 @@ public class DrinksManagmentControlleur implements Initializable {
 
         if (alertresult.get().getText().equals("حدف")){
             // add warnings.
-            DrinksOperation databseConnector  = new DrinksOperation();
+            FoodProductComposeOperation databseConnector  = new FoodProductComposeOperation();
             for (int foodIndex = 0; foodIndex < tableViewDrinkList.size(); foodIndex++) {
                 if (tableViewDrinkList.get(foodIndex).getDrinkSelectedCheckBox().isSelected() == true){
                     // remove from database.
-                    databseConnector.delete(tableViewDrinkList.get(foodIndex));
+                    //databseConnector.delete(tableViewDrinkList.get(foodIndex));
                     // remove from the other list.
                     originalDrinksList.remove(tableViewDrinkList.get(foodIndex));
                     // remove from the temporary list.

@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" style="-fx-background-color: #F8F8F8;" stylesheets="@css/style.css" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.stroreKeeper.UpdateBillController">
+<BorderPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" style="-fx-background-color: #F8F8F8;" stylesheets="@css/style.css" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.stroreKeeper.UpdateBillController">
     <top>
         <AnchorPane style="-fx-background-color: FFF;" styleClass="bar-top" BorderPane.alignment="CENTER">
             <children>
@@ -34,7 +34,7 @@
         </AnchorPane>
     </top>
     <center>
-        <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" styleClass="container" BorderPane.alignment="CENTER">
+        <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="675.0" prefWidth="1070.0" styleClass="container" BorderPane.alignment="CENTER">
             <children>
                 <VBox layoutX="394.0" layoutY="189.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: FFF;" styleClass="container-table" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="320.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="15.0">
                     <children>
@@ -311,7 +311,7 @@
                 </VBox>
                 <AnchorPane layoutX="34.0" layoutY="57.0" prefWidth="270.0" style="-fx-background-color: white;" styleClass="select-product-factory" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="15.0">
                     <children>
-                        <JFXListView fx:id="listViewProduct" layoutX="4.0" layoutY="71.0" prefHeight="334.0" prefWidth="264.0" styleClass="list-view-products" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0" />
+                        <JFXListView fx:id="listViewProduct" layoutX="5.0" layoutY="71.0" prefHeight="430.0" prefWidth="262.0" styleClass="list-view-products" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" />
                         <TextField fx:id="searchTxtProduct" layoutX="14.0" layoutY="24.0" onAction="#searchProduct" prefHeight="28.0" prefWidth="220.0" promptText="بحث عن سلعة" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
                             <font>
                                 <Font name="HSDream-Regular" size="13.0" />

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class ProductCategoryOperation extends BDD<ProductCategory> {
     @Override
     public boolean insert(ProductCategory o) {
+        conn=connect();
         boolean ins = false;
         String query = "INSERT INTO `product_category`(`CATEGORY_NAME`) VALUES (?)";
         try {
@@ -25,6 +26,7 @@ public class ProductCategoryOperation extends BDD<ProductCategory> {
 
     @Override
     public boolean update(ProductCategory o1, ProductCategory o2) {
+        conn=connect();
         boolean upd = false;
         String query = "UPDATE `product_category` SET `CATEGORY_NAME`=? WHERE `ID_CATEGORY` = ?";
         try {
@@ -40,6 +42,7 @@ public class ProductCategoryOperation extends BDD<ProductCategory> {
 
     @Override
     public boolean delete(ProductCategory o) {
+        conn=connect();
         boolean del = false;
         String query = "DELETE FROM `product_category` WHERE  `ID_CATEGORY` = ? ";
         try {
@@ -59,6 +62,7 @@ public class ProductCategoryOperation extends BDD<ProductCategory> {
 
     @Override
     public ArrayList<ProductCategory> getAll() {
+        conn=connect();
         ArrayList<ProductCategory> list = new ArrayList<>();
         String query = "SELECT * FROM `product_category`";
         try {
