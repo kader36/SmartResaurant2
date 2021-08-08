@@ -35,14 +35,40 @@ public class EmployerOperation extends BDD<Employer> {
 
     @Override
     public boolean update(Employer o1, Employer o2) {
-        boolean upd;
-        String query = "";
-        return false;
+        conn=connect();
+        boolean upd = false;
+        String query = "UPDATE `employer` SET`EMPLOYER_NAME`=?,`EMPLOYER_LAST_NAME`=?,`EMPLOYER_PHONE_NUMBER`=?,`EMPLOYER_JOB`=?,`SALARY`=? \n" +
+                "WHERE `ID_EMPLOYER`=?";
+        try {
+            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            preparedStmt.setString(1, o1.getFirst_name());
+            preparedStmt.setString(2, o1.getLast_name());
+            preparedStmt.setString(3, o1.getPhone_number());
+            preparedStmt.setString(4, o1.getJob());
+            preparedStmt.setInt(5, o1.getSalary());
+            preparedStmt.setInt(6, o2.getId());
+            int update = preparedStmt.executeUpdate();
+            if (update != -1) upd = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return upd;
     }
 
     @Override
     public boolean delete(Employer o) {
-        return false;
+        conn=connect();
+        boolean del = false;
+        String query = "DELETE FROM `employer` WHERE `ID_EMPLOYER`=?";
+        try {
+            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            preparedStmt.setInt(1, o.getId());
+            int delete = preparedStmt.executeUpdate();
+            if (delete != -1) del = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return del;
     }
 
     @Override

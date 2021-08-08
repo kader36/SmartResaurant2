@@ -141,7 +141,7 @@
    <top>
       <AnchorPane prefHeight="79.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox alignment="CENTER_RIGHT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="76.0" prefWidth="1200.0" style="-fx-background-color: FFF;" styleClass="bar-top" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <HBox alignment="CENTER_RIGHT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="76.0" prefWidth="1200.0" style="-fx-background-color: FFF;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <Text fill="#777777" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="font-hs-dream" text="قائمة الطاولات" wrappingWidth="123.71484375">
                      <font>

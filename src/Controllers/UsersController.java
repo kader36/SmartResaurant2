@@ -105,5 +105,44 @@ public class UsersController implements Initializable {
     void ShowUserTable(MouseEvent event) {
         userTableView.setDisable(false);
     }
+    @FXML
+    void deleteUser(ActionEvent event) {
+        vboxOptionCategory.setVisible(false);
+        User user = userTableView.getSelectionModel().getSelectedItem();
+        if (user == null) {
+            Alert alertWarning = new Alert(Alert.AlertType.WARNING);
+            alertWarning.setHeaderText("تحذير ");
+            alertWarning.setContentText("يرجى اختيار المستخدم المراد حذفها");
+            Button okButton = (Button) alertWarning.getDialogPane().lookupButton(ButtonType.OK);
+            okButton.setText("حسنا");
+            alertWarning.showAndWait();
+            return;
+        }
+
+        Alert alertConfirmation = new Alert(Alert.AlertType.CONFIRMATION);
+        alertConfirmation.setHeaderText("تأكيد الحذف");
+        alertConfirmation.setContentText("هل انت متأكد من حذف الوجبة");
+        Button okButton = (Button) alertConfirmation.getDialogPane().lookupButton(ButtonType.OK);
+        okButton.setText("موافق");
+
+        Button cancel = (Button) alertConfirmation.getDialogPane().lookupButton(ButtonType.CANCEL);
+        cancel.setText("الغاء");
+
+        alertConfirmation.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.CANCEL) {
+                alertConfirmation.close();
+            } else if (response == ButtonType.OK) {
+                UserOperation userOperation=new UserOperation();
+                userOperation.delete(user);
+                Alert alertWarning = new Alert(Alert.AlertType.INFORMATION);
+                alertWarning.setHeaderText("تأكيد الحذف");
+                alertWarning.setContentText("تم حذف الوجبة بنجاح");
+                Button ookButton = (Button) alertWarning.getDialogPane().lookupButton(ButtonType.OK);
+                ookButton.setText("حسنا");
+                alertWarning.showAndWait();
+                refresh();
+            }
+        });
+    }
 
 }

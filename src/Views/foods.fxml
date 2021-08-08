@@ -399,9 +399,9 @@
       </AnchorPane>
    </center>
    <top>
-      <AnchorPane prefHeight="48.0" prefWidth="1065.0" styleClass="bar-top" BorderPane.alignment="CENTER">
+      <AnchorPane maxHeight="80.0" prefHeight="80.0" prefWidth="1065.0" style="-fx-background-color: #FFF;" BorderPane.alignment="CENTER">
          <children>
-            <Label styleClass="font-hs-dream" text="الوجبات " textFill="#777777" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="27.0">
+            <Label styleClass="font-hs-dream" text="الوجبات " textFill="#828282" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="27.0">
                <font>
                   <Font size="22.0" />
                </font>

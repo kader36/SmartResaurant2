@@ -28,12 +28,12 @@ public class IngredientsFoodOperation extends BDD<IngredientsFood> {
     public boolean update(IngredientsFood o1, IngredientsFood o2) {
         conn=connect();
         boolean upd = false;
-        String query = "UPDATE `ingredients_food` SET  `INGREDIENT_QUANTITY`=? WHERE `ID_FOOD_INGREDIENT`= ? AND `ID_PRODUCT_INGREDIENT` = ?";
+        String query = "UPDATE `ingredients_food` SET  `INGREDIENT_QUANTITY`=? AND `ID_PRODUCT_INGREDIENT` = ? WHERE   `ID_FOOD_INGREDIENT`=?";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             preparedStmt.setInt(1, o1.getQuantity());
-            preparedStmt.setInt(2, o2.getId_food());
-            preparedStmt.setInt(3, o2.getId_product());
+            preparedStmt.setInt(2, o1.getId_product());
+            preparedStmt.setInt(3, o2.getId_food());
 
             int update = preparedStmt.executeUpdate();
             if (update != -1) upd = true;

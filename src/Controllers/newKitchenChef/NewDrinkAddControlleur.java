@@ -67,7 +67,7 @@ public class NewDrinkAddControlleur implements Initializable {
     void loadData(){
         // get the list of categories.
         DrinksCategoryOperation databaseConenctor = new DrinksCategoryOperation();
-        categoryiesList = databaseConenctor.getAll();
+        //categoryiesList = databaseConenctor.getAll();
         // set the categories comboBox.
         ArrayList<String> categoriesNames = new ArrayList<>();
         for (int categpryIndex = 0; categpryIndex < categoryiesList.size(); categpryIndex++) {

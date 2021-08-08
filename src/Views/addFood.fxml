@@ -23,9 +23,9 @@
 
 <BorderPane fx:id="mainPane" cacheShape="false" centerShape="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" scaleShape="false" style="-fx-background-color: #F8F8F8;" stylesheets="@css/style.css" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.KitchenChef.AddFoodController">
    <top>
-      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" style="-fx-background-color: #FFF;" styleClass="bar-top" BorderPane.alignment="CENTER">
+      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="80.0" style="-fx-background-color: #FFF;" styleClass="bar-top" BorderPane.alignment="CENTER">
          <children>
-            <Label layoutX="55.0" layoutY="27.0" styleClass="font-hs-dream" text="إضافة وجبة" textFill="#777777" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="27.0">
+            <Label layoutX="55.0" layoutY="27.0" styleClass="font-hs-dream" text="إضافة وجبة" textFill="#828282" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="27.0">
                <font>
                   <Font size="22.0" />
                </font>
@@ -134,7 +134,7 @@
                               <Font name="HSDream-Regular" size="15.0" />
                            </font>
                         </Label>
-                        <TextArea fx:id="Des" layoutX="236.0" layoutY="25.0" prefHeight="96.0" prefWidth="181.0" />
+                        <TextArea fx:id="Des" layoutX="236.0" layoutY="25.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="96.0" prefWidth="181.0" />
                      </children>
                   </AnchorPane>
                   <AnchorPane prefHeight="345.0" prefWidth="716.0">

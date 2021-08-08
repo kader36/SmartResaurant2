@@ -53,7 +53,7 @@ public class AdduserController implements Initializable {
     }
     @FXML
     void insertUser(ActionEvent event) {
-        if(!txt_username.getText().matches("[a-zA-Z0-9]{4}")){
+        if(txt_username.getText().matches("[a-zA-Z0-9]{4}")){
             Alert alertWarning = new Alert(Alert.AlertType.WARNING);
             alertWarning.setHeaderText("تحذير ");
             alertWarning.setContentText("يرجى إختيار اسم مستخدم صالح");

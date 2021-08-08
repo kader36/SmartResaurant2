@@ -36,7 +36,18 @@ public class UserOperation extends BDD<User>{
 
     @Override
     public boolean delete(User o) {
-        return false;
+        conn=connect();
+        boolean del = false;
+        String query = "DELETE FROM `users` WHERE `USERNAME`=?";
+        try {
+            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            preparedStmt.setString(1, o.getUserName());
+            int delete = preparedStmt.executeUpdate();
+            if (delete != -1) del = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return del;
     }
 
     @Override

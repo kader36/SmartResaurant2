@@ -2,6 +2,7 @@ package Controllers.KitchenChef;
 
 import BddPackage.ProductCompositeOperation;
 import Controllers.ValidateController;
+import Controllers.newKitchenChef.UpdateProductComposeController;
 import Models.Product;
 import Models.ProductComposite;
 import javafx.collections.FXCollections;
@@ -12,8 +13,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
@@ -45,6 +49,8 @@ public class ProductCompositeController implements Initializable {
     @FXML
     private TableColumn<ProductComposite, Integer> col_quantity;
     @FXML
+    private TableColumn<ProductComposite, Integer> col_id;
+    @FXML
     private TableColumn<Product, String> col_unite;
     @FXML
     private TableColumn<Product, String> col_UnityFood;
@@ -52,6 +58,17 @@ public class ProductCompositeController implements Initializable {
     private TableColumn<Product, String> col_Coefficient;
     @FXML
     private TableColumn<Product, String> col_LESS_QUANTITY;
+
+
+
+    @FXML
+    private TextField txt_less_quantity_upd;
+
+    @FXML
+    private Label errUpdateProduct;
+
+    @FXML
+    private Button updateButton;
 
     private ProductCompositeOperation  productCompositeOperation=new ProductCompositeOperation();
     private ValidateController validateController = new ValidateController();
@@ -64,6 +81,7 @@ public class ProductCompositeController implements Initializable {
         vboxOption.setVisible(false);
         STORAGE_UNIT.getItems().addAll("كيلوغرام","غرام","لتر","وحدة");
         Unity_Food.getItems().addAll("غرام","لتر","ميللتر","وحدة");
+        col_id.setCellValueFactory(new PropertyValueFactory<>("id"));
         col_name.setCellValueFactory(new PropertyValueFactory<>("name"));
         col_quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         col_unite.setCellValueFactory(new PropertyValueFactory<>("storage_Unit"));
@@ -150,6 +168,84 @@ public class ProductCompositeController implements Initializable {
             e.printStackTrace();
         }
     }
+
+    private void closeDialog(Button btn) {
+        Stage stage = (Stage) btn.getScene().getWindow();
+        stage.close();
+    }
+    @FXML
+    void closeUpdateProduct(MouseEvent event) {
+        closeDialog(updateButton);
+    }
+    @FXML
+    void updateProduct(ActionEvent event) {
+//        String category = categoryCombo.getSelectionModel().getSelectedItem();
+//        System.out.println(idCategory(category));
+        vboxOption.setVisible(false);
+        visible = false;
+        ProductComposite product = productTable.getSelectionModel().getSelectedItem();
+        if (product != null) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/KitchenChef/updateProductCompose.fxml"));
+            DialogPane temp = null;
+            try {
+                temp = loader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            UpdateProductComposeController productController = loader.getController();
+            productController.chargeTxt(product);
+            Dialog<ButtonType> dialog = new Dialog<>();
+            dialog.setDialogPane(temp);
+            dialog.initStyle(StageStyle.UNDECORATED);
+            dialog.showAndWait();
+            refresh();
+        } else {
+            Alert alertWarning = new Alert(Alert.AlertType.WARNING);
+            alertWarning.setHeaderText("تحذير ");
+            alertWarning.setContentText("يرجى اختيار السلعة المراد تعديلها");
+            Button okButton = (Button) alertWarning.getDialogPane().lookupButton(ButtonType.OK);
+            okButton.setText("حسنا");
+            alertWarning.showAndWait();
+        }
+    }
+    @FXML
+    void deleteProduct(ActionEvent event) {
+        vboxOption.setVisible(false);
+        visible = false;
+        ProductComposite product = productTable.getSelectionModel().getSelectedItem();
+        if (product != null) {
+            Alert alertConfirmation = new Alert(Alert.AlertType.CONFIRMATION);
+            alertConfirmation.setHeaderText("تأكيد الحذف");
+            alertConfirmation.setContentText("هل انت متأكد من حذف منتوح "+product.getName());
+            Button okButton = (Button) alertConfirmation.getDialogPane().lookupButton(ButtonType.OK);
+            okButton.setText("موافق");
+            Button cancel = (Button) alertConfirmation.getDialogPane().lookupButton(ButtonType.CANCEL);
+            cancel.setText("الغاء");
+
+            alertConfirmation.showAndWait().ifPresent(response -> {
+                if (response == ButtonType.CANCEL) {
+                    alertConfirmation.close();
+                } else if (response == ButtonType.OK) {
+                    productOperation.delete(product);
+                    Alert alertWarning = new Alert(Alert.AlertType.INFORMATION);
+                    alertWarning.setHeaderText("تأكيد ");
+                    alertWarning.setContentText("تم حذف المنتج بنجاح");
+                    Button OKButton = (Button) alertWarning.getDialogPane().lookupButton(ButtonType.OK);
+                    OKButton.setText("حسنا");
+                    alertWarning.showAndWait();
+                    refresh();
+                }
+            });
+        } else {
+            Alert alertWarning = new Alert(Alert.AlertType.WARNING);
+            alertWarning.setHeaderText("تحذير ");
+            alertWarning.setContentText("يرجى اختيار المنتج المراد حذفها");
+            Button okButton = (Button) alertWarning.getDialogPane().lookupButton(ButtonType.OK);
+            okButton.setText("حسنا");
+            alertWarning.showAndWait();
+        }
+    }
+
 
 
 }

@@ -53,15 +53,14 @@ public class FoodOperation extends BDD<Food> {
     public boolean update(Food o1, Food o2) {
         conn=connect();
         boolean upd = false;
-        String query = "UPDATE `food` SET `ID_Food_Category`= ?,`FOOD_NAME`= ?,`DESCRIPTION`= ?,`FOOD_PRICE`= ?,`FOOD_IMAGE`= ? WHERE `ID_FOOD`= ?";
+        String query = "UPDATE `food` SET`FOOD_NAME`= ?,`DESCRIPTION`= ?,`FOOD_PRICE`= ?,`FOOD_IMAGE`= ? WHERE `ID_FOOD`= ?";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
-            preparedStmt.setInt(1, o2.getId_category());
-            preparedStmt.setString(2, o2.getName());
-            preparedStmt.setString(3, o2.getDescription());
-            preparedStmt.setInt(4, o2.getPrice());
-            preparedStmt.setString(5, o2.getImage_path());
-            preparedStmt.setInt(6, o1.getId());
+            preparedStmt.setString(1, o2.getName());
+            preparedStmt.setString(2, o2.getDescription());
+            preparedStmt.setInt(3, o2.getPrice());
+            preparedStmt.setString(4, o2.getImage_path());
+            preparedStmt.setInt(5, o1.getId());
             int update = preparedStmt.executeUpdate();
             if (update != -1) upd = true;
         } catch (SQLException e) {
@@ -119,18 +118,19 @@ public class FoodOperation extends BDD<Food> {
     @Override
     public boolean isExist(Food o) {
         conn=connect();
-        String query = "SELECT * FROM `food`";
+        boolean bool=false;
+        String query = "SELECT * FROM `food` WHERE `FOOD_NAME`=?";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
+            preparedStmt.setString(1, o.getName());
             ResultSet resultSet = preparedStmt.executeQuery();
-            while (resultSet.next()) {
-                if (o.getName().equals(resultSet.getString("FOOD_NAME")))
-                    return true;
-            }
+            if (resultSet.next())
+                    bool= true;
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+        return bool;
     }
 
     @Override
@@ -209,15 +209,15 @@ public class FoodOperation extends BDD<Food> {
     public int getIdFood(Food food) {
         conn=connect();
         int i=0;
-        String query = "select  * from food ";
+        String query = "select  * from food where FOOD_NAME=?";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
+            preparedStmt.setString(1, food.getName());
             ResultSet resultSet = preparedStmt.executeQuery();
             while (resultSet.next()) {
-                if (food.getName().equals(resultSet.getString("FOOD_NAME")) && food.getImage_path().equals(resultSet.getString("FOOD_IMAGE")) && food.getPrice() == resultSet.getInt("FOOD_PRICE")) {
+
                     i= resultSet.getInt("ID_FOOD");
-                }
-                System.out.println("values of data : " + resultSet.getInt("ID_PROVIDER_OPERATION") + " " + resultSet.getInt("ID_USER_OPERATION") + " " + resultSet.getInt("PAID_UP"));
+
 
             }
             conn.close();

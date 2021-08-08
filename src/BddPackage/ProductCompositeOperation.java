@@ -31,7 +31,25 @@ public class ProductCompositeOperation extends BDD<ProductComposite>{
 
     @Override
     public boolean update(ProductComposite o1, ProductComposite o2) {
-        return false;
+        conn=connect();
+        boolean upd = false;
+        String query = "UPDATE `product_composite` SET `name`=?,`QUANTITY`=?,`LESS_QUANTITY`=?,`storage_Unit`=?,`Unity_Food`=?,`Coefficient`=? WHERE `id`=?";
+        try {
+            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            preparedStmt.setString(1, o1.getName());
+            preparedStmt.setDouble(2, o1.getQuantity());
+            preparedStmt.setDouble(3, o1.getLESS_QUANTITY());
+            preparedStmt.setString(4, o1.getStorage_Unit());
+            preparedStmt.setString(5, o1.getUnity_Food());
+            preparedStmt.setInt(6, o1.getCoefficient());
+
+            preparedStmt.setInt(7, o2.getId());
+            int update = preparedStmt.executeUpdate();
+            if (update != -1) upd = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return upd;
     }
     public boolean update(ProductComposite o1) {
         conn=connect();
@@ -52,7 +70,18 @@ public class ProductCompositeOperation extends BDD<ProductComposite>{
 
     @Override
     public boolean delete(ProductComposite o) {
-        return false;
+        conn=connect();
+        boolean del = false;
+        String query = "DELETE FROM `product_composite` WHERE `id`=? ";
+        try {
+            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            preparedStmt.setInt(1, o.getId());
+            int delete = preparedStmt.executeUpdate();
+            if (delete != -1) del = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return del;
     }
 
     @Override
@@ -70,6 +99,7 @@ public class ProductCompositeOperation extends BDD<ProductComposite>{
             ResultSet resultSet = preparedStmt.executeQuery();
             while (resultSet.next()) {
                 ProductComposite productComposite = new ProductComposite();
+                productComposite.setId(resultSet.getInt("id"));
                 productComposite.setName(resultSet.getString("name"));
                 productComposite.setQuantity(resultSet.getDouble("QUANTITY"));
                 productComposite.setStorage_Unit(resultSet.getString("storage_Unit"));
@@ -100,6 +130,7 @@ public class ProductCompositeOperation extends BDD<ProductComposite>{
                 productComposite.setName(resultSet.getString("name"));
                 productComposite.setQuantity(resultSet.getDouble("QUANTITY"));
                 productComposite.setStorage_Unit(resultSet.getString("STORAGE_UNIT"));
+                productComposite.setUnity_Food(resultSet.getString("Unity_Food"));
                 productComposite.setLESS_QUANTITY(resultSet.getInt("LESS_QUANTITY"));
                 productComposite.setCoefficient(resultSet.getInt("Coefficient"));
             }
@@ -124,6 +155,7 @@ public class ProductCompositeOperation extends BDD<ProductComposite>{
                 productComposite.setName(resultSet.getString("name"));
                 productComposite.setQuantity(resultSet.getDouble("QUANTITY"));
                 productComposite.setStorage_Unit(resultSet.getString("STORAGE_UNIT"));
+                productComposite.setUnity_Food(resultSet.getString("Unity_Food"));
                 productComposite.setLESS_QUANTITY(resultSet.getInt("LESS_QUANTITY"));
                 productComposite.setCoefficient(resultSet.getInt("Coefficient"));
             }

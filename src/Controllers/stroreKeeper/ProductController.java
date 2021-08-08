@@ -139,7 +139,7 @@ public class ProductController implements Initializable {
         comboListCategory.getItems().addAll("اسم السلعة", "الصنف", "الكمية الإجمالية", "الحد الأدنى", "الوحدة");
         sortComboByCategory();
         //lbl_less_quantity.setText(String.valueOf(productOperation.getNbLessQuantity()));
-        lbl_dead_product.setText(String.valueOf(productOperation.getNbDeadProduct()));
+      //  lbl_dead_product.setText(String.valueOf(productOperation.getNbDeadProduct()));
         totProducts.setText(String.valueOf(productOperation.getCountProduct()));
     }
 
@@ -195,7 +195,7 @@ public class ProductController implements Initializable {
         dataTable.setAll(list_Products);
         productTable.setItems(dataTable);
         lbl_less_quantity.setText(String.valueOf(productOperation.getNbLessQuantity()));
-        lbl_dead_product.setText(String.valueOf(productOperation.getNbDeadProduct()));
+       // lbl_dead_product.setText(String.valueOf(productOperation.getNbDeadProduct()));
         totProducts.setText(String.valueOf(productOperation.getCountProduct()));
     }
 

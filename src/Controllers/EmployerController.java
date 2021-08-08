@@ -36,6 +36,8 @@ public class EmployerController implements Initializable {
     @FXML
     private TableColumn<Employer, String> col_salary;
     @FXML
+    private TableColumn<Employer, Integer> id;
+    @FXML
     private TextField txt_name;
     @FXML
     private TextField txt_last_name;
@@ -47,6 +49,7 @@ public class EmployerController implements Initializable {
     private TextField txt_salary;
     @FXML
     private VBox vboxOption;
+
     private boolean visible;
     private ObservableList<Employer> dataTable = FXCollections.observableArrayList();
     private ArrayList<Employer> list_Elployer = new ArrayList<>();
@@ -58,6 +61,7 @@ public class EmployerController implements Initializable {
 
         vboxOption.setVisible(false);
         txtValidate();
+        id.setCellValueFactory(new PropertyValueFactory<>("id"));
         col_name.setCellValueFactory(new PropertyValueFactory<>("first_name"));
         col_last_name.setCellValueFactory(new PropertyValueFactory<>("last_name"));
         col_phone_number.setCellValueFactory(new PropertyValueFactory<>("phone_number"));
@@ -126,4 +130,87 @@ public class EmployerController implements Initializable {
             e.printStackTrace();
         }
     }
+    @FXML
+    void showhideVbox(ActionEvent event) {
+        visible = showHideListOperation(vboxOption, visible);
+    }
+    private boolean showHideListOperation(VBox vBox, boolean visibles) {
+        if (!visibles) {
+            vBox.setVisible(true);
+            visibles = true;
+        } else {
+            vBox.setVisible(false);
+            visibles = false;
+
+        }
+        return visibles;
+    }
+    @FXML
+    void deleteProduct(ActionEvent event) {
+        vboxOption.setVisible(false);
+        visible = false;
+        Employer employer = employerTableView.getSelectionModel().getSelectedItem();
+        if (employer != null) {
+            Alert alertConfirmation = new Alert(Alert.AlertType.CONFIRMATION);
+            alertConfirmation.setHeaderText("تأكيد الحذف");
+            alertConfirmation.setContentText("هل انت متأكد من حذف هذا الموظف   ");
+            Button okButton = (Button) alertConfirmation.getDialogPane().lookupButton(ButtonType.OK);
+            okButton.setText("موافق");
+            Button cancel = (Button) alertConfirmation.getDialogPane().lookupButton(ButtonType.CANCEL);
+            cancel.setText("الغاء");
+
+            alertConfirmation.showAndWait().ifPresent(response -> {
+                if (response == ButtonType.CANCEL) {
+                    alertConfirmation.close();
+                } else if (response == ButtonType.OK) {
+                    EmployerOperation employerOperation=new EmployerOperation();
+                    employerOperation.delete(employer);
+                    Alert alertWarning = new Alert(Alert.AlertType.INFORMATION);
+                    alertWarning.setHeaderText("تأكيد ");
+                    alertWarning.setContentText("تم حذف الموظف بنجاح");
+                    Button OKButton = (Button) alertWarning.getDialogPane().lookupButton(ButtonType.OK);
+                    OKButton.setText("حسنا");
+                    alertWarning.showAndWait();
+                    refresh();
+                }
+            });
+        } else {
+            Alert alertWarning = new Alert(Alert.AlertType.WARNING);
+            alertWarning.setHeaderText("تحذير ");
+            alertWarning.setContentText("يرجى اختيار الموظف المراد حذفه");
+            Button okButton = (Button) alertWarning.getDialogPane().lookupButton(ButtonType.OK);
+            okButton.setText("حسنا");
+            alertWarning.showAndWait();
+        }
+    }
+    @FXML
+    void updateProduct(ActionEvent event) {
+        vboxOption.setVisible(false);
+        visible = false;
+        Employer employer = employerTableView.getSelectionModel().getSelectedItem();
+        if (employer != null) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/UpdateEmploy.fxml"));
+            DialogPane temp = null;
+            try {
+                temp = loader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            UpdateEmployerController updateEmployerController = loader.getController();
+            updateEmployerController.chargeTxt(employer);
+            Dialog<ButtonType> dialog = new Dialog<>();
+            dialog.setDialogPane(temp);
+            dialog.initStyle(StageStyle.UNDECORATED);
+            dialog.showAndWait();
+            refresh();
+        } else {
+            Alert alertWarning = new Alert(Alert.AlertType.WARNING);
+            alertWarning.setHeaderText("تحذير ");
+            alertWarning.setContentText("يرجى اختيار السلعة المراد تعديلها");
+            Button okButton = (Button) alertWarning.getDialogPane().lookupButton(ButtonType.OK);
+            okButton.setText("حسنا");
+            alertWarning.showAndWait();
+        }
+    }
+
 }

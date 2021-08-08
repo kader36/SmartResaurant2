@@ -164,6 +164,16 @@ public class Controller implements Initializable {
             e.printStackTrace();
         }
     }
+    @FXML
+    void loadSettings(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/settings.fxml"));
+            BorderPane temp = loader.load();
+            mainPane.getChildren().setAll(temp);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @FXML
     void loadAccountantScreen(ActionEvent event) throws IOException {

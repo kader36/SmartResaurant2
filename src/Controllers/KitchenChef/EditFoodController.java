@@ -1,14 +1,14 @@
 package Controllers.KitchenChef;
 
-import BddPackage.FoodOperation;
-import BddPackage.IngredientsFoodOperation;
-import BddPackage.ProductOperation;
+import BddPackage.*;
 import Controllers.ValidateController;
 import Controllers.ValuesStatic;
-import Models.Food;
-import Models.IngredientsFood;
-import Models.Product;
+import Controllers.newKitchenChef.PrductComposeItemControlleur;
+import Models.*;
+import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXListView;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -16,20 +16,27 @@ import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 import java.util.function.Predicate;
 
-public class EditFoodController {
+import static Controllers.newKitchenChef.PrductComposeItemControlleur.addProduct;
+
+public class EditFoodController implements Initializable {
     @FXML
     private BorderPane mainPane;
 
@@ -56,7 +63,8 @@ public class EditFoodController {
 
     @FXML
     private TableColumn<?, ?> col_Quantity;
-
+    @FXML
+    private TableColumn<?, ?> col_Type;
 
     @FXML
     private Button saveTableProductsBtn;
@@ -84,26 +92,48 @@ public class EditFoodController {
 
     @FXML
     private Button addPicBtn;
+    @FXML
+    private JFXDrawer drawerSlider;
+    @FXML
+    private TextArea Des;
+    @FXML
+    private Label FoodCategory;
 
     private ObservableList<String> dataTableView = FXCollections.observableArrayList();
     private ArrayList<String> list_Product = new ArrayList<>();
+    public  ArrayList<String> list_ProductCompose = new ArrayList<>();
     private ObservableList<String> dataCombo;
     private ArrayList<Product> list_ProductsObject = new ArrayList<>();
-    private ArrayList<IngredientsFood> list_ingredientsFoods = new ArrayList<>();
+    private ArrayList<ProductComposite> list_ProductsComposeObject = new ArrayList<>();
+    public static ArrayList<IngredientsFood> list_ingredientsFoods = new ArrayList<>();
     private ObservableList<IngredientsFood> dataTable = FXCollections.observableArrayList();
     private ValidateController validateController = new ValidateController();
     private String pathImage;
     private FoodOperation foodOperation = new FoodOperation();
     private IngredientsFoodOperation ingredientsFoodOperation = new IngredientsFoodOperation();
+    private FoodProductComposeOperation foodProductComposeOperation = new FoodProductComposeOperation();
     private static int idFood;
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        addProduct.addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
+                refresh();
+            }
+        });
+
+    }
     public void Init(BorderPane mainPane) {
+        drawerSlider.setVisible(false);
         setDisableReports();
         this.mainPane = mainPane;
         chargeListProduct();
+        chargeListProductCompose();
         col_Product_Name.setCellValueFactory(new PropertyValueFactory<>("Product_name"));
         col_Unit.setCellValueFactory(new PropertyValueFactory<>("unity"));
         col_Quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        col_Type.setCellValueFactory(new PropertyValueFactory<>("type"));
 //        col_Price.setCellValueFactory(new PropertyValueFactory<>("price"));
 //        col_Total_Price.setCellValueFactory(new PropertyValueFactory<>("total"));
         dataTableView.setAll(list_Product);
@@ -114,6 +144,9 @@ public class EditFoodController {
         foodPrice.setText(String.valueOf(ValuesStatic.currentFood.getPrice()));
         Image image = new Image(ValuesStatic.currentFood.getImage_path());
         picFood.setImage(image);
+        pathImage=ValuesStatic.currentFood.getImage_path();
+        Des.setText(ValuesStatic.currentFood.getDescription());
+        FoodCategory.setText(ValuesStatic.currentFood.getCategory_name());
         chargeTableIngredients();
     }
 
@@ -125,6 +158,14 @@ public class EditFoodController {
                 ingredientsFood.setUnity(getUnitProductByCobo(ingredientsFood.getProduct_name()));
                 list_ingredientsFoods.add(ingredientsFood);
             }
+        }
+        for (IngredientsFoodProductCompose ingredientsFoodProductCompose : foodProductComposeOperation.getIngredientsFood(ValuesStatic.currentFood.getId())) {
+            IngredientsFood ingredientsFood=new IngredientsFood();
+            ingredientsFood.setType(1);
+            ingredientsFood.setProduct_name(getNameProductComposeById(ingredientsFoodProductCompose.getId_productCopmpose()));
+            ingredientsFood.setUnity(getUnitProductComposeByCobo(ingredientsFoodProductCompose.getId_productCopmpose()));
+            ingredientsFood.setQuantity((int) ingredientsFoodProductCompose.getQuantity());
+            list_ingredientsFoods.add(ingredientsFood);
         }
         dataTable.setAll(list_ingredientsFoods);
         table_food.setItems(dataTable);
@@ -138,6 +179,15 @@ public class EditFoodController {
         for (Product listProductFromBD : listProducts) {
             list_Product.add(listProductFromBD.getName());
             list_ProductsObject.add(listProductFromBD);
+        }
+    }
+    private void chargeListProductCompose() {
+        dataCombo = FXCollections.observableArrayList();
+        ProductCompositeOperation productOperation = new ProductCompositeOperation();
+        ArrayList<ProductComposite> listProducts = productOperation.getAll();
+        for (ProductComposite listProductFromBD : listProducts) {
+            list_ProductCompose.add(listProductFromBD.getName());
+            list_ProductsComposeObject.add(listProductFromBD);
         }
     }
 
@@ -161,15 +211,21 @@ public class EditFoodController {
         return "";
     }
 
-    int getIdProductByCobo(String comboChose) {
-        for (Product listProductFromDB : list_ProductsObject) {
-            String product = listProductFromDB.getName().replace("[", "");
-            product = product.replace("]", "");
-            if (comboChose.equals(product))
-                return listProductFromDB.getId();
+
+    int getIdProductByCobo(String comboChose,int type) {
+        if(type==0){
+            ProductOperation productOperation=new ProductOperation();
+            Product product=productOperation.GetProduct(comboChose);
+            System.out.println("id product ="+product.getId());
+            return product.getId();
+
+        }else {
+            ProductCompositeOperation productCompositeOperation=new ProductCompositeOperation();
+            ProductComposite productComposite=productCompositeOperation.GetProductComposite(comboChose);
+            System.out.println("id product compose ="+productComposite.getId());
+            return productComposite.getId();
         }
 
-        return -1;
     }
 
     String getNameProductById(int idProduct) {
@@ -178,6 +234,16 @@ public class EditFoodController {
                 return listProductFromDB.getName();
         }
         return "";
+    }
+    String getNameProductComposeById(int idProduct) {
+        ProductCompositeOperation productCompositeOperation=new ProductCompositeOperation();
+        ProductComposite productComposite=productCompositeOperation.GetProductComposite(idProduct);
+        return productComposite.getName();
+    }
+    String getUnitProductComposeByCobo(int idProduct) {
+        ProductCompositeOperation productCompositeOperation=new ProductCompositeOperation();
+        ProductComposite productComposite=productCompositeOperation.GetProductComposite(idProduct);
+        return productComposite.getUnity_Food();
     }
 
     private void txtValidate() {
@@ -425,11 +491,10 @@ public class EditFoodController {
                 // update food
                 Food food = new Food();
                 food.setName(foodName.getText());
-                food.setDescription(foodName.getText() + " " + foodPrice.getText() + ".00 DA");
+                food.setDescription(Des.getText());
                 food.setImage_path(pathImage);
                 food.setPrice(Integer.parseInt(foodPrice.getText()));
                 // TODO must to change food of category
-                food.setId_category(5);
                 foodOperation.update(ValuesStatic.currentFood, food);
                 try {
                     Thread.sleep(100);
@@ -441,20 +506,33 @@ public class EditFoodController {
                 for (IngredientsFood ingredientsFood : ingredientsFoodOperation.getAll()) {
                     ingredientsFoodOperation.delete(ingredientsFood);
                 }
+                for(IngredientsFoodProductCompose ingredientsFoodProductCompose:foodProductComposeOperation.getIngredientsFood(idFood)){
+                    foodProductComposeOperation.delete(ingredientsFoodProductCompose);
+                }
+
                 // insert new ingredients
                 for (IngredientsFood ingredientsFood : dataTable) {
                     ingredientsFood.setId_food(idFood);
-                    ingredientsFood.setId_product(getIdProductByCobo(ingredientsFood.getProduct_name()));
-                    ingredientsFoodOperation.insert(ingredientsFood);
+                    if(ingredientsFood.getType()==0) {
+                        ingredientsFood.setId_product(getIdProductByCobo(ingredientsFood.getProduct_name(), 0));
+                        ingredientsFoodOperation.insert(ingredientsFood);
+                    }else {
+                        IngredientsFoodProductCompose ingredientsFoodProductCompose=new IngredientsFoodProductCompose();
+                        ingredientsFoodProductCompose.setId_productCopmpose(getIdProductByCobo(ingredientsFood.getProduct_name(),1));
+                        ingredientsFoodProductCompose.setId_food(idFood);
+                        ingredientsFoodProductCompose.setQuantity(ingredientsFood.getQuantity());
+                        foodProductComposeOperation.insert(ingredientsFoodProductCompose);
+                    }
                 }
-                Alert alertWarning = new Alert(Alert.AlertType.INFORMATION);
-                alertWarning.setHeaderText("تأكيدالحفظ");
-                alertWarning.setContentText("تم تعديل الوجبة بنجاح");
-                Button okkButton = (Button) alertWarning.getDialogPane().lookupButton(ButtonType.OK);
-                okkButton.setText("حسنا");
-                alertWarning.showAndWait();
-                setEnableReports();
-                setTxtFieldsEmpty();
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/foods.fxml"));
+                    BorderPane temp = loader.load();
+                    FoodsController foodsController = loader.getController();
+                    foodsController.Init(temp);
+                    mainPane.getChildren().setAll(temp);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -479,5 +557,26 @@ public class EditFoodController {
     @FXML
     void reportTableProducts(ActionEvent event) {
 
+    }
+    @FXML
+    void AfficheProductCompose(ActionEvent event){
+        PrductComposeItemControlleur.listProduct=list_ProductCompose;
+        drawerSlider.setVisible(true);
+        if (drawerSlider.isShown()){
+            drawerSlider.close();
+            drawerSlider.setVisible(false);
+        }else {
+            try {
+                FXMLLoader loader = new FXMLLoader();
+                AnchorPane box=loader.load(getClass().getClassLoader().getResource("Views/KitchenChef/ProducteComposeItem.fxml"));
+                box.setMaxHeight(Screen.getPrimary().getVisualBounds().getHeight());
+                box.setMaxWidth(Screen.getPrimary().getVisualBounds().getWidth());
+
+                drawerSlider.setSidePane(box);
+                drawerSlider.open();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

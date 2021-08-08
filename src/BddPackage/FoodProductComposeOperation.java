@@ -47,8 +47,17 @@ public class FoodProductComposeOperation extends BDD<IngredientsFoodProductCompo
     @Override
     public boolean delete(IngredientsFoodProductCompose o) {
         conn=connect();
+        String query = "DELETE FROM `food_productcompsite` WHERE `ID_FOOD`=? and `ID_PRODUCT`=?";
         boolean del = false;
-
+        try {
+            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            preparedStmt.setInt(1, o.getId_food());
+            preparedStmt.setInt(2, o.getId_productCopmpose());
+            int delete = preparedStmt.executeUpdate();
+            if (delete != -1) del = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return del;
     }
 

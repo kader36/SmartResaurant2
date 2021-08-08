@@ -132,12 +132,14 @@ public class AddFoodController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         addProduct.addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
                 refresh();
             }
         });
+
     }
 
     public void Init(BorderPane mainPane) {
@@ -182,23 +184,10 @@ public class AddFoodController implements Initializable {
     }
 
     String getUnitProductByCobo(String comboChose) {
-        for (Product listProductFromDB : list_ProductsObject) {
-            String product = listProductFromDB.getName().replace("[", "");
-            product = product.replace("]", "");
-            if (comboChose.equals(product)) {
-                if (listProductFromDB.getStorage_Unit().contains("g"))
-                    return "g";
-                else if (listProductFromDB.getStorage_Unit().contains("l"))
-                    return "cl";
-                else if (listProductFromDB.getStorage_Unit().contains("ل"))
-                    return "سل";
-                else if (listProductFromDB.getStorage_Unit().contains("غ"))
-                    return "غ";
-            }
+        ProductOperation productOperation=new ProductOperation();
+        Product product=productOperation.GetProduct(comboChose);
 
-        }
-
-        return "";
+        return product.getUnity_Food();
     }
 
     int getIdProductByCobo(String comboChose,int type) {

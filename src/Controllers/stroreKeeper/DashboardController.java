@@ -120,7 +120,7 @@ public class DashboardController implements Initializable {
     private ObservableList<PieChart.Data> datapiechart ;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        chargepiechart();
+        //chargepiechart();
         totalAmountCalculation();
         IncomeCalculation("day");
         masarif("day");
