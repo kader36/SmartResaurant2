@@ -19,6 +19,7 @@ public class FoodCategoryOperation extends BDD<FoodCategory> {
             preparedStmt.setString(2,o.getColor());
             int insert = preparedStmt.executeUpdate();
             if(insert != -1) ins = true;
+            conn.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -36,6 +37,7 @@ public class FoodCategoryOperation extends BDD<FoodCategory> {
             preparedStmt.setInt(2, o2.getId());
             int update = preparedStmt.executeUpdate();
             if(update != -1) upd = true;
+            conn.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -52,6 +54,7 @@ public class FoodCategoryOperation extends BDD<FoodCategory> {
             preparedStmt.setInt(1,o.getId());
             int delete = preparedStmt.executeUpdate();
             if(delete != -1) del = true;
+            conn.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -78,6 +81,7 @@ public class FoodCategoryOperation extends BDD<FoodCategory> {
                 foodCategory.setColor(resultSet.getString("COLOR"));
                 list.add(foodCategory);
             }
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -96,6 +100,25 @@ public class FoodCategoryOperation extends BDD<FoodCategory> {
                 foodCategory.setName(resultSet.getString("Food_Category_NAME"));
                 foodCategory.setColor(resultSet.getString("COLOR"));
             }
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return foodCategory;
+    }
+    public FoodCategory getCategory() {
+        conn=connect();
+        String query = "SELECT * FROM `food_category`";
+        FoodCategory foodCategory = new FoodCategory();
+        try {
+            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            ResultSet resultSet = preparedStmt.executeQuery();
+            while (resultSet.next()) {
+                foodCategory.setId(resultSet.getInt("ID_Food_Category"));
+                foodCategory.setName(resultSet.getString("Food_Category_NAME"));
+                foodCategory.setColor(resultSet.getString("COLOR"));
+            }
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

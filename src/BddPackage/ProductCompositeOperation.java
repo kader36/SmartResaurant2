@@ -23,6 +23,7 @@ public class ProductCompositeOperation extends BDD<ProductComposite>{
             preparedStmt.setInt(6,o.getCoefficient());
             int insert = preparedStmt.executeUpdate();
             if(insert != -1) ins = true;
+            conn.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -46,6 +47,7 @@ public class ProductCompositeOperation extends BDD<ProductComposite>{
             preparedStmt.setInt(7, o2.getId());
             int update = preparedStmt.executeUpdate();
             if (update != -1) upd = true;
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -62,6 +64,7 @@ public class ProductCompositeOperation extends BDD<ProductComposite>{
             preparedStmt.setInt(2, o1.getId());
             int update = preparedStmt.executeUpdate();
             if (update != -1) upd = true;
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -78,6 +81,7 @@ public class ProductCompositeOperation extends BDD<ProductComposite>{
             preparedStmt.setInt(1, o.getId());
             int delete = preparedStmt.executeUpdate();
             if (delete != -1) del = true;
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -110,6 +114,7 @@ public class ProductCompositeOperation extends BDD<ProductComposite>{
 
                 list.add(productComposite);
             }
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -134,7 +139,7 @@ public class ProductCompositeOperation extends BDD<ProductComposite>{
                 productComposite.setLESS_QUANTITY(resultSet.getInt("LESS_QUANTITY"));
                 productComposite.setCoefficient(resultSet.getInt("Coefficient"));
             }
-
+            conn.close();
         }catch (SQLException e){
             e.printStackTrace();
         }
@@ -159,7 +164,7 @@ public class ProductCompositeOperation extends BDD<ProductComposite>{
                 productComposite.setLESS_QUANTITY(resultSet.getInt("LESS_QUANTITY"));
                 productComposite.setCoefficient(resultSet.getInt("Coefficient"));
             }
-
+            conn.close();
         }catch (SQLException e){
             e.printStackTrace();
         }

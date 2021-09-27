@@ -17,6 +17,8 @@ public class TablesListController implements Initializable {
 
     // fxml elements.
     @FXML
+    private ComboBox<String> bloquer;
+    @FXML
     private Button removeButton;
 
     @FXML
@@ -61,6 +63,7 @@ public class TablesListController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+         bloquer.getItems().addAll("الجناح العائلي ", "الطابق الارضي", "الطابق العلوي");
         // set the button on action.
         addTableButton.setOnAction(actionEvent -> {
             addTable(Integer.parseInt(tableNameTextField.getText()));
@@ -92,9 +95,8 @@ public class TablesListController implements Initializable {
 
         // setting the table view.
         tableViewCheckColumn.setCellValueFactory( new PropertyValueFactory<Tables,CheckBox>("activeCheckBox"));
-        tableViewNumberColumn.setCellValueFactory( new PropertyValueFactory<Tables,String>("id"));
+        tableViewNumberColumn.setCellValueFactory( new PropertyValueFactory<Tables,String>("Bloquer"));
         tableViewNameColumn.setCellValueFactory( new PropertyValueFactory<Tables,String>("numberTab"));
-
         tablesTableView.setItems(originaltableList);
 
 
@@ -144,11 +146,11 @@ public class TablesListController implements Initializable {
         boolean bool=tabelsOperation.isExist(tables);
         if(!bool){
             temporarytableList.add(
-                    new Tables(tableNumber,tableNumber,String.valueOf(false))
+                    new Tables(tableNumber,tableNumber,String.valueOf(false),bloquer.getSelectionModel().getSelectedItem())
             );
             // add it to the table
             tablewViewTableList.add(
-                    new Tables(tableNumber,tableNumber,String.valueOf(false))
+                    new Tables(tableNumber,tableNumber,String.valueOf(false),bloquer.getSelectionModel().getSelectedItem())
             );
 
             tablesTableView.setItems(tablewViewTableList);

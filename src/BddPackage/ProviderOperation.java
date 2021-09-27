@@ -25,6 +25,7 @@ public class ProviderOperation extends BDD<Provider> {
             preparedStmt.setString(5, o.getAdress());
             int insert = preparedStmt.executeUpdate();
             if (insert != -1) ins = true;
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -36,16 +37,18 @@ public class ProviderOperation extends BDD<Provider> {
         conn=connect();
         boolean upd = false;
         String query = "UPDATE `provider` SET `PROVIDER_FIRST_NAME`= ?,`PROVIDER_LAST_NAME`= ?,\n" +
-                "    `PROVIDER_JOB`=? ,`PROVIDER_ADRESS`= ? WHERE ID_PROVIDER = ? ";
+                "    `PROVIDER_JOB`=? ,`PROVIDER_ADRESS`= ? ,`PROVIDER_PHONE_NUMBER`=? WHERE ID_PROVIDER = ? ";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             preparedStmt.setString(1, o1.getFirst_name());
             preparedStmt.setString(2, o1.getLast_name());
             preparedStmt.setString(3, o1.getJob());
             preparedStmt.setString(4, o1.getAdress());
-            preparedStmt.setInt(5, o2.getId());
+            preparedStmt.setString(5, o1.getPhone_number());
+            preparedStmt.setInt(6, o2.getId());
             int update = preparedStmt.executeUpdate();
             if (update != -1) upd = true;
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -62,6 +65,7 @@ public class ProviderOperation extends BDD<Provider> {
             preparedStmt.setInt(2 ,o1.getId());
             int update = preparedStmt.executeUpdate();
             if (update != -1) upd = true;
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -78,6 +82,7 @@ public class ProviderOperation extends BDD<Provider> {
             preparedStmt.setInt(1, o.getId());
             int delete = preparedStmt.executeUpdate();
             if (delete != -1) del = true;
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -91,7 +96,6 @@ public class ProviderOperation extends BDD<Provider> {
 
     @Override
     public ArrayList<Provider> getAll() {
-        conn=connect();
         ArrayList<Provider> list = new ArrayList<>();
         String query = "SELECT * FROM `provider`";
         try {
@@ -146,6 +150,7 @@ public class ProviderOperation extends BDD<Provider> {
             list.add(provider);
             ValuesStatic.totCreditor += provider.getCreditor();
         }
+        conn.close();
         return list;
     }
 

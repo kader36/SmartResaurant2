@@ -6,7 +6,6 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
@@ -25,6 +24,7 @@ public class Food {
     private int rating;
     private String category_name;
     private CheckBox foodSelectedCheckBox;
+    private byte[] IMAGE;
 
 
     private boolean availabale;
@@ -151,12 +151,12 @@ public class Food {
         // snapshot the rounded image.
         SnapshotParameters parameters = new SnapshotParameters();
         parameters.setFill(Color.TRANSPARENT);
-        WritableImage myimage = image.snapshot(parameters, null);
+        //WritableImage myimage = image.snapshot(parameters, null);
 
         // remove the rounding clip so that our effect can show through.
         image.setClip(null);
         image.setEffect(new DropShadow(3, Color.BLACK));
-        image.setImage(myimage);
+        //image.setImage(myimage);
          return image;
     }
 
@@ -181,4 +181,12 @@ public class Food {
     public void setFoodSelectedCheckBox(CheckBox foodSelectedCheckBox) { this.foodSelectedCheckBox = foodSelectedCheckBox; }
 
     public void setCheckBoxState(boolean state) { this.foodSelectedCheckBox.setSelected(state); }
+
+    public byte[] getIMAGE() {
+        return IMAGE;
+    }
+
+    public void setIMAGE(byte[] IMAGE) {
+        this.IMAGE = IMAGE;
+    }
 }

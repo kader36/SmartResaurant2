@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<DialogPane maxHeight="400.0" maxWidth="440.0" minHeight="400.0" minWidth="440.0" prefHeight="400.0" prefWidth="440.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.stroreKeeper.CategoriesController">
+<DialogPane maxHeight="400.0" maxWidth="440.0" minHeight="400.0" minWidth="440.0" prefHeight="400.0" prefWidth="440.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.stroreKeeper.CategoriesController">
    <content>
       <BorderPane maxHeight="400.0" maxWidth="440.0" minHeight="400.0" minWidth="440.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="400.0" prefWidth="440.0" style="-fx-background-color: #F8F8F8;" stylesheets="@../css/style.css">
          <center>
@@ -22,12 +22,12 @@
                <children>
                   <VBox alignment="CENTER" layoutX="394.0" layoutY="189.0" maxHeight="1.7976931348623157E308" maxWidth="440.0" minWidth="440.0" prefWidth="440.0" spacing="20.0" style="-fx-background-color: FFF;" styleClass="container-table" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <ImageView fx:id="closebtn" fitHeight="25.0" fitWidth="14.0" onMouseClicked="#closeInsertJobDialog" opacity="0.8" pickOnBounds="true" preserveRatio="true" styleClass="image-close-pop">
+                        <ImageView fx:id="closebtn" fitHeight="19.0" fitWidth="23.0" onMouseClicked="#closeInsertJobDialog" opacity="0.81" pickOnBounds="true" preserveRatio="true" styleClass="image-close-pop" VBox.vgrow="NEVER">
                            <image>
                               <Image url="@../../Images/delete.png" />
                            </image>
                            <VBox.margin>
-                              <Insets right="270.0" />
+                              <Insets right="350.0" />
                            </VBox.margin>
                            <cursor>
                               <Cursor fx:constant="HAND" />

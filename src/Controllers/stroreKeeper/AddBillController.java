@@ -140,7 +140,7 @@ public class AddBillController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        // txt_Provider_Name.setText("naily maz");
+        idStorBill = storBilleOperation.getIdStorBill();
     }
 
     public void Init(BorderPane mainPane) {
@@ -301,6 +301,7 @@ public class AddBillController implements Initializable {
         //Bill bill = table_Bill.getSelectionModel().getSelectedItem();
         dataTable = FXCollections.observableArrayList();
         dataTable.setAll(table_Bill.getItems());
+
         if (table_Bill.getItems().size() == 0) {
             Alert alertWarning = new Alert(Alert.AlertType.WARNING);
             alertWarning.setHeaderText("تحذير ");
@@ -335,60 +336,68 @@ public class AddBillController implements Initializable {
                     else
                         paid = Integer.parseInt(txt_Paid.getText());
 
+                    if(paid>Double.parseDouble(lbl_bill_total.getText())) {
+                        Alert alertWarning = new Alert(Alert.AlertType.ERROR);
+                        alertWarning.setHeaderText("تحذير ");
+                        alertWarning.setContentText("مبلع المدخل اكبر من المبلغ الاجمالي ");
+                        Button okkButton = (Button) alertWarning.getDialogPane().lookupButton(ButtonType.OK);
+                        okkButton.setText("حسنا");
+                        alertWarning.showAndWait();
+                    }else {
+                        double Creditor = provider1.getCreditor();
+                        double total= Double.parseDouble(lbl_bill_total.getText());
+                        System.out.println(total);
+                        provider1.setCreditor(Creditor + (Double.parseDouble(lbl_bill_total.getText()) - paid));
+                        providerOperation.update(provider1);
+                        // insert into store bill
+                        StoreBill storeBill = new StoreBill();
+                        storeBill.setId(idStorBill);
+                        storeBill.setId_provider(idProvider);
+                        storeBill.setId_user(CurrentUser.getId());
+                        storeBill.setPaid_up(paid);
+                        storeBill.setTotal((int) total);
+                        System.out.println(storeBill.getTotal());
+                        storBilleOperation.insert(storeBill);
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
 
-                    double Creditor=provider1.getCreditor();
-                    provider1.setCreditor(Creditor+(Double.parseDouble(lbl_bill_total.getText()) - paid));
-                    providerOperation.update(provider1);
-                    // insert into store bill
-                    StoreBill storeBill = new StoreBill();
-                    storeBill.setId_provider(idProvider);
-                    storeBill.setId_user(CurrentUser.getId());
-                    storeBill.setPaid_up(paid);
-                    storBilleOperation.insert(storeBill);
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    idStorBill = storBilleOperation.getIdStorBill(idProvider, 1, paid);
-                    System.out.println(paid);
-                    for (Bill bill : dataTable) {
-                        // insert into store bill product
-                        ProductOperation productOperation=new ProductOperation();
-                        Product product=new Product();
-                        Product product1 =productOperation.GetProduct(getIdProductByCobo(bill.getName()));
+                        System.out.println(paid);
+                        for (Bill bill : dataTable) {
+                            // insert into store bill product
+                            ProductOperation productOperation = new ProductOperation();
+                            Product product = new Product();
+                            Product product1 = productOperation.GetProduct(getIdProductByCobo(bill.getName()));
 
-                        product.setId(getIdProductByCobo(bill.getName()));
-                        product.setTot_quantity(product1.getTot_quantity()+bill.getQuant());
-                        productOperation.update(product);
-                        StoreBillProduct storeBillProduct = new StoreBillProduct();
-                        storeBillProduct.setId_stor_bill(idStorBill);
-                        storeBillProduct.setId_product(getIdProductByCobo(bill.getName()));
-                        storeBillProduct.setPrice(bill.getPrice());
-                        storeBillProduct.setProduct_quantity(bill.getQuant());
-                        billProductOperation.insert(storeBillProduct);
+                            product.setId(getIdProductByCobo(bill.getName()));
+                            product.setTot_quantity(product1.getTot_quantity() + bill.getQuant());
+                            productOperation.update(product);
+                            StoreBillProduct storeBillProduct = new StoreBillProduct();
+                            storeBillProduct.setId_stor_bill(idStorBill);
+                            storeBillProduct.setId_product(getIdProductByCobo(bill.getName()));
+                            storeBillProduct.setPrice(bill.getPrice());
+                            storeBillProduct.setProduct_quantity(bill.getQuant());
+                            billProductOperation.insert(storeBillProduct);
+                        }
+                        refresh();
+                        try {
+                            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Factories.fxml"));
+
+                            BorderPane temp = loader.load();
+                            BillListController billController = loader.getController();
+                            billController.Init(temp);
+                            mainPane.getChildren().setAll(temp);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
-                    refresh();
                     // go to Factories Secreen
-                    Alert alertWarning = new Alert(Alert.AlertType.INFORMATION);
-                    alertWarning.setHeaderText("تأكيد ");
-                    alertWarning.setContentText("تم اضافة الفاتورة بنجاح");
-                    Button okkButton = (Button) alertWarning.getDialogPane().lookupButton(ButtonType.OK);
-                    okkButton.setText("حسنا");
-                    alertWarning.showAndWait();
                 }
                 setEnableReports();
             });
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Factories.fxml"));
 
-                BorderPane temp = loader.load();
-                BillListController billController = loader.getController();
-                billController.Init(temp);
-                mainPane.getChildren().setAll(temp);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         } else {
             Alert alertWarning = new Alert(Alert.AlertType.WARNING);
             alertWarning.setHeaderText("تحذير ");
@@ -596,7 +605,7 @@ public class AddBillController implements Initializable {
         if (verificationBeforeReport()) {
             // TODO must change report path
             try {
-                String report = "E:\\SmartResaurant\\src\\Views\\storekeeper\\reportStoreBillProduct.jrxml";
+                String report = "Views/storekeeper/reportStoreBillProduct.jrxml";
                 JasperDesign jasperDesign = JRXmlLoader.load(report);
                 String sqlCmd = "select * from store_bill_product where id_store_bill = " + idStorBill;
                 JRDesignQuery jrDesignQuery = new JRDesignQuery();

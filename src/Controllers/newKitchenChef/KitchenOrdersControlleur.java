@@ -1,8 +1,9 @@
 package Controllers.newKitchenChef;
 
-import BddPackage.*;
+import BddPackage.FoodOperation;
 import Controllers.Tables.OrdersServer;
-import Models.*;
+import Models.Food;
+import Models.Orders;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
@@ -16,15 +17,13 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.ResourceBundle;
@@ -34,6 +33,8 @@ public class KitchenOrdersControlleur implements Initializable {
     // fxml elements.
     @FXML
     private GridPane orderGridView;
+    @FXML
+    private HBox s;
 
     @FXML
     private Button confirmOrderButton;
@@ -46,6 +47,7 @@ public class KitchenOrdersControlleur implements Initializable {
 
     // variables.
     public static BooleanProperty newOrder = new SimpleBooleanProperty();
+    public  BooleanProperty confirmOrder = new SimpleBooleanProperty();
     public static Queue<String> ordersIdsQueue = new PriorityQueue<String>();
     public Orders curentOrder;
     public static String curentOrderId = "";
@@ -57,14 +59,21 @@ public class KitchenOrdersControlleur implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         // set the button action methods.
-        confirmOrderButton.setOnAction(actionEvent -> {
+        confirmOrderButton.setOnMouseClicked(actionEvent -> {
+
+            confirmOrderButton.setDisable(true);
             try {
+                if (ordersIdsQueue.isEmpty() == false)
                 confirmOrder();
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
+        s.setOnMouseClicked(actionEvent -> {
 
+            confirmOrderButton.setDisable(false);
+        });
         // set teh new order refresh listener.
      newOrder.addListener((observableValue, aBoolean, t1) -> {
             try {
@@ -130,7 +139,7 @@ public class KitchenOrdersControlleur implements Initializable {
                         curentOrder.getFoodsList().get(foodItemsIndex).getId_food()
                 );
                 // create the image.
-                File file = new File(curentFood.getImage_path());
+               // File file = new File(curentFood.getImage_path());
                 Image image = new Image(curentFood.getImage_path());
 
                 tableGridItemControlleur.loadData(
@@ -181,59 +190,9 @@ public class KitchenOrdersControlleur implements Initializable {
 
     // method to confirm the order.
     void confirmOrder() throws IOException {
+
+        orderGridView.getChildren().clear();
         curentOrderId=ordersIdsQueue.element();
-        for (int orderIndex = 0; orderIndex < OrdersServer.ordersList.size(); orderIndex++) {
-            if (String.valueOf(OrdersServer.ordersList.get(orderIndex).getId()).equals(curentOrderId)){
-                curentOrder = OrdersServer.ordersList.get(orderIndex);
-            }
-        }
-        OrdersOperation orderDatabaseConnector = new OrdersOperation();
-        orderDatabaseConnector.insert(curentOrder);
-        // add the food order.
-        FoodOrderOperation foodDatabaseConnector = new FoodOrderOperation();
-        for (int foodIndex = 0; foodIndex < curentOrder.getFoodsList().size(); foodIndex++) {
-            foodDatabaseConnector.insert(curentOrder.getFoodsList().get(foodIndex));
-            ArrayList<IngredientsFood> list = new ArrayList<>();
-            ArrayList<IngredientsFoodProductCompose> listproductcompose = new ArrayList<>();
-            IngredientsFoodOperation ingredientsFoodOperation=new IngredientsFoodOperation();
-            list=ingredientsFoodOperation.getIngredientsFood(curentOrder.getFoodsList().get(foodIndex).getId_food());
-            FoodProductComposeOperation foodProductComposeOperation=new FoodProductComposeOperation();
-            listproductcompose=foodProductComposeOperation.getIngredientsFood(curentOrder.getFoodsList().get(foodIndex).getId_food());
-            for (int productIndex = 0; productIndex < list.size(); productIndex++) {
-                Product product=new Product();
-                ProductOperation productOperation=new ProductOperation();
-                product=productOperation.GetProduct(list.get(productIndex).getId_product());
-                double x=list.get(productIndex).getQuantity();
-                double y=product.getCoefficient();
-                double foodQuntity=curentOrder.getFoodsList().get(foodIndex).getQuantity();
-                double resul=x/y*foodQuntity;
-                double productQuntity=product.getTot_quantity();
-                double quntity2=productQuntity-resul;
-                DecimalFormat df =new DecimalFormat("0.00");
-                product.setTot_quantity(Double.parseDouble(df.format(quntity2)));
-                productOperation.update(product);
-            }
-            for (int productComIndex = 0; productComIndex < listproductcompose.size(); productComIndex++) {
-                ProductComposite productComposite=new ProductComposite();
-                ProductCompositeOperation productCompositeOperation=new ProductCompositeOperation();
-                productComposite=productCompositeOperation.GetProductComposite(listproductcompose.get(productComIndex).getId_productCopmpose());
-                double x=listproductcompose.get(productComIndex).getQuantity();
-                double y=productComposite.getCoefficient();
-                double foodQuntity=curentOrder.getFoodsList().get(foodIndex).getQuantity();
-                double resul=x/y*foodQuntity;
-                double productQuntity=productComposite.getQuantity();
-                double quntity2=productQuntity-resul;
-                System.out.println(x);
-                System.out.println(y);
-                System.out.println(foodQuntity);
-                System.out.println(resul);
-                System.out.println(productQuntity);
-                System.out.println(quntity2);
-                DecimalFormat df =new DecimalFormat("0.00");
-                productComposite.setQuantity(Double.parseDouble(df.format(quntity2)));
-                productCompositeOperation.update(productComposite);
-            }
-        }
         // do what when the order is confirmed ?????
         // load the next order.
         if (ordersIdsQueue.isEmpty() == false){
@@ -241,7 +200,6 @@ public class KitchenOrdersControlleur implements Initializable {
             loadData();
         if(ordersIdsQueue.isEmpty()){
             // reset the view
-            orderGridView.getChildren().clear();
             orerTotalPriceLabel.setText("");
             tableNumberLabel.setText("");
         }

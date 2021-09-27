@@ -18,6 +18,7 @@ public class ProviderJobOperation extends BDD<ProviderJob> {
             preparedStmt.setString(1,o.getName());
             int insert = preparedStmt.executeUpdate();
             if(insert != -1) ins = true;
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -35,6 +36,7 @@ public class ProviderJobOperation extends BDD<ProviderJob> {
             preparedStmt.setInt(   2,o2.getId());
             int update = preparedStmt.executeUpdate();
             if(update != -1) upd = true;
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -50,6 +52,7 @@ public class ProviderJobOperation extends BDD<ProviderJob> {
             preparedStmt.setInt(1,o.getId());
             int delete = preparedStmt.executeUpdate();
             if(delete != -1) del = true;
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -75,6 +78,7 @@ public class ProviderJobOperation extends BDD<ProviderJob> {
                 providerJob.setName(resultSet.getString("TYPE"));
                 list.add(providerJob);
             }
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

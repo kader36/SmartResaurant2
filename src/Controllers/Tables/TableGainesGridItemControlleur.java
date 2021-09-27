@@ -14,6 +14,7 @@ public class TableGainesGridItemControlleur {
     private Label tableGain;
 
 
+
     // methods.
     public void setTableGainItemData(double tableNumber, double tableGains){
 

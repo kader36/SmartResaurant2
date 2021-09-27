@@ -3,8 +3,13 @@ package Controllers.KitchenChef;
 import BddPackage.FoodCategoryOperation;
 import Models.FoodCategory;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXTextField;
 import javafx.animation.FadeTransition;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,6 +21,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -77,7 +83,24 @@ public class CategoryFoodController implements Initializable {
     private Label errProductCategory;
 
     private boolean visibleCategory = false;
+    @FXML
+    private HBox hbox;
 
+    @FXML
+    private JFXCheckBox green;
+
+    @FXML
+    private JFXCheckBox red;
+
+    @FXML
+    private JFXCheckBox blue;
+
+    @FXML
+    private JFXCheckBox Purple;
+    @FXML
+    private JFXCheckBox brouwn;
+
+    public  BooleanProperty change = new SimpleBooleanProperty();
     private ArrayList<FoodCategory> listCategory;
     private ObservableList<FoodCategory> data_Table= FXCollections.observableArrayList();
     private FoodCategory foodCategory;
@@ -87,15 +110,36 @@ public class CategoryFoodController implements Initializable {
     );
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-       /* ValidateController validateController = new ValidateController();
-        validateController.inputTextValueType(txt_food_name);
-        foodCategoryOperation = new FoodCategoryOperation();
-        listCategory = foodCategoryOperation.getAll();
-        data_Table.setAll(listCategory);
-        col_idcategory.setCellValueFactory(new PropertyValueFactory<>("id"));
-        col_category_name.setCellValueFactory(new PropertyValueFactory<>("name"));
-        tableCatrgoryFood.setItems(data_Table);
-        updatecategoryButton.setDisable(true);*/
+        FoodCategory foodCategory=new FoodCategory();
+        FoodCategoryOperation foodCategoryOperation=new FoodCategoryOperation();
+        foodCategory=foodCategoryOperation.getCategory();
+        System.out.println(foodCategory.getName()+" "+foodCategory.getColor());
+        change.addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
+                red.setOnAction((event) -> {
+                    deselection(green,blue,Purple,brouwn);
+
+                });
+                green.setOnAction((event) -> {
+                    deselection(red,blue,Purple,brouwn);
+
+                });
+                blue.setOnAction((event) -> {
+                    deselection(red,green,Purple,brouwn);
+
+                });
+                Purple.setOnAction((event) -> {
+                    deselection(red,blue,green,brouwn);
+
+                });
+                brouwn.setOnAction((event) -> {
+                    deselection(red,blue,Purple,green);
+
+                });
+            }
+        });
+
 
     }
     public void Init(AnchorPane mainPain) {
@@ -104,6 +148,7 @@ public class CategoryFoodController implements Initializable {
     private void Inite(FoodCategory productCategory) {
         txt_category_upt.setText(productCategory.getName());
         this.foodCategory = productCategory;
+
     }
     public void InitCategoryList() {
         vboxOptionCategory.setVisible(false);
@@ -253,11 +298,36 @@ public class CategoryFoodController implements Initializable {
 
     @FXML
     void AddCategoryAction(ActionEvent event) {
+        String color="";
         if (!txt_category.getText().isEmpty()) {
+            FoodCategoryOperation foodCategoryOperation=new FoodCategoryOperation();
+            FoodCategory foodCategory1=new FoodCategory();
+            foodCategory1=foodCategoryOperation.getCategory();
+            System.out.println(foodCategory1.getColor());
+            if(foodCategory1.getColor()!=null) {
+                if (foodCategory1.getColor().equals("800000")) {
+                    color = "FF0000";
+                } else {
+                    if (foodCategory1.getColor().equals("FF0000")) {
+                        color = "008000";
+                    } else {
+                        if (foodCategory1.getColor().equals("008000")) {
+                            color = "0000FF";
+                        } else {
+                            if (foodCategory1.getColor().equals("0000FF")) {
+                                color = "800080";
+                            } else {
+                                color = "800000";
+                            }
+                        }
+                    }
+                }
+            }else{
+                color ="28E80E";
+            }
             FoodCategory foodCategory=new FoodCategory();
             foodCategory.setName(txt_category.getText());
-            foodCategory.setColor("1d5f22");
-            FoodCategoryOperation foodCategoryOperation=new FoodCategoryOperation();
+            foodCategory.setColor(color);
             boolean k=foodCategoryOperation.insert(foodCategory);
             System.out.println(k);
             txt_category.setText("");
@@ -335,5 +405,16 @@ public class CategoryFoodController implements Initializable {
         }
     }
 
-
+    void deselection(JFXCheckBox a,JFXCheckBox b,JFXCheckBox c,JFXCheckBox d){
+        a.setSelected(false);
+        c.setSelected(false);
+        d.setSelected(false);
+        b.setSelected(false);
+        change.setValue(!change.getValue());
+    }
+    void selection(){
+        if(red.isSelected()){
+            change.setValue(!change.getValue());
+        }
+    }
 }

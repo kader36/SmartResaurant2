@@ -39,14 +39,17 @@
          <children>
             <HBox layoutY="68.0" prefHeight="549.0" prefWidth="900.0" spacing="10.0" AnchorPane.bottomAnchor="99.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="68.0">
                <children>
-                  <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="550.0" prefWidth="550.0" spacing="20.0" style="-fx-background-color: FFF;" styleClass="container-table" HBox.hgrow="ALWAYS">
+                  <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="550.0" prefHeight="555.0" prefWidth="677.0" spacing="20.0" style="-fx-background-color: FFF;" styleClass="container-table" HBox.hgrow="ALWAYS">
                      <children>
-                        <TableView fx:id="productTable" fixedCellSize="0.0" maxWidth="450.0" minWidth="525.0" prefWidth="450.0" styleClass="table" VBox.vgrow="ALWAYS">
+                        <TableView fx:id="productTable" fixedCellSize="0.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="table" VBox.vgrow="ALWAYS">
                           <columns>
-                            <TableColumn fx:id="col_name" prefWidth="113.0" styleClass="column-table" text="إسم السلعة" />
-                              <TableColumn fx:id="col_category" prefWidth="105.0" styleClass="column-table" text="الصنف" />
-                              <TableColumn fx:id="col_unite" editable="false" prefWidth="94.0" sortable="false" styleClass="column-table" text="الوحدة" />
-                              <TableColumn fx:id="col_quantity" prefWidth="122.0" styleClass="column-table" text="الكمية الإجمالية" />
+                            <TableColumn fx:id="col_name" prefWidth="124.0" resizable="false" styleClass="column-table" text="إسم المنتوج" />
+                              <TableColumn fx:id="col_category" prefWidth="154.0" resizable="false" styleClass="column-table" text="الصنف" />
+                              <TableColumn fx:id="col_unite" editable="false" prefWidth="78.0" resizable="false" sortable="false" styleClass="column-table" text="وحدة التخزين" />
+                              <TableColumn fx:id="col_unite_food" prefWidth="77.0" resizable="false" styleClass="column-table" text="وحدة الوصفة" />
+                              <TableColumn fx:id="col_Coefficient" prefWidth="66.0" resizable="false" styleClass="column-table" text="معامل ت/و" />
+                              <TableColumn fx:id="col_quantity" prefWidth="85.0" resizable="false" styleClass="column-table" text="الكمية الإجمالية" />
+                              <TableColumn fx:id="col_quantity_less" prefWidth="170.0" styleClass="column-table" text="الحد الادنى" />
                           </columns>
                            <VBox.margin>
                               <Insets top="10.0" />
@@ -159,77 +162,47 @@
                         </HBox>
                      </children>
                      <padding>
-                        <Insets bottom="40.0" left="20.0" right="20.0" top="20.0" />
+                        <Insets bottom="10.0" top="10.0" />
                      </padding>
                   </VBox>
-                  <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+                  <VBox alignment="TOP_CENTER" prefHeight="555.0" prefWidth="316.0" spacing="10.0">
                      <children>
-                        <HBox prefHeight="100.0" prefWidth="200.0">
+                        <HBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" styleClass="container-table">
                            <children>
-                              <HBox maxHeight="90.0" minHeight="90.0" prefHeight="90.0" prefWidth="170.0" style="-fx-background-color: white;" styleClass="container-table">
-                                 <children>
-                                    <ImageView fitHeight="40.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../Images/products-number.png" />
-                                       </image>
-                                       <HBox.margin>
-                                          <Insets left="5.0" top="25.0" />
-                                       </HBox.margin>
-                                    </ImageView>
-                                    <VBox alignment="CENTER" prefHeight="200.0">
-                                       <children>
-                                          <Label text="السلع ذات الحد الأدنى" textFill="#828282">
-                                             <font>
-                                                <Font name="HSDream-Regular" size="16.0" />
-                                             </font>
-                                             <VBox.margin>
-                                                <Insets left="5.0" />
-                                             </VBox.margin>
-                                          </Label>
-                                          <Label fx:id="lbl_less_quantity" text="32" textFill="#828282">
-                                             <font>
-                                                <Font name="HSDream-Regular" size="16.0" />
-                                             </font>
-                                          </Label>
-                                       </children>
-                                    </VBox>
-                                 </children>
-                              </HBox>
-                              <HBox layoutX="10.0" layoutY="10.0" maxHeight="90.0" minHeight="90.0" prefHeight="90.0" prefWidth="150.0" style="-fx-background-color: white;" styleClass="container-table">
-                                 <children>
-                                    <ImageView fitHeight="40.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../Images/products-number.png" />
-                                       </image>
-                                       <HBox.margin>
-                                          <Insets left="5.0" top="25.0" />
-                                       </HBox.margin>
-                                    </ImageView>
-                                    <VBox alignment="CENTER" prefHeight="200.0">
-                                       <children>
-                                          <Label text="السلع المنتهية" textFill="#828282">
-                                             <font>
-                                                <Font name="HSDream-Regular" size="16.0" />
-                                             </font>
-                                             <VBox.margin>
-                                                <Insets left="5.0" />
-                                             </VBox.margin>
-                                          </Label>
-                                          <Label fx:id="lbl_dead_product" text="32" textFill="#828282">
-                                             <font>
-                                                <Font name="HSDream-Regular" size="16.0" />
-                                             </font>
-                                          </Label>
-                                       </children>
-                                    </VBox>
-                                 </children>
+                              <ImageView fitHeight="40.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../Images/products-number.png" />
+                                 </image>
                                  <HBox.margin>
-                                    <Insets left="10.0" />
+                                    <Insets left="5.0" top="25.0" />
                                  </HBox.margin>
-                              </HBox>
+                              </ImageView>
+                              <VBox alignment="CENTER" prefHeight="200.0">
+                                 <children>
+                                    <Label text="السلع ذات الحد الأدنى" textFill="#828282">
+                                       <font>
+                                          <Font name="HSDream-Regular" size="16.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets left="5.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <Label fx:id="lbl_less_quantity" text="32" textFill="#828282">
+                                       <font>
+                                          <Font name="HSDream-Regular" size="16.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
                            </children>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="5.0" top="5.0" />
+                           </padding>
                         </HBox>
-                        <VBox alignment="TOP_CENTER" maxWidth="325.0" minWidth="320.0" prefHeight="357.0" prefWidth="320.0" style="-fx-background-color: white;" styleClass="container-table">
+                        <VBox alignment="TOP_CENTER" prefHeight="455.0" prefWidth="259.0" style="-fx-background-color: white;" styleClass="container-table">
                            <children>
                               <Label text="إضافة سلعة جديدة" textFill="#717171">
                                  <font>
@@ -244,51 +217,51 @@
                                     <Font name="HSDream-Regular" size="14.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="txt_name" promptText="إسم السلعة">
+                              <TextField fx:id="txt_name" maxWidth="223.0" minWidth="223.0" prefHeight="37.0" prefWidth="223.0" promptText="إسم السلعة">
                                  <VBox.margin>
-                                    <Insets left="50.0" right="50.0" top="20.0" />
+                                    <Insets left="20.0" right="20.0" top="20.0" />
                                  </VBox.margin>
                                  <font>
                                     <Font name="HSDream-Regular" size="13.0" />
                                  </font>
                               </TextField>
-                              <ComboBox fx:id="categoryCombo" maxHeight="32.0" maxWidth="230.0" minHeight="32.0" minWidth="97.0" prefHeight="32.0" prefWidth="230.0" promptText="الصنف" styleClass="search-input">
+                              <ComboBox fx:id="categoryCombo" maxWidth="223.0" minWidth="223.0" prefWidth="223.0" promptText="الصنف" styleClass="search-input">
                                  <VBox.margin>
-                                    <Insets left="50.0" right="50.0" top="10.0" />
+                                    <Insets left="20.0" right="20.0" top="10.0" />
                                  </VBox.margin>
                               </ComboBox>
-                              <ComboBox fx:id="STORAGE_UNIT" maxHeight="32.0" maxWidth="230.0" minHeight="32.0" minWidth="97.0" prefHeight="32.0" prefWidth="230.0" promptText="وحدة التخزين " styleClass="search-input">
+                              <ComboBox fx:id="STORAGE_UNIT" maxWidth="223.0" minWidth="223.0" prefHeight="32.0" prefWidth="223.0" promptText="وحدة التخزين " styleClass="search-input">
                                  <VBox.margin>
-                                    <Insets left="50.0" right="50.0" top="10.0" />
+                                    <Insets left="20.0" right="20.0" top="10.0" />
                                  </VBox.margin>
                               </ComboBox>
-                              <ComboBox fx:id="Unity_Food" maxHeight="32.0" maxWidth="230.0" minHeight="32.0" minWidth="97.0" prefHeight="32.0" prefWidth="230.0" promptText="وحدة الوصفة " styleClass="search-input">
+                              <ComboBox fx:id="Unity_Food" maxWidth="223.0" minWidth="223.0" prefHeight="32.0" prefWidth="223.0" promptText="وحدة الوصفة " styleClass="search-input">
                                  <VBox.margin>
-                                    <Insets left="50.0" right="50.0" top="10.0" />
+                                    <Insets left="20.0" right="20.0" top="10.0" />
                                  </VBox.margin>
                               </ComboBox>
-                              <TextField fx:id="txt_Coefficient" prefHeight="26.0" prefWidth="251.0" promptText="معامل التخزين/الوصفة">
+                              <TextField fx:id="txt_Coefficient" maxWidth="223.0" minWidth="223.0" prefHeight="26.0" prefWidth="223.0" promptText="معامل التخزين/الوصفة">
                                  <font>
                                     <Font name="HSDream-Regular" size="13.0" />
                                  </font>
                                  <VBox.margin>
-                                    <Insets left="50.0" right="50.0" top="10.0" />
+                                    <Insets left="20.0" right="20.0" top="10.0" />
                                  </VBox.margin>
                               </TextField>
-                              <TextField fx:id="txt_tot_quantity" layoutX="61.0" layoutY="153.0" promptText="الكمية الإجمالية">
+                              <TextField fx:id="txt_tot_quantity" layoutX="61.0" layoutY="153.0" maxWidth="223.0" minWidth="223.0" prefWidth="223.0" promptText="الكمية الإجمالية">
                                  <font>
                                     <Font name="HSDream-Regular" size="13.0" />
                                  </font>
                                  <VBox.margin>
-                                    <Insets left="50.0" right="50.0" top="10.0" />
+                                    <Insets left="20.0" right="20.0" top="10.0" />
                                  </VBox.margin>
                               </TextField>
-                              <TextField fx:id="txt_LESS_QUANTITY" promptText="الحد الادنى">
+                              <TextField fx:id="txt_LESS_QUANTITY" maxWidth="223.0" minWidth="223.0" prefWidth="223.0" promptText="الحد الادنى">
                                  <font>
                                     <Font name="HSDream-Regular" size="13.0" />
                                  </font>
                                  <VBox.margin>
-                                    <Insets left="50.0" right="50.0" top="10.0" />
+                                    <Insets left="20.0" right="20.0" top="10.0" />
                                  </VBox.margin>
                               </TextField>
                               <Button mnemonicParsing="false" onAction="#insertProduct" prefWidth="100.0" styleClass="add-product-all" text="إضافة السلعة" textFill="WHITE">
@@ -308,9 +281,6 @@
                            </padding>
                         </VBox>
                      </children>
-                     <padding>
-                        <Insets left="15.0" />
-                     </padding>
                   </VBox>
                </children>
             </HBox>

@@ -1,5 +1,6 @@
 package Controllers.stroreKeeper;
 
+import BddPackage.Connet;
 import BddPackage.ProviderOperation;
 import BddPackage.StorBilleOperation;
 import BddPackage.StoreBillProductOperation;
@@ -8,6 +9,8 @@ import Models.BillList;
 import Models.Provider;
 import Models.StoreBill;
 import Models.StoreBillProduct;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -24,9 +27,16 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.StageStyle;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.design.JRDesignQuery;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.function.Predicate;
@@ -80,10 +90,17 @@ public class BillListController implements Initializable {
     private StorBilleOperation storBilleOperation = new StorBilleOperation();
     private ProviderOperation providerOperation = new ProviderOperation();
     private StoreBillProductOperation storeBillProductOperation = new StoreBillProductOperation();
+    public static BooleanProperty Refech = new SimpleBooleanProperty();
     private boolean visible = false;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        Refech.addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
+                refresh();
+            }
+        });
     }
 
     public void Init(BorderPane mainPane) {
@@ -104,16 +121,16 @@ public class BillListController implements Initializable {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 switch (newValue) {
                     case "رقم الفاتورة":
-                        dataTable.setAll(chargeListBill("STORE_BILL.ID_STORE_BILL"));
+                        dataTable.setAll(chargeListBill("ID_STORE_BILL"));
                         billTable.setItems(dataTable);
                         System.out.println("misaoooooooooooooor");
                         break;
                     case "اسم المورد":
-                        dataTable.setAll(chargeListBill("STORE_BILL.ID_PROVIDER_OPERATION"));
+                        dataTable.setAll(chargeListBill("ID_PROVIDER_OPERATION"));
                         billTable.setItems(dataTable);
                         break;
                     case "المدفوع":
-                        dataTable.setAll(chargeListBill("STORE_BILL.PAID_UP"));
+                        dataTable.setAll(chargeListBill("PAID_UP"));
                         billTable.setItems(dataTable);
                         break;
                 }
@@ -160,7 +177,7 @@ public class BillListController implements Initializable {
             billList.setNumber(storeBill.getId());
             billList.setDate(storeBill.getDate().toString());
             billList.setPaid_up(storeBill.getPaid_up());
-            billList.setProvider_name(storeBill.getProvider(storeBill.getId_provider()).getLast_name());
+            billList.setProvider_name(storeBill.getProvider(storeBill.getId_provider()).getLast_name()+" "+storeBill.getProvider(storeBill.getId_provider()).getFirst_name());
             //this for loop is for get total
             for (StoreBillProduct storeBillProduct : billListProduct) {
                 if (storeBillProduct.getId_stor_bill() == storeBill.getId()) {
@@ -193,7 +210,7 @@ public class BillListController implements Initializable {
             billList.setNumber(storeBill.getId());
             billList.setDate(storeBill.getDate().toString());
             billList.setPaid_up(storeBill.getPaid_up());
-            billList.setProvider_name(storeBill.getProvider(storeBill.getId_provider()).getLast_name());
+            billList.setProvider_name(storeBill.getProvider(storeBill.getId_provider()).getLast_name()+" "+storeBill.getProvider(storeBill.getId_provider()).getFirst_name());
 
             //this for loop is for get total
             for (StoreBillProduct storeBillProduct : billListProduct) {
@@ -239,7 +256,42 @@ public class BillListController implements Initializable {
             return;
         }
     }
+    @FXML
+    void PayDebt(ActionEvent event) {
+        BillList billList = billTable.getSelectionModel().getSelectedItem();
+        if(billList!=null){
+            if(billList.getPaid_up()!=billList.getTotal()){
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/storekeeper/paydebt.fxml"));
+                    DialogPane temp = loader.load();
+                    PayDebtController  payDebtController = loader.getController();
+                    payDebtController.init(billList);
+                    Dialog<ButtonType> dialog = new Dialog<>();
+                    dialog.setDialogPane(temp);
+                    dialog.initStyle(StageStyle.UNDECORATED);
+                    dialog.showAndWait();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }else {
+                Alert alertWarning = new Alert(Alert.AlertType.ERROR);
+                alertWarning.setHeaderText("تحدير ");
+                alertWarning.setContentText(" هذه الفاتورة مدفوعة كاملة");
+                Button OKButton = (Button) alertWarning.getDialogPane().lookupButton(ButtonType.OK);
+                OKButton.setText("حسنا");
+                alertWarning.showAndWait();
+            }
 
+        }else {
+            Alert alertWarning = new Alert(Alert.AlertType.ERROR);
+            alertWarning.setHeaderText("تحدير ");
+            alertWarning.setContentText("يرجى تحديد الفاتورة");
+            Button OKButton = (Button) alertWarning.getDialogPane().lookupButton(ButtonType.OK);
+            OKButton.setText("حسنا");
+            alertWarning.showAndWait();
+        }
+
+    }
     @FXML
     void deleteBill(ActionEvent event) {
         if (verificationBillSelected("delete")) {
@@ -259,12 +311,7 @@ public class BillListController implements Initializable {
                     alertConfirmation.close();
                 } else if (response == ButtonType.OK) {
                     storBilleOperation.delete(storeBill);
-                    Alert alertWarning = new Alert(Alert.AlertType.INFORMATION);
-                    alertWarning.setHeaderText("تأكيد ");
-                    alertWarning.setContentText("تم حذف السلعة بنجاح");
-                    Button OKButton = (Button) alertWarning.getDialogPane().lookupButton(ButtonType.OK);
-                    OKButton.setText("حسنا");
-                    alertWarning.showAndWait();
+
                     refresh();
                 }
             });
@@ -303,17 +350,105 @@ public class BillListController implements Initializable {
 
     @FXML
     void exportCsvListBill(ActionEvent event) {
+        BillList storeBill=billTable.getSelectionModel().getSelectedItem();
+        if(storeBill==null){
+            Alert alertWarning = new Alert(Alert.AlertType.WARNING);
+            alertWarning.setHeaderText("تحذير ");
+            alertWarning.setContentText("يرجى اختيار الفاتورة المراد طباعتها");
+            Button okButton = (Button) alertWarning.getDialogPane().lookupButton(ButtonType.OK);
+            okButton.setText("حسنا");
+            alertWarning.showAndWait();
+        }else {
+            Connet connet = new Connet();
+            Connection con = connet.connection();
 
+            try {
+                String report = System.getProperty("user.dir") + "/SmartResaurant/src/Report/Factor.jrxml";
+                JasperDesign jasperDesign = JRXmlLoader.load(report);
+                String sqlCmd = "SELECT settings.Name,settings.PhoneNambe1,settings.PhoneNambe2,settings.Adress,provider.PROVIDER_FIRST_NAME,provider.PROVIDER_LAST_NAME,provider.PROVIDER_PHONE_NUMBER,provider.PROVIDER_ADRESS,product.PRODUCT_NAME,product.STORAGE_UNIT,store_bill_product.PRICE,store_bill_product.PRODUCT_QUANTITY,store_bill.PAID_UP,store_bill.STORE_BILL_DATE ,settings.Logo,store_bill.Total,employer.EMPLOYER_NAME,employer.EMPLOYER_LAST_NAME\n" +
+                        "FROM `store_bill_product`,product,provider,settings,users,employer,store_bill WHERE product.ID_PRODUCT=store_bill_product.ID_PRODUCT and store_bill.ID_USER_OPERATION=users.ID_USER and store_bill.ID_PROVIDER_OPERATION=provider.ID_PROVIDER and users.ID_EMPLOYER=employer.ID_EMPLOYER and store_bill_product.ID_STORE_BILL=store_bill.ID_STORE_BILL and store_bill.ID_STORE_BILL=" + storeBill.getNumber();
+                JRDesignQuery jrDesignQuery = new JRDesignQuery();
+                jrDesignQuery.setText(sqlCmd);
+                jasperDesign.setQuery(jrDesignQuery);
+                JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
+                Connection connection = null;
+
+                JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, con);
+                JasperViewer.viewReport(jasperPrint,false);
+                //JasperPrintManager.printReport(jasperPrint,false);
+                //JasperExportManager.exportReportToPdfFile(jasperPrint,System.getProperty("user.dir") + "/SmartResaurant/simpel.pdf");
+            } catch (JRException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @FXML
     void exportPdfLstBill(ActionEvent event) {
+        BillList storeBill=billTable.getSelectionModel().getSelectedItem();
+        if(storeBill==null){
+            Alert alertWarning = new Alert(Alert.AlertType.WARNING);
+            alertWarning.setHeaderText("تحذير ");
+            alertWarning.setContentText("يرجى اختيار الفاتورة المراد طباعتها");
+            Button okButton = (Button) alertWarning.getDialogPane().lookupButton(ButtonType.OK);
+            okButton.setText("حسنا");
+            alertWarning.showAndWait();
+        }else {
+            Connet connet = new Connet();
+            Connection con = connet.connection();
 
+            try {
+                String report = System.getProperty("user.dir") + "/SmartResaurant/src/Report/Factor.jrxml";
+                JasperDesign jasperDesign = JRXmlLoader.load(report);
+                String sqlCmd = "SELECT settings.Name,settings.PhoneNambe1,settings.PhoneNambe2,settings.Adress,provider.PROVIDER_FIRST_NAME,provider.PROVIDER_LAST_NAME,provider.PROVIDER_PHONE_NUMBER,provider.PROVIDER_ADRESS,product.PRODUCT_NAME,product.STORAGE_UNIT,store_bill_product.PRICE,store_bill_product.PRODUCT_QUANTITY,store_bill.PAID_UP,store_bill.STORE_BILL_DATE ,settings.Logo,store_bill.Total,employer.EMPLOYER_NAME,employer.EMPLOYER_LAST_NAME\n" +
+                        "FROM `store_bill_product`,product,provider,settings,users,employer,store_bill WHERE product.ID_PRODUCT=store_bill_product.ID_PRODUCT and store_bill.ID_USER_OPERATION=users.ID_USER and store_bill.ID_PROVIDER_OPERATION=provider.ID_PROVIDER and users.ID_EMPLOYER=employer.ID_EMPLOYER and store_bill_product.ID_STORE_BILL=store_bill.ID_STORE_BILL and store_bill.ID_STORE_BILL=" + storeBill.getNumber();
+                JRDesignQuery jrDesignQuery = new JRDesignQuery();
+                jrDesignQuery.setText(sqlCmd);
+                jasperDesign.setQuery(jrDesignQuery);
+                JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
+                Connection connection = null;
+
+                JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, con);
+                JasperExportManager.exportReportToPdfFile(jasperPrint,System.getProperty("user.dir") + "/SmartResaurant/simpel.pdf");
+            } catch (JRException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @FXML
     void reportListBill(ActionEvent event) {
+        BillList storeBill=billTable.getSelectionModel().getSelectedItem();
+        if(storeBill==null){
+            Alert alertWarning = new Alert(Alert.AlertType.WARNING);
+            alertWarning.setHeaderText("تحذير ");
+                alertWarning.setContentText("يرجى اختيار الفاتورة المراد طباعتها");
+            Button okButton = (Button) alertWarning.getDialogPane().lookupButton(ButtonType.OK);
+            okButton.setText("حسنا");
+            alertWarning.showAndWait();
+        }else {
+            Connet connet = new Connet();
+            Connection con = connet.connection();
 
+            try {
+                String report = System.getProperty("user.dir") + "/SmartResaurant/src/Report/Factor.jrxml";
+                JasperDesign jasperDesign = JRXmlLoader.load(report);
+                String sqlCmd = "SELECT settings.Name,settings.PhoneNambe1,settings.PhoneNambe2,settings.Adress,provider.PROVIDER_FIRST_NAME,provider.PROVIDER_LAST_NAME,provider.PROVIDER_PHONE_NUMBER,provider.PROVIDER_ADRESS,product.PRODUCT_NAME,product.STORAGE_UNIT,store_bill_product.PRICE,store_bill_product.PRODUCT_QUANTITY,store_bill.PAID_UP,store_bill.STORE_BILL_DATE ,settings.Logo,store_bill.Total,employer.EMPLOYER_NAME,employer.EMPLOYER_LAST_NAME\n" +
+                        "FROM `store_bill_product`,product,provider,settings,users,employer,store_bill WHERE product.ID_PRODUCT=store_bill_product.ID_PRODUCT and store_bill.ID_USER_OPERATION=users.ID_USER and store_bill.ID_PROVIDER_OPERATION=provider.ID_PROVIDER and users.ID_EMPLOYER=employer.ID_EMPLOYER and store_bill_product.ID_STORE_BILL=store_bill.ID_STORE_BILL and store_bill.ID_STORE_BILL=" + storeBill.getNumber();
+                JRDesignQuery jrDesignQuery = new JRDesignQuery();
+                jrDesignQuery.setText(sqlCmd);
+                jasperDesign.setQuery(jrDesignQuery);
+                JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
+                Connection connection = null;
+
+                JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, con);
+                JasperViewer.viewReport(jasperPrint,false);
+                //JasperPrintManager.printReport(jasperPrint,false);
+                //JasperExportManager.exportReportToPdfFile(jasperPrint,System.getProperty("user.dir") + "/SmartResaurant/simpel.pdf");
+            } catch (JRException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @FXML

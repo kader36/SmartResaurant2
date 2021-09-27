@@ -30,6 +30,7 @@ public class FoodProductComposeOperation extends BDD<IngredientsFoodProductCompo
 
             int insert = preparedStmt.executeUpdate();
             if(insert != -1) ins = true;
+            conn.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -55,6 +56,7 @@ public class FoodProductComposeOperation extends BDD<IngredientsFoodProductCompo
             preparedStmt.setInt(2, o.getId_productCopmpose());
             int delete = preparedStmt.executeUpdate();
             if (delete != -1) del = true;
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

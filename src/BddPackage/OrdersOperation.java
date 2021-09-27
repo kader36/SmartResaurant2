@@ -35,7 +35,7 @@ public class OrdersOperation extends BDD <Orders> {
             while (resultSet.next()) {
                 lastId =  resultSet.getInt("ID_ORDER");
             }
-
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -54,6 +54,7 @@ public class OrdersOperation extends BDD <Orders> {
             preparedStmt.setInt(2,o2.getId());
             int update = preparedStmt.executeUpdate();
             if(update != -1) upd = true;
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -70,6 +71,7 @@ public class OrdersOperation extends BDD <Orders> {
             preparedStmt.setInt(2,o.getId());
             int update = preparedStmt.executeUpdate();
             if(update != -1) upd = true;
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -86,6 +88,7 @@ public class OrdersOperation extends BDD <Orders> {
             preparedStmt.setInt(1,o.getId());
             int delete = preparedStmt.executeUpdate();
             if(delete != -1) del = true;
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -471,5 +474,29 @@ public class OrdersOperation extends BDD <Orders> {
         return price;
     }
 
+    public boolean insertnew(Orders o) {
+        conn=connect();
+        boolean ins = false;
+        String query = "INSERT INTO `orders`( `ID_TABLE_ORDER`,`ORDER_PRICE`,`Order_Active`) VALUES (?,?,?)";
+        try {
+            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            preparedStmt.setInt(1,o.getId_table());
+            preparedStmt.setInt(2,(int)o.getPrice());
+            preparedStmt.setInt(3,0);
+            int insert = preparedStmt.executeUpdate();
+            if(insert != -1) ins = true;
 
+            // set teh last inserted column id;
+            String lastIDQuery = "SELECT  ID_ORDER FROM `orders` ORDER BY ORDER_TIME DESC LIMIT 1";
+            PreparedStatement lastIDPreparedStmt = conn.prepareStatement(lastIDQuery);
+            ResultSet resultSet = lastIDPreparedStmt.executeQuery();
+            while (resultSet.next()) {
+                lastId =  resultSet.getInt("ID_ORDER");
+            }
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ins;
+    }
 }

@@ -50,6 +50,7 @@ public class MoneyWithdrawalOperationsBDD extends BDD<MoneyWithdrawal> {
             preparedStmt.setInt(1, o.getDatabaseID());
             int delete = preparedStmt.executeUpdate();
             if (delete != -1) queryResult = true;
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

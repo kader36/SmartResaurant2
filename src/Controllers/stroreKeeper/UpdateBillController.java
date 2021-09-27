@@ -385,7 +385,7 @@ public class UpdateBillController implements Initializable {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    idStorBill = storBilleOperation.getIdStorBill(idProvider, 1, paid);
+
                     billProductOperation.delete(storeBill.getId());
                     for (Bill bill : dataTable) {
                         // insert into store bill product

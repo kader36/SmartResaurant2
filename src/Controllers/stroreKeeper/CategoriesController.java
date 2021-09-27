@@ -3,6 +3,7 @@ package Controllers.stroreKeeper;
 import BddPackage.ProductCategoryOperation;
 import Controllers.ValidateController;
 import Models.ProductCategory;
+import com.jfoenix.controls.JFXCheckBox;
 import javafx.animation.FadeTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -46,6 +47,7 @@ public class CategoriesController implements Initializable {
     @FXML
     private TableColumn<ProductCategory, String> col_category_name;
 
+
     private ProductCategory productCategory = new ProductCategory();
     private ProductCategoryOperation productCategoryOperation = new ProductCategoryOperation();
     private ObservableList<ProductCategory> dataTable = FXCollections.observableArrayList();
@@ -57,6 +59,7 @@ public class CategoriesController implements Initializable {
     );
 
     private boolean visibleCategory = false;
+    private String color;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -220,16 +223,16 @@ public class CategoriesController implements Initializable {
     @FXML
     void AddCategoryAction(ActionEvent event) {
         if (!txt_category.getText().isEmpty()) {
-            productCategoryOperation.insert(new ProductCategory(txt_category.getText()));
-            txt_category.setText("");
-            fadeIn.setNode(lbl_valide);
-            fadeIn.setFromValue(0.0);
-            fadeIn.setToValue(1.0);
-            fadeIn.setCycleCount(1);
-            fadeIn.setAutoReverse(true);
-            lbl_valide.setVisible(true);
-            fadeIn.playFromStart();
-            /////////////////////////////////////////////////////////////////////
+                productCategoryOperation.insert(new ProductCategory(txt_category.getText()));
+                txt_category.setText("");
+                fadeIn.setNode(lbl_valide);
+                fadeIn.setFromValue(0.0);
+                fadeIn.setToValue(1.0);
+                fadeIn.setCycleCount(1);
+                fadeIn.setAutoReverse(true);
+                lbl_valide.setVisible(true);
+                fadeIn.playFromStart();
+                /////////////////////////////////////////////////////////////////////
 
         } else {
             errAddCategory.setText("ادخل اسم الصنف الجديد");
@@ -289,6 +292,7 @@ public class CategoriesController implements Initializable {
     void closeUpdateJobDialog(MouseEvent event) {
         close(updateCategoryButton);
     }
+
 
 
 }

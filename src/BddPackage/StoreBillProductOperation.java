@@ -20,13 +20,10 @@ public class StoreBillProductOperation extends BDD<StoreBillProduct> {
             preparedStmt.setInt(2, o.getId_product());
             preparedStmt.setInt(3, o.getPrice());
             preparedStmt.setInt(4, o.getProduct_quantity());
-            System.out.println(o.getId_stor_bill());
-            System.out.println(o.getId_product());
-            System.out.println(o.getPrice());
-            System.out.println(o.getProduct_quantity());
 
             int insert = preparedStmt.executeUpdate();
             if (insert != -1) ins = true;
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -34,23 +31,6 @@ public class StoreBillProductOperation extends BDD<StoreBillProduct> {
         return ins;
     }
 
-//    public boolean insert(Bill o, String providerName) {
-//        boolean ins = false;
-//        String query = "INSERT INTO `STORE_BILL_PRODUCT`(`ID_STORE_BILL`, `ID_PRODUCT`, `PRICE`, `PRODUCT_QUANTITY`) VALUES (?,?,?,?)";
-//        try {
-//            PreparedStatement preparedStmt = conn.prepareStatement(query);
-//            preparedStmt.setInt(   1,o.getId_stor_bill());
-//            preparedStmt.setInt(   2,o.getId_product());
-//            preparedStmt.setInt(   3,o.getPrice());
-//            preparedStmt.setInt(   4,o.getProduct_quantity());
-//            int insert = preparedStmt.executeUpdate();
-//            if(insert != -1) ins = true;
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return ins;
-//    }
 
     @Override
     public boolean update(StoreBillProduct o1, StoreBillProduct o2) {
@@ -65,6 +45,7 @@ public class StoreBillProductOperation extends BDD<StoreBillProduct> {
             preparedStmt.setInt(4, o2.getId_stor_bill());
             int update = preparedStmt.executeUpdate();
             if (update != -1) upd = true;
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -88,6 +69,7 @@ public class StoreBillProductOperation extends BDD<StoreBillProduct> {
             preparedStmt.setInt(1, o);
             int delete = preparedStmt.executeUpdate();
             if (delete != -1) del = true;
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -102,7 +84,6 @@ public class StoreBillProductOperation extends BDD<StoreBillProduct> {
 
     @Override
     public ArrayList<StoreBillProduct> getAll() {
-        conn=connect();
         ArrayList<StoreBillProduct> list = new ArrayList<>();
         String query = "SELECT * FROM `store_bill_product`";
         try {
@@ -112,6 +93,30 @@ public class StoreBillProductOperation extends BDD<StoreBillProduct> {
         }
         return list;
 
+    }
+    public ArrayList<StoreBillProduct> getBill(int idBill) {
+        conn=connect();
+
+        ArrayList<StoreBillProduct> list = new ArrayList<>();
+        String query = "SELECT * FROM `store_bill_product` WHERE `ID_STORE_BILL`="+idBill+"";
+
+        try {
+            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            ResultSet resultSet = preparedStmt.executeQuery();
+            while (resultSet.next()){
+                StoreBillProduct storeBillProduct=new StoreBillProduct();
+                storeBillProduct.setId_stor_bill(resultSet.getInt( "ID_STORE_BILL"));
+                storeBillProduct.setId_product(resultSet.getInt("ID_PRODUCT"));
+                storeBillProduct.setPrice(resultSet.getInt( "PRICE"));
+                storeBillProduct.setProduct_quantity(resultSet.getInt( "PRODUCT_QUANTITY"));
+                list.add(storeBillProduct);
+            }
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    return list;
     }
 
     private ArrayList<StoreBillProduct> chargeData(ArrayList<StoreBillProduct> list, String query) throws SQLException {
@@ -146,6 +151,7 @@ public class StoreBillProductOperation extends BDD<StoreBillProduct> {
             storeBillProduct.setProduct_quantity(resultSet.getInt( "PRODUCT_QUANTITY"));
             list.add(storeBillProduct);
         }
+            conn.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

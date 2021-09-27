@@ -3,13 +3,10 @@ package Controllers.stroreKeeper;
 import BddPackage.ProviderJobOperation;
 import BddPackage.ProviderOperation;
 import Controllers.ValidateController;
-import Models.Product;
 import Models.Provider;
 import Models.ProviderJob;
-import com.mysql.jdbc.Connection;
 import javafx.animation.FadeTransition;
 import javafx.animation.SequentialTransition;
-import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -18,7 +15,6 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -38,7 +34,6 @@ import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.design.JRDesignQuery;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
-import net.sf.jasperreports.view.JasperViewer;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -557,21 +552,6 @@ public class ProviderController implements Initializable {
     @FXML
     void reportProvidersList(ActionEvent event) {
         // TODO must change report path
-        try {
-            String report = "E:\\SmartResaurant\\src\\Views\\storekeeper\\reportProvider.jrxml";
-            JasperDesign jasperDesign = JRXmlLoader.load(report);
-            String sqlCmd = "select * from provider order by id_provider";
-            JRDesignQuery jrDesignQuery = new JRDesignQuery();
-            jrDesignQuery.setText(sqlCmd);
-            jasperDesign.setQuery(jrDesignQuery);
-            JasperReport jasperReport = null;
-            jasperReport = JasperCompileManager.compileReport(jasperDesign);
-            Connection connection = null;
-            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, connection);
-            JasperViewer.viewReport(jasperPrint);
-        } catch (JRException e) {
-            e.printStackTrace();
-        }
     }
 
     @FXML

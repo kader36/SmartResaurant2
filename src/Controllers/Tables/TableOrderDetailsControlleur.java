@@ -1,13 +1,8 @@
 package Controllers.Tables;
 
-import BddPackage.FoodOperation;
-import BddPackage.FoodOrderOperation;
-import BddPackage.OrdersOperation;
-import BddPackage.TablegainsOperationsBDD;
-import Models.Food;
-import Models.FoodOrder;
-import Models.Orders;
-import Models.TableGainedMoney;
+import BddPackage.*;
+import Models.*;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -21,9 +16,14 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.design.JRDesignQuery;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -82,6 +82,10 @@ public class TableOrderDetailsControlleur implements Initializable {
             FoodOperation foodOperation=new FoodOperation();
             food=foodOperation.getFoodByID(list.get(foodIndex).getId_food());
             Image image=new Image(food.getImage_path());
+
+
+
+
             try {
                 FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(getClass().getResource("/Views/TablesViews/tabelDetailsItem.fxml"));
@@ -132,6 +136,10 @@ public class TableOrderDetailsControlleur implements Initializable {
         // close the drawer.
         TablesController.drawerOpening.setValue(! TablesController.drawerOpening.getValue());
 
+        TabelsOperation tabelsOperation=new TabelsOperation();
+        Tables table=new Tables();
+        table.setId(curentOrder.getId_table());
+        tabelsOperation.ActivTabel(table);
     }
 
     // method to cancle.
@@ -139,6 +147,32 @@ public class TableOrderDetailsControlleur implements Initializable {
         //just close the drawer.
         TablesController.drawerOpening.setValue(! TablesController.drawerOpening.getValue());
     }
+
+    @FXML
+    void print(ActionEvent event) {
+
+        Connet connet = new Connet();
+             Connection con = connet.connection();
+             try {
+                 String report = System.getProperty("user.dir") + "/SmartResaurant/src/Report/print.jrxml";
+                 JasperDesign jasperDesign = JRXmlLoader.load(report);
+                 String sqlCmd = "SELECT orders.ORDER_TIME,orders.ORDER_PRICE,food_order.ORDER_QUANTITY,food.FOOD_NAME,food.FOOD_PRICE,orders.ID_TABLE_ORDER ,settings.Name,settings.PhoneNambe1,settings.PhoneNambe2,settings.Adress\n" +
+                         "FROM `orders`,food_order,food,settings\n" +
+                         "WHERE orders.ID_ORDER=food_order.ID_ORDER and food_order.ID_FOOD=food.ID_FOOD and orders.ID_ORDER="+curentOrder.getId();
+                 JRDesignQuery jrDesignQuery = new JRDesignQuery();
+                 jrDesignQuery.setText(sqlCmd);
+                 jasperDesign.setQuery(jrDesignQuery);
+                 JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
+                 Connection connection = null;
+
+                 JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, con);
+                 JasperPrintManager.printReport(jasperPrint,false);
+                 //JasperExportManager.exportReportToPdfFile(jasperPrint,System.getProperty("user.dir") + "/SmartResaurant/simpel.pdf");
+             } catch (JRException e) {
+                 e.printStackTrace();
+             }
+         }
+
 
 
 

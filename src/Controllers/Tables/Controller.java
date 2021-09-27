@@ -77,4 +77,15 @@ public class Controller implements Initializable {
         }
 
     }
+    @FXML
+    void showBuy(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../../Views/TablesViews/FoodBuy.fxml"));
+            BorderPane temp = loader.load();
+            mainPane.getChildren().setAll(temp);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

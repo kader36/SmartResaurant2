@@ -27,6 +27,7 @@ public class ProductOperation extends BDD<Product> {
 
             int insert = preparedStmt.executeUpdate();
             if (insert != -1) ins = true;
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -48,6 +49,7 @@ public class ProductOperation extends BDD<Product> {
             preparedStmt.setInt(6, o2.getId());
             int update = preparedStmt.executeUpdate();
             if (update != -1) upd = true;
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -64,6 +66,7 @@ public class ProductOperation extends BDD<Product> {
             preparedStmt.setInt(2, o1.getId());
             int update = preparedStmt.executeUpdate();
             if (update != -1) upd = true;
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -80,6 +83,7 @@ public class ProductOperation extends BDD<Product> {
             preparedStmt.setInt(1, o.getId());
             int delete = preparedStmt.executeUpdate();
             if (delete != -1) del = true;
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -95,9 +99,7 @@ public class ProductOperation extends BDD<Product> {
     public ArrayList<Product> getAll() {
         conn=connect();
         ArrayList<Product> list = new ArrayList<>();
-        String query = "SELECT `ID_PRODUCT`, `ID_PRO" +
-                "" +
-                "DUCT_CATEGORY`, `CATEGORY_NAME`, `PRODUCT_NAME`, `STORAGE_UNIT`, `QUANTITY` FROM `product`,`product_category` WHERE product.ID_PRODUCT_CATEGORY = product_category.ID_CATEGORY";
+        String query = "SELECT * FROM `product`,`product_category` WHERE product.ID_PRODUCT_CATEGORY = product_category.ID_CATEGORY";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             ResultSet resultSet = preparedStmt.executeQuery();
@@ -108,10 +110,14 @@ public class ProductOperation extends BDD<Product> {
                 product.setCategory_name(resultSet.getString("CATEGORY_NAME"));
                 product.setName(resultSet.getString("PRODUCT_NAME"));
                 product.setStorage_Unit(resultSet.getString("STORAGE_UNIT"));
+                product.setUnity_Food(resultSet.getString("Unity_Food"));
+                product.setCoefficient(resultSet.getInt("coefficient"));
+                product.setLess_quantity(resultSet.getInt("LESS_QUANTITY"));
                 product.setTot_quantity(resultSet.getDouble("QUANTITY"));
                 //product.setLess_quantity(resultSet.getInt("LESS_QUANTITY"));
                 list.add(product);
             }
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -120,7 +126,7 @@ public class ProductOperation extends BDD<Product> {
 
     public ArrayList<Product> getAllBy(String orderBY) {
         ArrayList<Product> list = new ArrayList<>();
-        String query = "SELECT * FROM `product` ORDER BY " + orderBY + " ASC ";
+        String query = "SELECT * FROM `product`,`product_category` WHERE product.ID_PRODUCT_CATEGORY = product_category.ID_CATEGORY ORDER BY " + orderBY + " ASC ";
         try {
 
             chargeData(list, query);
@@ -151,11 +157,15 @@ public class ProductOperation extends BDD<Product> {
             product.setId(resultSet.getInt("ID_PRODUCT"));
             product.setId_category(resultSet.getInt("ID_PRODUCT_CATEGORY"));
             product.setName(resultSet.getString("PRODUCT_NAME"));
-            product.setTot_quantity(resultSet.getDouble("QUANTITY"));
             product.setStorage_Unit(resultSet.getString("STORAGE_UNIT"));
+            product.setUnity_Food(resultSet.getString("Unity_Food"));
+            product.setCoefficient(resultSet.getInt("coefficient"));
+            product.setLess_quantity(resultSet.getInt("LESS_QUANTITY"));
+            product.setTot_quantity(resultSet.getDouble("QUANTITY"));
             //product.setLess_quantity(resultSet.getInt("LESS_QUANTITY"));
             list.add(product);
         }
+        conn.close();
         return list;
     }
 
@@ -171,6 +181,7 @@ public class ProductOperation extends BDD<Product> {
                     emptyQuantity++;
                 }
             }
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -189,6 +200,7 @@ public class ProductOperation extends BDD<Product> {
                     emptyQuantity++;
                 }
             }
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -227,7 +239,7 @@ public class ProductOperation extends BDD<Product> {
                 product.setLess_quantity(resultSet.getInt("LESS_QUANTITY"));
                 product.setCoefficient(resultSet.getInt("coefficient"));
             }
-
+            conn.close();
         }catch (SQLException e){
             e.printStackTrace();
         }
@@ -253,7 +265,7 @@ public class ProductOperation extends BDD<Product> {
                 product.setLess_quantity(resultSet.getInt("LESS_QUANTITY"));
                 product.setCoefficient(resultSet.getInt("coefficient"));
             }
-
+            conn.close();
         }catch (SQLException e){
             e.printStackTrace();
         }

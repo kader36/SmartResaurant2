@@ -29,6 +29,7 @@ public class TablegainsOperationsBDD  extends BDD<TableGainedMoney>{
             preparedStmt.setDouble(3,money);
             int insert = preparedStmt.executeUpdate();
             if(insert != -1) ins = true;
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -83,6 +84,7 @@ public class TablegainsOperationsBDD  extends BDD<TableGainedMoney>{
                 tableGainedMoney.setTableId(o.getId());
 
             }
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

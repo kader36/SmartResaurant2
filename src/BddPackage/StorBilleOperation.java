@@ -19,15 +19,18 @@ public class StorBilleOperation extends BDD<StoreBill> {
     public boolean insert(StoreBill o) {
         conn=connect();
         boolean ins = false;
-        String query = "INSERT INTO `store_bill`( `ID_USER_OPERATION`, `ID_PROVIDER_OPERATION`, `PAID_UP`)\n" +
-                "VALUES (?,?,?)";
+        String query = "INSERT INTO `store_bill`( `ID_USER_OPERATION`, `ID_PROVIDER_OPERATION`, `PAID_UP`,`ID_STORE_BILL`,`Total`)\n" +
+                "VALUES (?,?,?,?,?)";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             preparedStmt.setInt(1, o.getId_user());
             preparedStmt.setInt(2, o.getId_provider());
             preparedStmt.setInt(3, o.getPaid_up());
+            preparedStmt.setInt(4, o.getId());
+            preparedStmt.setInt(5, o.getTotal());
             int insert = preparedStmt.executeUpdate();
             if (insert != -1) ins = true;
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -48,6 +51,7 @@ public class StorBilleOperation extends BDD<StoreBill> {
             preparedStmt.setInt(4, o2.getId());
             int update = preparedStmt.executeUpdate();
             if (update != -1) upd = true;
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -64,6 +68,7 @@ public class StorBilleOperation extends BDD<StoreBill> {
             preparedStmt.setInt(1, o.getId());
             int delete = preparedStmt.executeUpdate();
             if (delete != -1) del = true;
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -129,29 +134,41 @@ public class StorBilleOperation extends BDD<StoreBill> {
         return list;
     }
 
-
-    public int getIdStorBill(int idProvider, int idUser, int paid) {
+    public StoreBill getStorBill(int idbill) {
+        StoreBill storeBill=new StoreBill();
         conn=connect();
-        String query = "SELECT * FROM `store_bill`";
-        //SELECT `ID_STORE_BILL`, `STORE_BILL_DATE`, `ID_USER_OPERATION`, `ID_PROVIDER_OPERATION`,
-        // `PAID_UP` FROM `STORE_BILL` WHERE 1
+        String query = "SELECT * FROM `store_bill` WHERE `ID_STORE_BILL`="+idbill+" ";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             ResultSet resultSet = preparedStmt.executeQuery();
             while (resultSet.next()) {
-//                System.out.println("values of parametre : " + idProvider + " " + idUser + " " + paid);
-//                System.out.println("values of data : " + resultSet.getInt("ID_PROVIDER_OPERATION") + " " + resultSet.getInt("ID_USER_OPERATION") + " " + resultSet.getInt("PAID_UP"));
-                if (idProvider == resultSet.getInt("ID_PROVIDER_OPERATION") && idUser == resultSet.getInt("ID_USER_OPERATION") && paid == resultSet.getInt("PAID_UP")) {
-                    //System.out.println("values of data : " + resultSet.getInt("ID_PROVIDER_OPERATION") + " " + resultSet.getInt("ID_USER_OPERATION") + " " + resultSet.getInt("PAID_UP"));
-                    return resultSet.getInt("ID_STORE_BILL");
-                }
-
-
+                storeBill.setId(resultSet.getInt("ID_STORE_BILL"));
+                storeBill.setDate(resultSet.getDate("STORE_BILL_DATE"));
+                storeBill.setId_user(resultSet.getInt("ID_USER_OPERATION"));
+                storeBill.setId_provider(resultSet.getInt("ID_PROVIDER_OPERATION"));
+                storeBill.setPaid_up(resultSet.getInt("PAID_UP"));
             }
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return -1;
+        return storeBill;
+    }
+    public int getIdStorBill() {
+        int idbill=1;
+        conn=connect();
+        String query = "select `ID_STORE_BILL`as 'ID' from store_bill ORDER BY `ID_STORE_BILL` DESC LIMIT 1 ";
+        try {
+            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            ResultSet resultSet = preparedStmt.executeQuery();
+            while (resultSet.next()) {
+                    idbill=resultSet.getInt("ID")+1;
+            }
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return idbill;
     }
 
     public int getCountStoreBill() {
@@ -163,6 +180,7 @@ public class StorBilleOperation extends BDD<StoreBill> {
             ResultSet resultSet = preparedStmt.executeQuery();
             while (resultSet.next())
                 total = resultSet.getInt("total");
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -194,6 +212,7 @@ public class StorBilleOperation extends BDD<StoreBill> {
             storeBill.setPaid_up(resultSet.getInt("PAID_UP"));
             list.add(storeBill);
         }
+        conn.close();
         return list;
     }
     public int getBillParDy(int day) {

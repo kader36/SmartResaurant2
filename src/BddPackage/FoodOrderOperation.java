@@ -23,6 +23,7 @@ public class FoodOrderOperation extends BDD<FoodOrder> {
             preparedStmt.setInt(3,o.getQuantity());
             int insert = preparedStmt.executeUpdate();
             if(insert != -1) ins = true;
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -43,6 +44,7 @@ public class FoodOrderOperation extends BDD<FoodOrder> {
             preparedStmt.setInt(3,o2.getId_order());
             int update = preparedStmt.executeUpdate();
             if(update != -1) upd = true;
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -59,6 +61,7 @@ public class FoodOrderOperation extends BDD<FoodOrder> {
             preparedStmt.setInt(1,o.getId_order());
             int delete = preparedStmt.executeUpdate();
             if(delete != -1) del = true;
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -86,6 +89,7 @@ public class FoodOrderOperation extends BDD<FoodOrder> {
 
                 list.add(food);
             }
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -108,6 +112,7 @@ public class FoodOrderOperation extends BDD<FoodOrder> {
 
                 list.add(food);
             }
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -123,12 +128,16 @@ public class FoodOrderOperation extends BDD<FoodOrder> {
             preparedStmt.setInt(1,idFood);
             ResultSet resultSet = preparedStmt.executeQuery();
             while (resultSet.next()) {
+
                 number=resultSet.getInt("Number");
+                System.out.println(number);
 
             }
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         return number;
     }
 }

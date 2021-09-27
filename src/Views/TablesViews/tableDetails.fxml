@@ -82,12 +82,17 @@
                <children>
                   <HBox alignment="CENTER" prefHeight="66.0" prefWidth="291.0">
                      <children>
-                        <Button fx:id="cancelButotn" mnemonicParsing="false" prefHeight="33.0" prefWidth="76.0" styleClass="add-picture-food" text="الغاء" textFill="WHITE">
+                        <Button fx:id="cancelButotn" mnemonicParsing="false" prefHeight="33.0" prefWidth="49.0" styleClass="add-picture-food" text="الغاء" textFill="WHITE">
                            <HBox.margin>
                               <Insets right="10.0" />
                            </HBox.margin>
                         </Button>
-                        <Button fx:id="payMoneyButton" mnemonicParsing="false" prefHeight="32.0" prefWidth="160.0" styleClass="remove-picture-food" text="دفع المستحقات" textFill="WHITE" />
+                        <Button mnemonicParsing="false" onAction="#print" prefHeight="32.0" prefWidth="88.0" styleClass="cancle-button" text="طباعة " textFill="WHITE" />
+                        <Button fx:id="payMoneyButton" mnemonicParsing="false" prefHeight="32.0" prefWidth="94.0" styleClass="remove-picture-food" text="دفع المستحقات" textFill="WHITE">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Button>
                      </children>
                      <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" />

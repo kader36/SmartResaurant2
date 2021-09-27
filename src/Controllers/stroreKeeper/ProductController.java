@@ -1,5 +1,6 @@
 package Controllers.stroreKeeper;
 
+import BddPackage.Connet;
 import BddPackage.ProductCategoryOperation;
 import BddPackage.ProductOperation;
 import Controllers.ValidateController;
@@ -65,10 +66,18 @@ public class ProductController implements Initializable {
     private TableColumn<Product, Integer> col_less_quantity;
 
     @FXML
-    private Label lbl_less_quantity;
+    private TableColumn<Product, Integer> col_unite_food;
 
     @FXML
-    private Label lbl_dead_product;
+    private TableColumn<Product, Integer> col_Coefficient;
+
+    @FXML
+    private TableColumn<Product, Integer> col_quantity_less;
+
+    @FXML
+    private Label lbl_less_quantity;
+
+
 
     @FXML
     private TextField txt_name;
@@ -122,15 +131,18 @@ public class ProductController implements Initializable {
 
     public void Init(BorderPane mainPane) {
         this.mainPane = mainPane;
-        STORAGE_UNIT.getItems().addAll("Kg","G","L","Unity");
-        Unity_Food.getItems().addAll("G","L","mL","Unity");
+        STORAGE_UNIT.getItems().addAll("Kg","G","L","Plat","Fourgon");
+        Unity_Food.getItems().addAll("G","L","mL","Oeuf","Fiole");
         hidevbox();
         vboxOption.setVisible(false);
         col_name.setCellValueFactory(new PropertyValueFactory<>("name"));
         col_category.setCellValueFactory(new PropertyValueFactory<>("category_name"));
         col_unite.setCellValueFactory(new PropertyValueFactory<>("storage_Unit"));
         col_quantity.setCellValueFactory(new PropertyValueFactory<>("tot_quantity"));
-       // col_less_quantity.setCellValueFactory(new PropertyValueFactory<>("less_quantity"));
+        col_unite_food.setCellValueFactory(new PropertyValueFactory<>("Unity_Food"));
+        col_Coefficient.setCellValueFactory(new PropertyValueFactory<>("Coefficient"));
+        col_quantity_less.setCellValueFactory(new PropertyValueFactory<>("less_quantity"));
+
         list_Products = productOperation.getAll();
         dataTable.setAll(list_Products);
         productTable.setItems(dataTable);
@@ -149,24 +161,24 @@ public class ProductController implements Initializable {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 switch (newValue) {
                     case "اسم السلعة":
-                        dataTable.setAll(productOperation.getAllBy("PRODUCT.PRODUCT_NAME"));
+                        dataTable.setAll(productOperation.getAllBy("PRODUCT_NAME"));
                         productTable.setItems(dataTable);
                         break;
                     case "الصنف":
-                        dataTable.setAll(productOperation.getAllBy("PRODUCT.ID_PRODUCT_CATEGORY"));
+                        dataTable.setAll(productOperation.getAllBy("ID_PRODUCT_CATEGORY"));
                         productTable.setItems(dataTable);
                         break;
                     case "الكمية الإجمالية":
-                        dataTable.setAll(productOperation.getAllBy("PRODUCT.QUANTITY"));
+                        dataTable.setAll(productOperation.getAllBy("QUANTITY"));
                         productTable.setItems(dataTable);
                         break;
                     case "الحد الأدنى":
-                        dataTable.setAll(productOperation.getAllBy("PRODUCT.LESS_QUANTITY"));
+                        dataTable.setAll(productOperation.getAllBy("LESS_QUANTITY"));
                         productTable.setItems(dataTable);
                         break;
 
                     case "الوحدة":
-                        dataTable.setAll(productOperation.getAllBy("PRODUCT.STORAGE_UNIT"));
+                        dataTable.setAll(productOperation.getAllBy("STORAGE_UNIT"));
                         productTable.setItems(dataTable);
                         break;
                 }
@@ -512,7 +524,9 @@ public class ProductController implements Initializable {
     void reportTableProduct(ActionEvent event) {
         // TODO must change report path
         try {
-            String report = "E:\\SmartResaurant\\src\\Views\\storekeeper\\reportProductList.jrxml";
+            Connet connet = new Connet();
+            java.sql.Connection con = connet.connection();
+            String report = System.getProperty("user.dir") + "/SmartResaurant/src/Views/storekeeper/reportProductList.jrxml";
             JasperDesign jasperDesign = JRXmlLoader.load(report);
             String sqlCmd = "select * from product order by id_product";
             JRDesignQuery jrDesignQuery = new JRDesignQuery();
@@ -521,7 +535,7 @@ public class ProductController implements Initializable {
             JasperReport jasperReport = null;
             jasperReport = JasperCompileManager.compileReport(jasperDesign);
             Connection connection = null;
-            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, connection);
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, con);
             JasperViewer.viewReport(jasperPrint);
         } catch (JRException e) {
             e.printStackTrace();

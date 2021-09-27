@@ -19,6 +19,7 @@ public class IngredientsProductCompsiteOperation extends BDD<IngredientsProductC
             preparedStmt.setInt(3, o.getQuantity());
             int insert = preparedStmt.executeUpdate();
             if (insert != -1) ins = true;
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

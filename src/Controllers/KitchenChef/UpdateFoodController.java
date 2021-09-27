@@ -32,6 +32,7 @@ import javafx.stage.FileChooser;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -223,7 +224,21 @@ public class UpdateFoodController implements Initializable {
                 }else {
                     newfood.setImage_path(oldfood.getImage_path());
                 }
-                foodOperation.update(oldfood,newfood);
+                byte[]photo=null;
+                try {
+                    String url=oldfood.getImage_path();
+                    url = url.substring(5, url.length());
+                    BufferedImage bImage = ImageIO.read(new File(url));
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                    ImageIO.write(bImage, "jpg", bos );
+                    photo=bos.toByteArray();
+
+                } catch (IOException e) {
+                    System.err.println("file reading error");
+                }
+                newfood.setIMAGE(photo);
+               boolean bool= foodOperation.update(oldfood,newfood);
+               if(bool==true)
                 homePage();
             }
         }

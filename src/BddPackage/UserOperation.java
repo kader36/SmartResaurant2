@@ -23,6 +23,7 @@ public class UserOperation extends BDD<User>{
             preparedStmt.setString(4, o.getType());
             int insert = preparedStmt.executeUpdate();
             if (insert != -1) ins = true;
+            conn.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -44,6 +45,7 @@ public class UserOperation extends BDD<User>{
             preparedStmt.setString(1, o.getUserName());
             int delete = preparedStmt.executeUpdate();
             if (delete != -1) del = true;
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -60,6 +62,7 @@ public class UserOperation extends BDD<User>{
             preparedStmt.setString(1,o.getUserName());
             ResultSet resultSet = preparedStmt.executeQuery();
             if (resultSet.next()) exist = true;
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -102,15 +105,9 @@ public class UserOperation extends BDD<User>{
             preparedStmt.setString(2,o.getPassWord());
             ResultSet resultSet = preparedStmt.executeQuery();
             if (resultSet.next()) exist = true;
-            System.out.println(exist);
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
-            try {
-                conn.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
         }
         return exist;
     }
@@ -129,14 +126,9 @@ public class UserOperation extends BDD<User>{
                 user.setUserName(resultSet.getString("USERNAME"));
                 user.setType(resultSet.getString("TYPE"));
             }
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
-            try {
-                conn.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
         }
         return user;
     }

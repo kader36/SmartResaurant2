@@ -25,7 +25,7 @@ public class EmployerOperation extends BDD<Employer> {
             preparedStmt.setInt(   5,o.getSalary());
             int insert = preparedStmt.executeUpdate();
             if(insert != -1) ins = true;
-
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -49,6 +49,7 @@ public class EmployerOperation extends BDD<Employer> {
             preparedStmt.setInt(6, o2.getId());
             int update = preparedStmt.executeUpdate();
             if (update != -1) upd = true;
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -65,6 +66,7 @@ public class EmployerOperation extends BDD<Employer> {
             preparedStmt.setInt(1, o.getId());
             int delete = preparedStmt.executeUpdate();
             if (delete != -1) del = true;
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -97,6 +99,7 @@ public class EmployerOperation extends BDD<Employer> {
 
                 list.add(employer);
             }
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

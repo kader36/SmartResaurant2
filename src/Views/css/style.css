@@ -360,6 +360,10 @@
 	-fx-font-family: 'HSDream-Regular';
 	-fx-font-size: 16;
 }
+.font3{
+	-fx-font-family: 'HSDream-Regular';
+	-fx-font-size: 12;
+}
 .show-all-products{
 	-fx-background-color:#FBFBFB;
 	-fx-border-width: 1 1 1 1;

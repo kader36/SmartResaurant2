@@ -10,7 +10,7 @@ public class Connet {
 
         // db parameters
         // localhost:3306/ResturantDB?useSSL=false
-        String url = "jdbc:mysql://localhost/resaturentdb";
+        String url = "jdbc:mysql://localhost/resaturentdb?useUnicode=yes&characterEncoding=UTF-8";
         String user = "root";
         String password = "";
         String unicode= "?useUnicode=yes&characterEncoding=UTF-8";
@@ -30,7 +30,7 @@ public class Connet {
         return conn;
 
     }
-    void close(){
+    public void close(){
        try { conn.close(); } catch (SQLException ignore) {}
     }
 

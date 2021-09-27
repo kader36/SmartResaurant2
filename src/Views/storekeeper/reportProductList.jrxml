@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reportProductList" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f4838a61-5c3e-40fe-8cf4-3e32da7478cf">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
@@ -40,16 +41,16 @@
 	<title>
 		<band height="136" splitType="Stretch">
 			<staticText>
-				<reportElement style="Title" x="170" y="0" width="263" height="62" uuid="43b88e17-d4e6-40c6-b137-e0fb3595ac69"/>
+				<reportElement style="Title" x="170" y="-1" width="263" height="62" uuid="43b88e17-d4e6-40c6-b137-e0fb3595ac69"/>
 				<textElement verticalAlignment="Middle">
-					<font pdfFontName="Times-Roman"/>
+					<font fontName="Arial" pdfFontName="Times-Roman"/>
 				</textElement>
 				<text><![CDATA[Coffee Title]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="SubTitle" x="219" y="62" width="196" height="22" uuid="312653fa-fd23-455a-acf4-60b2bf14772d"/>
+				<reportElement style="SubTitle" x="193" y="62" width="196" height="22" uuid="312653fa-fd23-455a-acf4-60b2bf14772d"/>
 				<textElement>
-					<font fontName="Times New Roman" pdfFontName="Times-Roman"/>
+					<font fontName="DejaVu Sans" pdfFontName="Times-Roman"/>
 				</textElement>
 				<text><![CDATA[Coffee SubTitle]]></text>
 			</staticText>
@@ -103,27 +104,27 @@
 		<band height="15" splitType="Stretch">
 			<frame>
 				<reportElement style="Row" mode="Opaque" x="0" y="0" width="555" height="15" uuid="356f20a0-9df1-4bb5-aca6-ab66ae971796"/>
-				<textField isStretchWithOverflow="true">
+				<textField textAdjust="StretchHeight">
 					<reportElement style="Detail" x="0" y="0" width="92" height="15" uuid="48379c29-97a6-4ac6-9b47-7bdfc4f8fe78"/>
 					<textFieldExpression><![CDATA[$F{ID_PRODUCT}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true">
+				<textField textAdjust="StretchHeight">
 					<reportElement style="Detail" x="92" y="0" width="92" height="15" uuid="ac7a82bc-d293-4167-886b-8285223d5a8e"/>
 					<textFieldExpression><![CDATA[$F{ID_PRODUCT_CATEGORY}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true">
+				<textField textAdjust="StretchHeight">
 					<reportElement style="Detail" x="184" y="0" width="92" height="15" uuid="534009b2-3093-479c-a8f2-eb09585ec5c4"/>
 					<textFieldExpression><![CDATA[$F{PRODUCT_NAME}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true">
+				<textField textAdjust="StretchHeight">
 					<reportElement style="Detail" x="276" y="0" width="92" height="15" uuid="23b4d7e7-4b60-46bd-80c0-f332ffca06b9"/>
 					<textFieldExpression><![CDATA[$F{QUANTITY}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true">
+				<textField textAdjust="StretchHeight">
 					<reportElement style="Detail" x="368" y="0" width="92" height="15" uuid="88d254d6-6eda-4a27-a889-fcab2c83c7b7"/>
 					<textFieldExpression><![CDATA[$F{STORAGE_UNIT}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true">
+				<textField textAdjust="StretchHeight">
 					<reportElement style="Detail" x="460" y="0" width="92" height="15" uuid="d18d0563-7a9f-42d2-8899-ed287ad82375"/>
 					<textFieldExpression><![CDATA[$F{LESS_QUANTITY}]]></textFieldExpression>
 				</textField>

@@ -120,13 +120,14 @@ public class DashboardController implements Initializable {
     private ObservableList<PieChart.Data> datapiechart ;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        //chargepiechart();
         totalAmountCalculation();
         IncomeCalculation("day");
         masarif("day");
         AreaChartDay();
         credetCalcule();
         ProductFinished();
+        chargepiechart();
+
     }
 
     public void Init(BorderPane mainPane){
@@ -195,53 +196,59 @@ public class DashboardController implements Initializable {
         int max1 =0,max2 =0,max3=0;
         int number=0,index1=0,index2=0,index3=0;
         list=food.getAll();
-        for ( int j=1;j<=list.get(list.size()-1).getId_food();j++){
-            number=food.getTopFood(j);
-            if(number > max1){
-                max3=max2;
-                index3=index2;
-                max2=max1;
-                index2=index1;
-                max1=number;
-                index1=j;
-                System.out.println("max1="+max1);
-                System.out.println("max2="+max2);
-                System.out.println("max2="+max3);
-                System.out.println("===========");
-            }else {
-                if(number > max2){
+        if(list.size()!=0){
+
+            for ( int j=1;j<=list.get(list.size()-1).getId_food();j++){
+                number=food.getTopFood(j);
+                if(number > max1){
                     max3=max2;
                     index3=index2;
-                    max2=number;
-                    index2=j;
-                    System.out.println("max1="+max2);
+                    max2=max1;
+                    index2=index1;
+                    max1=number;
+                    index1=j;
+                    System.out.println("max1="+max1);
+                    System.out.println("max2="+max2);
                     System.out.println("max2="+max3);
                     System.out.println("===========");
                 }else {
-                    if(number > max3){
-                        max3=number;
-                        index3=j;
-                        System.out.println("max2="+max2);
-                        System.out.println("max3="+max3);
+                    if(number > max2){
+                        max3=max2;
+                        index3=index2;
+                        max2=number;
+                        index2=j;
+                        System.out.println("max1="+max2);
+                        System.out.println("max2="+max3);
                         System.out.println("===========");
-                    }
+                    }else {
+                        if(number > max3){
+                            max3=number;
+                            index3=j;
+                            System.out.println("max2="+max2);
+                            System.out.println("max3="+max3);
+                            System.out.println("===========");
+                        }
 
+                    }
                 }
             }
-        }
-        Food food1 =new Food();
-        Food food2 =new Food();
-        Food food3 =new Food();
-        FoodOperation foodOperation =new FoodOperation();
-        food1=foodOperation.getFoodByID(index1);
-        food2=foodOperation.getFoodByID(index2);
-        food3=foodOperation.getFoodByID(index3);
+            Food food1 =new Food();
+            Food food2 =new Food();
+            Food food3 =new Food();
+            FoodOperation foodOperation =new FoodOperation();
+            food1=foodOperation.getFoodByID(index1);
+            food2=foodOperation.getFoodByID(index2);
+            food3=foodOperation.getFoodByID(index3);
 
-        datapiechart = FXCollections.observableArrayList();
-        datapiechart.add(new PieChart.Data(food1.getName(), max1));
-        datapiechart.add(new PieChart.Data(food2.getName(), max2));
-        datapiechart.add(new PieChart.Data(food3.getName(), max3));
-        piechart.setData(datapiechart);
+                datapiechart = FXCollections.observableArrayList();
+                datapiechart.add(new PieChart.Data(food1.getName(), max1));
+                datapiechart.add(new PieChart.Data(food2.getName(), max2));
+                datapiechart.add(new PieChart.Data(food3.getName(), max3));
+                piechart.setData(datapiechart);
+
+        }
+
+
     }
 
     void AreaChartDay(){

@@ -26,7 +26,7 @@
                                     <Font size="20.0" />
                                  </font>
                               </Text>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="font2" text="الطاولة رقم ">
+                              <Text fx:id="txt_order" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="font2" text="الطاولة رقم ">
                                  <font>
                                     <Font size="20.0" />
                                  </font>

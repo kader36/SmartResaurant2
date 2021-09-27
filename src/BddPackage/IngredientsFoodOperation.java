@@ -18,6 +18,7 @@ public class IngredientsFoodOperation extends BDD<IngredientsFood> {
             preparedStmt.setInt(3, o.getQuantity());
             int insert = preparedStmt.executeUpdate();
             if (insert != -1) ins = true;
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -37,6 +38,7 @@ public class IngredientsFoodOperation extends BDD<IngredientsFood> {
 
             int update = preparedStmt.executeUpdate();
             if (update != -1) upd = true;
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -54,6 +56,7 @@ public class IngredientsFoodOperation extends BDD<IngredientsFood> {
             preparedStmt.setInt(2, o.getId_product());
             int delete = preparedStmt.executeUpdate();
             if (delete != -1) del = true;
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

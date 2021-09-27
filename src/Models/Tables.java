@@ -7,6 +7,7 @@ public class Tables {
     private int id;
     private int number;
     private String numberTab;
+    private String Bloquer;
     private String active;
     private CheckBox activeCheckBox;
     // add total sum.
@@ -20,6 +21,16 @@ public class Tables {
         this.active = active;
         activeCheckBox = new CheckBox();
         this.numberTab=" الطاولة رقم "+number;
+
+    }
+
+    public Tables(int id, int number, String active,String Bloquer) {
+        this.id = id;
+        this.number = number;
+        this.active = active;
+        activeCheckBox = new CheckBox();
+        this.numberTab=" الطاولة رقم "+number;
+        this.Bloquer=Bloquer;
     }
 
     public int getId() {
@@ -61,5 +72,13 @@ public class Tables {
 
     public void setNumberTab() {
         this.numberTab =  this.number+"الطاولة رقم";
+    }
+
+    public String getBloquer() {
+        return Bloquer;
+    }
+
+    public void setBloquer(String bloquer) {
+        Bloquer = bloquer;
     }
 }

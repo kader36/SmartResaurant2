@@ -18,6 +18,7 @@ public class ProductCategoryOperation extends BDD<ProductCategory> {
             preparedStmt.setString(1,o.getName());
             int insert = preparedStmt.executeUpdate();
             if(insert != -1) ins = true;
+            conn.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -35,6 +36,7 @@ public class ProductCategoryOperation extends BDD<ProductCategory> {
             preparedStmt.setInt(2, o2.getId());
             int update = preparedStmt.executeUpdate();
             if(update != -1) upd = true;
+            conn.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -50,6 +52,7 @@ public class ProductCategoryOperation extends BDD<ProductCategory> {
             preparedStmt.setInt(1,o.getId());
             int delete = preparedStmt.executeUpdate();
             if(delete != -1) del = true;
+            conn.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -75,6 +78,7 @@ public class ProductCategoryOperation extends BDD<ProductCategory> {
                 list.add(productCategory);
 
             }
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -27,6 +27,7 @@ public class SettingsOperation extends BDD<Settings> {
             preparedStmt.setString(5, o1.getPathImage());
             int update = preparedStmt.executeUpdate();
             if (update != -1) upd = true;
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -63,6 +64,7 @@ public class SettingsOperation extends BDD<Settings> {
                 settings.setAdress(resultSet.getString("Adress"));
                 settings.setPathImage(resultSet.getString("Logo"));
             }
+            conn.close();
         } catch (SQLException e) {
                 e.printStackTrace();
         }

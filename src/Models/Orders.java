@@ -10,7 +10,7 @@ public class Orders {
     private Date time;
     private double price;
     private ArrayList<FoodOrder> foodsList;
-    private ArrayList<DrinksOrder> drinksList;
+
 
 
     public Orders() {
@@ -22,7 +22,7 @@ public class Orders {
         this.time = time;
         this.price = price;
         this.foodsList = foodsList;
-        this.drinksList = drinksList;
+
     }
 
     public int getId() {
@@ -61,7 +61,5 @@ public class Orders {
 
     public void setFoodsList(ArrayList<FoodOrder> foodsList) { this.foodsList = foodsList; }
 
-    public ArrayList<DrinksOrder> getDrinksList() { return drinksList; }
 
-    public void setDrinksList(ArrayList<DrinksOrder> drinksList) { this.drinksList = drinksList; }
 }

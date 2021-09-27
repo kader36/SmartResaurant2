@@ -32,6 +32,9 @@ import javafx.stage.FileChooser;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -208,7 +211,7 @@ public class AddFoodController implements Initializable {
 
 
     private void txtValidate() {
-        validateController.inputTextValueType(foodName);
+
         validateController.inputNumberValue(foodPrice);
         validateController.inputNumberValue(txt_quantity);
     }
@@ -242,15 +245,15 @@ public class AddFoodController implements Initializable {
         panefood.setVisible(false);
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("اختر صورة");
-        Stage stage = (Stage) mainPane.getScene().getWindow();
+        Stage stage = (Stage) addPicBtn.getScene().getWindow();
         fileChooser.getExtensionFilters().addAll(
                 //new FileChooser.ExtensionFilter()
-                new FileChooser.ExtensionFilter("JPG", "*.jpg", "*.png", "*.svg")
+                new FileChooser.ExtensionFilter("JPG", "*.jpg", "*.png", "*.svg","*.jpeg")
                 //new FileChooser.ExtensionFilter("PNG", "*.png")
         );
         picFood.setFitHeight(100);
         picFood.setFitWidth(200);
-        File file = fileChooser.showOpenDialog(stage);
+        File file = fileChooser.showOpenDialog(stage.getScene().getWindow());
         if (file != null) {
             Image image = new Image(file.toURI().toString());
             pathImage = file.toURI().toString();
@@ -470,6 +473,19 @@ public class AddFoodController implements Initializable {
                                 alertConfirmation.close();
                             } else if (response == ButtonType.OK) {
                                 // inert food
+                                byte[]photo=null;
+                                try {
+
+                                    String url=pathImage;
+                                    url = url.substring(5, url.length());
+                                    BufferedImage bImage = ImageIO.read(new File(url));
+                                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                                    ImageIO.write(bImage, "jpg", bos );
+                                    photo=bos.toByteArray();
+
+                                } catch (IOException e) {
+                                    System.err.println("file reading error");
+                                }
                                 Food food = new Food();
                                 int idCategory = getIdCategory(IdFoodCategory.getSelectionModel().getSelectedItem().toString());
                                 food.setId(getIdFood());
@@ -477,9 +493,10 @@ public class AddFoodController implements Initializable {
                                 food.setDescription(Des.getText());
                                 food.setImage_path(pathImage);
                                 food.setPrice(Integer.parseInt(foodPrice.getText()));
+                                food.setIMAGE(photo);
                                 // TODO must to change food of category
                                 food.setId_category(idCategory);
-                                foodOperation.insert(food);
+                                boolean bool=foodOperation.insert(food);
                                 try {
                                     Thread.sleep(100);
                                 } catch (InterruptedException e) {
@@ -487,24 +504,27 @@ public class AddFoodController implements Initializable {
                                 }
 
                                 // insert ingredients
-                                for (IngredientsFood ingredientsFood : dataTable) {
-                                    IngredientsFoodProductCompose ingredientsFoodProductCompose=new IngredientsFoodProductCompose();
-                                    ingredientsFoodProductCompose.setQuantity(ingredientsFood.getQuantity());
-                                    ingredientsFoodProductCompose.setId_food(food.getId());
-                                    ingredientsFood.setId_food(food.getId());
+                                if(bool==true) {
+                                    for (IngredientsFood ingredientsFood : dataTable) {
+                                        IngredientsFoodProductCompose ingredientsFoodProductCompose = new IngredientsFoodProductCompose();
+                                        ingredientsFoodProductCompose.setQuantity(ingredientsFood.getQuantity());
+                                        ingredientsFoodProductCompose.setId_food(food.getId());
+                                        ingredientsFood.setId_food(food.getId());
 
-                                    if(ingredientsFood.getType()==0) {
-                                        ingredientsFood.setId_product(getIdProductByCobo(ingredientsFood.getProduct_name(), 0));
-                                        ingredientsFoodOperation.insert(ingredientsFood);
-                                        System.out.println("**");
+                                        if (ingredientsFood.getType() == 0) {
+                                            ingredientsFood.setId_product(getIdProductByCobo(ingredientsFood.getProduct_name(), 0));
+                                            ingredientsFoodOperation.insert(ingredientsFood);
+                                            System.out.println("**");
+                                        } else {
+                                            ingredientsFoodProductCompose.setId_productCopmpose(getIdProductByCobo(ingredientsFood.getProduct_name(), 1));
+                                            ingredientsProductCompsiteOperation.insert(ingredientsFoodProductCompose);
+                                            System.out.println("***");
+                                        }
+
+
                                     }
-                                    else {
-                                        ingredientsFoodProductCompose.setId_productCopmpose(getIdProductByCobo(ingredientsFood.getProduct_name(),1));
-                                        ingredientsProductCompsiteOperation.insert(ingredientsFoodProductCompose);
-                                        System.out.println("***");
-                                    }
-
-
+                                    dataTable.clear();
+                                    listProducts.clear();
                                 }
                                 try {
                                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/foods.fxml"));

@@ -17,6 +17,8 @@ public class TableGridItemControlleur {
 
 
     public Orders curentItemIndex;
+    @FXML
+    private Text txt_order;
 
 
 
@@ -25,6 +27,11 @@ public class TableGridItemControlleur {
         orderPrice.setText(String.valueOf(Price));
         tableNumber.setText(String.valueOf(table));
         this.curentItemIndex = curentItemIndex;
+        if(curentItemIndex.getId_table()==99){
+            txt_order.setText("طلب خارجي");
+            tableNumber.setText("");
+        }
+
     }
 
 
