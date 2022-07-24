@@ -19,12 +19,13 @@ public class OrdersOperation extends BDD <Orders> {
     public boolean insert(Orders o) {
         conn=connect();
         boolean ins = false;
-        String query = "INSERT INTO `orders`( `ID_TABLE_ORDER`,`ORDER_PRICE`,`Order_Active`) VALUES (?,?,?)";
+        String query = "INSERT INTO `orders` (`ID_ORDER`, `ID_TABLE_ORDER`,  `ORDER_PRICE`, `Order_Active`) VALUES (?, ?, ?, ?);";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
-            preparedStmt.setInt(1,o.getId_table());
-            preparedStmt.setInt(2,(int)o.getPrice());
-            preparedStmt.setInt(3,1);
+            preparedStmt.setInt(1,o.getId());
+            preparedStmt.setInt(2,o.getId_table());
+            preparedStmt.setInt(3,(int)o.getPrice());
+            preparedStmt.setInt(4,1);
             int insert = preparedStmt.executeUpdate();
             if(insert != -1) ins = true;
 
@@ -50,7 +51,7 @@ public class OrdersOperation extends BDD <Orders> {
                 "WHERE `ID_ORDER` = ? ";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
-            preparedStmt.setInt(1,Integer.parseInt(String.valueOf(o1.getPrice())));
+            preparedStmt.setDouble(1,Double.parseDouble(String.valueOf(o1.getPrice())));
             preparedStmt.setInt(2,o2.getId());
             int update = preparedStmt.executeUpdate();
             if(update != -1) upd = true;
@@ -154,6 +155,30 @@ public class OrdersOperation extends BDD <Orders> {
         }
 
         return list;
+    }
+    public Orders getOrder(Orders o) {
+
+        conn=connect();
+        Orders orders = new Orders();
+        String query = "SELECT * FROM `orders` WHERE `ID_ORDER`=?";
+        try {
+            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            preparedStmt.setInt(1,o.getId());
+            ResultSet resultSet = preparedStmt.executeQuery();
+
+            while (resultSet.next()) {
+                orders.setId(resultSet.getInt("ID_ORDER"));
+                orders.setId_table(resultSet.getInt("ID_TABLE_ORDER"));
+                orders.setPrice(resultSet.getInt("ORDER_PRICE"));
+                orders.setTime(resultSet.getDate("ORDER_TIME"));
+
+            }
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return orders;
     }
     public TableGainedMoney getElement(Tables o){
         conn=connect();
@@ -477,12 +502,13 @@ public class OrdersOperation extends BDD <Orders> {
     public boolean insertnew(Orders o) {
         conn=connect();
         boolean ins = false;
-        String query = "INSERT INTO `orders`( `ID_TABLE_ORDER`,`ORDER_PRICE`,`Order_Active`) VALUES (?,?,?)";
+        String query = "INSERT INTO `orders` ( `ID_TABLE_ORDER`,  `ORDER_PRICE`, `Order_Active`) VALUES ( ?, ?, ?);";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             preparedStmt.setInt(1,o.getId_table());
             preparedStmt.setInt(2,(int)o.getPrice());
             preparedStmt.setInt(3,0);
+
             int insert = preparedStmt.executeUpdate();
             if(insert != -1) ins = true;
 

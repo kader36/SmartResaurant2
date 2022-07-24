@@ -3,10 +3,14 @@ package Controllers.stroreKeeper;
 import BddPackage.Connet;
 import BddPackage.ProductCategoryOperation;
 import BddPackage.ProductOperation;
+import BddPackage.UnityOperation;
 import Controllers.ValidateController;
 import Models.Product;
 import Models.ProductCategory;
+import Models.Unity;
 import com.mysql.jdbc.Connection;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -46,6 +50,7 @@ public class ProductController implements Initializable {
 
     @FXML
     private BorderPane mainPane;
+
 
     @FXML
     private TableView<Product> productTable;
@@ -113,26 +118,49 @@ public class ProductController implements Initializable {
 
     FilteredList<Product> filteredData;
 
+    private Product product;
+    private static Product newproduct;
+
+    double tot=0;
+
+
     @FXML
     private VBox vboxOption;
     private boolean visible;
     private ObservableList<Product> dataTable = FXCollections.observableArrayList();
+    private ObservableList<String> dataunity ;
     private ArrayList<Product> list_Products = new ArrayList<>();
+    private ArrayList<Unity> list_unity = new ArrayList<>();
+    private UnityOperation unityOperation = new UnityOperation();
     private ProductOperation productOperation = new ProductOperation();
     private ObservableList<String> dataCombo;
     static ArrayList<ProductCategory> listCategory;
     private ValidateController validateController = new ValidateController();
-    private Product product;
+    public static BooleanProperty clear = new SimpleBooleanProperty();
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        clear.addListener((observableValue, aBoolean, t1) -> {
+        refresh();
+        });
+    }
+    private void chargeListUnity() {
+        dataunity = FXCollections.observableArrayList();
+
+        UnityOperation unityOperation = new UnityOperation();
+        ArrayList<Unity> unities = unityOperation.getAll();
+        for (Unity listProviderFromDB : unities) {
+            dataunity.add(listProviderFromDB.getName());
+        }
+        STORAGE_UNIT.setItems(dataunity);
+        Unity_Food.setItems(dataunity);
 
     }
 
     public void Init(BorderPane mainPane) {
         this.mainPane = mainPane;
-        STORAGE_UNIT.getItems().addAll("Kg","G","L","Plat","Fourgon");
-        Unity_Food.getItems().addAll("G","L","mL","Oeuf","Fiole");
+        chargeListUnity();
         hidevbox();
         vboxOption.setVisible(false);
         col_name.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -150,8 +178,8 @@ public class ProductController implements Initializable {
         chargeListCategory();
         comboListCategory.getItems().addAll("اسم السلعة", "الصنف", "الكمية الإجمالية", "الحد الأدنى", "الوحدة");
         sortComboByCategory();
-        //lbl_less_quantity.setText(String.valueOf(productOperation.getNbLessQuantity()));
-      //  lbl_dead_product.setText(String.valueOf(productOperation.getNbDeadProduct()));
+        ArrayList list=productOperation.getProductFinished();
+        lbl_less_quantity.setText(String.valueOf(list.size()));
         totProducts.setText(String.valueOf(productOperation.getCountProduct()));
     }
 
@@ -188,27 +216,37 @@ public class ProductController implements Initializable {
     }
 
     private void txtValidate() {
-        validateController.inputTextValueType(txt_name);
+
         //validateController.inputTextValueType(txt_unite);
         validateController.inputNumberValue(txt_tot_quantity);
         validateController.inputNumberValue(txt_Coefficient);
         //validateController.inputNumberValue(txt_less_quantity);
+
     }
 
     private void txtValidateUpdate() {
-        validateController.inputTextValueType(txt_name_upd);
+
         //validateController.inputTextValueType(txt_unite_upd);
         validateController.inputNumberValue(txt_tot_quantity_upd);
         validateController.inputNumberValue(txt_less_quantity_upd);
+
     }
 
     private void refresh() {
+        list_Products.clear();
         list_Products = productOperation.getAll();
         dataTable.setAll(list_Products);
         productTable.setItems(dataTable);
         lbl_less_quantity.setText(String.valueOf(productOperation.getNbLessQuantity()));
-       // lbl_dead_product.setText(String.valueOf(productOperation.getNbDeadProduct()));
         totProducts.setText(String.valueOf(productOperation.getCountProduct()));
+    }
+
+    public void Clear() {
+        list_Products.clear();
+        dataTable.clear();
+        list_Products = productOperation.getAll();
+        dataTable.setAll(list_Products);
+        productTable.setItems(dataTable);
     }
 
     void chargeListCategory() {
@@ -367,6 +405,21 @@ public class ProductController implements Initializable {
             DialogPane temp = loader.load();
             CategoriesController categoriesController = loader.getController();
             categoriesController.InitCategoryList();
+            Dialog<ButtonType> dialog = new Dialog<>();
+            dialog.setDialogPane(temp);
+            dialog.initStyle(StageStyle.UNDECORATED);
+            dialog.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    void showListUnity(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/storekeeper/Unitys.fxml"));
+            DialogPane temp = loader.load();
+            UnityController categoriesController = loader.getController();
+            categoriesController.Init();
             Dialog<ButtonType> dialog = new Dialog<>();
             dialog.setDialogPane(temp);
             dialog.initStyle(StageStyle.UNDECORATED);
@@ -596,6 +649,51 @@ public class ProductController implements Initializable {
     private void closeDialog(Button btn) {
         Stage stage = (Stage) btn.getScene().getWindow();
         stage.close();
+    }
+    @FXML
+    void Products_loss(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/storekeeper/LESS_Product.fxml"));
+            DialogPane temp = loader.load();
+            Dialog<ButtonType> dialog = new Dialog<>();
+            dialog.setDialogPane(temp);
+            dialog.initStyle(StageStyle.UNDECORATED);
+            dialog.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void lossProduct(ActionEvent event) {
+        Product product=productTable.getSelectionModel().getSelectedItem();
+
+        if(product==null){
+            Alert alertWarning = new Alert(Alert.AlertType.WARNING);
+            alertWarning.setHeaderText("تحذير");
+            alertWarning.setContentText("يرجى تجديد المنتج معين");
+            Button okkButton = (Button) alertWarning.getDialogPane().lookupButton(ButtonType.OK);
+            okkButton.setText("حسنا");
+            alertWarning.showAndWait();
+        }else {
+            this.newproduct=product;
+            tot=this.newproduct.getId();
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/storekeeper/lossProduct.fxml"));
+                DialogPane temp = loader.load();
+                lossProduct lossProduct=loader.getController();
+                lossProduct.Init(product);
+                Dialog<ButtonType> dialog = new Dialog<>();
+                dialog.setDialogPane(temp);
+                dialog.initStyle(StageStyle.UNDECORATED);
+                dialog.showAndWait();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+
     }
 
 

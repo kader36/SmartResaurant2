@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="160.0" style="-fx-border-color: grey; -fx-background-color: white; -fx-border-radius: 0.5;" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Tables.FacturItemController">
+   <children>
+      <HBox alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefHeight="85.0" prefWidth="252.0" style="-fx-background-color: withe;" styleClass="container" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <padding>
+            <Insets right="5.0" />
+         </padding>
+         <children>
+            <HBox alignment="CENTER_LEFT" prefHeight="48.0" prefWidth="114.0">
+               <children>
+                  <Text fx:id="name" fill="#e40000" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="font5" text="Pizza 4 formage 00000">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                  </Text>
+               </children>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </HBox>
+            <Text fx:id="txt_qentity" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="font5" text="1">
+               <HBox.margin>
+                  <Insets right="5.0" />
+               </HBox.margin>
+            </Text>
+            <HBox alignment="CENTER_RIGHT" prefHeight="48.0" prefWidth="81.0">
+               <children>
+                  <Button fx:id="btn_delete" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="26.0" prefWidth="45.0" text="حذف" textFill="WHITE">
+                     <graphic>
+                        <ImageView fitHeight="5.0" fitWidth="5.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../Images/plus.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <styleClass>
+                        <String fx:value="remove-picture-food" />
+                        <String fx:value="font5" />
+                     </styleClass>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </HBox>
+   </children>
+   <effect>
+      <DropShadow color="#8d8d8d" height="5.0" radius="2.0" width="5.0" />
+   </effect>
+</AnchorPane>

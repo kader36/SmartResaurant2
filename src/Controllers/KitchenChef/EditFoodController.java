@@ -18,6 +18,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -27,6 +31,10 @@ import javafx.stage.FileChooser;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -48,6 +56,8 @@ public class EditFoodController implements Initializable {
 
     @FXML
     private TextField foodPrice;
+    @FXML
+    private TextField prixfee;
 
     @FXML
     private ImageView picFood;
@@ -142,11 +152,12 @@ public class EditFoodController implements Initializable {
         lbl_nb_food.setText(String.valueOf(ValuesStatic.currentFood.getId()));
         foodName.setText(ValuesStatic.currentFood.getName());
         foodPrice.setText(String.valueOf(ValuesStatic.currentFood.getPrice()));
-        Image image = new Image(ValuesStatic.currentFood.getImage_path());
+        File file=new File(ValuesStatic.currentFood.getImage_path());
+        Image image = new Image(file.toURI().toString());
         picFood.setImage(image);
         pathImage=ValuesStatic.currentFood.getImage_path();
         Des.setText(ValuesStatic.currentFood.getDescription());
-        FoodCategory.setText(ValuesStatic.currentFood.getCategory_name());
+        prixfee.setText(String.valueOf(ValuesStatic.currentFood.getPricefee()));
         chargeTableIngredients();
     }
 
@@ -192,23 +203,10 @@ public class EditFoodController implements Initializable {
     }
 
     String getUnitProductByCobo(String comboChose) {
-        for (Product listProductFromDB : list_ProductsObject) {
-            String product = listProductFromDB.getName().replace("[", "");
-            product = product.replace("]", "");
-            if (comboChose.equals(product)) {
-                if (listProductFromDB.getStorage_Unit().contains("g"))
-                    return "g";
-                else if (listProductFromDB.getStorage_Unit().contains("l"))
-                    return "cl";
-                else if (listProductFromDB.getStorage_Unit().contains("ل"))
-                    return "سل";
-                else if (listProductFromDB.getStorage_Unit().contains("غ"))
-                    return "غ";
-            }
+        ProductOperation productOperation=new ProductOperation();
+        Product product=productOperation.GetProduct(comboChose);
 
-        }
-
-        return "";
+        return product.getUnity_Food();
     }
 
 
@@ -247,7 +245,6 @@ public class EditFoodController implements Initializable {
     }
 
     private void txtValidate() {
-        validateController.inputTextValueType(foodName);
         validateController.inputNumberValue(foodPrice);
         validateController.inputNumberValue(txt_quantity);
     }
@@ -355,6 +352,7 @@ public class EditFoodController implements Initializable {
             ingredientsFood.setProduct_name(product);
             ingredientsFood.setUnity(getUnitProductByCobo(product));
             ingredientsFood.setQuantity(Integer.valueOf(txt_quantity.getText()));
+            ingredientsFood.setType(0);
             list_ingredientsFoods.add(ingredientsFood);
             txt_quantity.setText("");
             refresh();
@@ -423,15 +421,6 @@ public class EditFoodController implements Initializable {
     void saveTableProducts(ActionEvent event) { // Update*
         dataTable = FXCollections.observableArrayList();
         dataTable.setAll(table_food.getItems());
-        if (table_food.getItems().size() == 0) {
-            Alert alertWarning = new Alert(Alert.AlertType.WARNING);
-            alertWarning.setHeaderText("تحذير ");
-            alertWarning.setContentText("الرجاء ملأ مكونات الوجبة قبل الحفظ");
-            Button okkButton = (Button) alertWarning.getDialogPane().lookupButton(ButtonType.OK);
-            okkButton.setText("حسنا");
-            alertWarning.showAndWait();
-            return;
-        }
         if (foodPrice.getText().equals("")) {
             Alert alertWarning = new Alert(Alert.AlertType.WARNING);
             alertWarning.setHeaderText("تحذير ");
@@ -489,19 +478,37 @@ public class EditFoodController implements Initializable {
                 alertConfirmation.close();
             } else if (response == ButtonType.OK) {
                 // update food
+                byte[]photo=null;
+                try {
+                    BufferedImage bImage = ImageIO.read(new File(pathImage));
+                    BufferedImage resizing=new BufferedImage(200,200,bImage.getType());
+                    Graphics2D graphics2D=resizing.createGraphics();
+                    graphics2D.drawImage(bImage,0,0,200,200,null);
+                    graphics2D.dispose();
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                    ImageIO.write(resizing, "jpg", bos );
+                    photo=bos.toByteArray();
+
+                } catch (IOException e) {
+                    System.err.println("file reading error");
+                }
                 Food food = new Food();
                 food.setName(foodName.getText());
                 food.setDescription(Des.getText());
-                food.setImage_path(pathImage);
+                food.setImage_path(System.getProperty("user.dir") + "/Image/"+food.getName()+".jpg");
                 food.setPrice(Integer.parseInt(foodPrice.getText()));
+                food.setIMAGE(photo);
+                food.setPricefee(Integer.parseInt(prixfee.getText()));
                 // TODO must to change food of category
                 foodOperation.update(ValuesStatic.currentFood, food);
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                //Uplode Image
+                if(!ValuesStatic.currentFood.getName().equals(food.getName())){
+                    File origen=new File(pathImage);
+                    File resizing=new File(System.getProperty("user.dir") + "/Image/"+food.getName()+".jpg");
+                    ResizingImage(origen,resizing,200,200,"jpg");
                 }
                 idFood = foodOperation.getIdFood(food);
+
                 // delete old ingredients
                 for (IngredientsFood ingredientsFood : ingredientsFoodOperation.getAll()) {
                     ingredientsFoodOperation.delete(ingredientsFood);
@@ -513,6 +520,7 @@ public class EditFoodController implements Initializable {
                 // insert new ingredients
                 for (IngredientsFood ingredientsFood : dataTable) {
                     ingredientsFood.setId_food(idFood);
+                    System.out.println(idFood);
                     if(ingredientsFood.getType()==0) {
                         ingredientsFood.setId_product(getIdProductByCobo(ingredientsFood.getProduct_name(), 0));
                         ingredientsFoodOperation.insert(ingredientsFood);
@@ -520,6 +528,7 @@ public class EditFoodController implements Initializable {
                         IngredientsFoodProductCompose ingredientsFoodProductCompose=new IngredientsFoodProductCompose();
                         ingredientsFoodProductCompose.setId_productCopmpose(getIdProductByCobo(ingredientsFood.getProduct_name(),1));
                         ingredientsFoodProductCompose.setId_food(idFood);
+                        System.out.println(idFood);
                         ingredientsFoodProductCompose.setQuantity(ingredientsFood.getQuantity());
                         foodProductComposeOperation.insert(ingredientsFoodProductCompose);
                     }
@@ -542,6 +551,19 @@ public class EditFoodController implements Initializable {
         foodPrice.setText("");
         txt_quantity.setText("");
         saveTableProductsBtn.setDisable(true);
+    }
+    private void ResizingImage(File OrigenImage,File resizingImage,int with,int hieght,String format ){
+        try {
+            BufferedImage origen=ImageIO.read(OrigenImage);
+            BufferedImage resizing=new BufferedImage(with,hieght,origen.getType());
+            Graphics2D graphics2D=resizing.createGraphics();
+
+            graphics2D.drawImage(origen,0,0,with,hieght,null);
+            graphics2D.dispose();
+            ImageIO.write(resizing,format,resizingImage);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

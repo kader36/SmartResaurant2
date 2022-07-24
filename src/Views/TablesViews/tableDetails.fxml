@@ -49,7 +49,7 @@
                   </VBox>
                   <ImageView fitHeight="81.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../Images/table.png" />
+                        <Image url="@../../Images/table1.png" />
                      </image>
                      <HBox.margin>
                         <Insets right="5.0" />

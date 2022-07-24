@@ -3,6 +3,7 @@ package BddPackage;
 import Models.Food;
 import javafx.scene.image.Image;
 
+import java.io.File;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -31,8 +32,8 @@ public class FoodOperation extends BDD<Food> {
     public boolean insert(Food o) {
         conn=connect();
         boolean ins = false;
-        String query = "INSERT INTO `food`(`ID_Food_Category`, `FOOD_NAME`, `DESCRIPTION`, `FOOD_PRICE`, `FOOD_IMAGE`, `ID_FOOD`,`IMAGE`) \n" +
-                "VALUES (?,?,?,?,?,?,?)";
+        String query = "INSERT INTO `food`(`ID_Food_Category`, `FOOD_NAME`, `DESCRIPTION`, `FOOD_PRICE`, `FOOD_IMAGE`, `ID_FOOD`,`IMAGE`,FOOD_PRICE_FEE) \n" +
+                "VALUES (?,?,?,?,?,?,?,?)";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             preparedStmt.setInt(1, o.getId_category());
@@ -42,6 +43,7 @@ public class FoodOperation extends BDD<Food> {
             preparedStmt.setString(5, o.getImage_path());
             preparedStmt.setInt(6, o.getId());
             preparedStmt.setBytes(7, o.getIMAGE());
+            preparedStmt.setInt(8, o.getPricefee());
             int insert = preparedStmt.executeUpdate();
             if (insert != -1) ins = true;
             conn.close();
@@ -56,7 +58,7 @@ public class FoodOperation extends BDD<Food> {
     public boolean update(Food o1, Food o2) {
         conn=connect();
         boolean upd = false;
-        String query = "UPDATE `food` SET`FOOD_NAME`= ?,`DESCRIPTION`= ?,`FOOD_PRICE`= ?,`FOOD_IMAGE`= ?,`IMAGE`=? WHERE `ID_FOOD`= ?";
+        String query = "UPDATE `food` SET`FOOD_NAME`= ?,`DESCRIPTION`= ?,`FOOD_PRICE`= ?,`FOOD_IMAGE`= ?,`IMAGE`=?,`FOOD_PRICE_FEE`= ? WHERE `ID_FOOD`= ?";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             preparedStmt.setString(1, o2.getName());
@@ -64,7 +66,8 @@ public class FoodOperation extends BDD<Food> {
             preparedStmt.setInt(3, o2.getPrice());
             preparedStmt.setString(4, o2.getImage_path());
             preparedStmt.setBytes(5, o2.getIMAGE());
-            preparedStmt.setInt(6, o1.getId());
+            preparedStmt.setInt(6, o2.getPricefee());
+            preparedStmt.setInt(7, o1.getId());
             int update = preparedStmt.executeUpdate();
             if (update != -1) upd = true;
             conn.close();
@@ -98,6 +101,7 @@ public class FoodOperation extends BDD<Food> {
             food.setName(resultSet.getString("FOOD_NAME"));
             food.setDescription(resultSet.getString("DESCRIPTION"));
             food.setPrice(resultSet.getInt("FOOD_PRICE"));
+            food.setPricefee(resultSet.getInt("FOOD_PRICE_FEE"));
             food.setImage_path(resultSet.getString("FOOD_IMAGE"));
             list.add(food);
         }
@@ -155,8 +159,10 @@ public class FoodOperation extends BDD<Food> {
                 food.setName(resultSet.getString("FOOD_NAME"));
                 food.setDescription(resultSet.getString("DESCRIPTION"));
                 food.setPrice(resultSet.getInt("FOOD_PRICE"));
+                food.setPricefee(resultSet.getInt("FOOD_PRICE_FEE"));
                 food.setImage_path(resultSet.getString("FOOD_IMAGE"));
-                food.setImageByPath(new Image(food.getImage_path()));
+                File file=new File(food.getImage_path());
+                food.setImageByPath(new Image(file.toURI().toString()));
                 food.setAvailabale(resultSet.getBoolean("AVAILABLE"));
                 food.setCategory(food.getId_category());
 
@@ -182,8 +188,10 @@ public class FoodOperation extends BDD<Food> {
                 food.setName(resultSet.getString("FOOD_NAME"));
                 food.setDescription(resultSet.getString("DESCRIPTION"));
                 food.setPrice(resultSet.getInt("FOOD_PRICE"));
+                food.setPricefee(resultSet.getInt("FOOD_PRICE_FEE"));
                 food.setImage_path(resultSet.getString("FOOD_IMAGE"));
-                food.setImageByPath(new Image(food.getImage_path()));
+                File file=new File(food.getImage_path());
+                food.setImageByPath(new Image(file.toURI().toString()));
                 food.setAvailabale(resultSet.getBoolean("AVAILABLE"));
                 food.setIMAGE(resultSet.getBytes("IMAGE"));
                 food.setRating(resultSet.getInt("RATING"));
@@ -232,6 +240,7 @@ public class FoodOperation extends BDD<Food> {
                 food.setName(resultSet.getString("FOOD_NAME"));
                 food.setDescription(resultSet.getString("DESCRIPTION"));
                 food.setPrice(resultSet.getInt("FOOD_PRICE"));
+                food.setPricefee(resultSet.getInt("FOOD_PRICE_FEE"));
                 food.setImage_path(resultSet.getString("FOOD_IMAGE"));
                 food.setRating(resultSet.getInt("RATING"));
                 food.setAvailabale(resultSet.getBoolean("AVAILABLE"));
@@ -257,8 +266,10 @@ public class FoodOperation extends BDD<Food> {
                 food.setName(resultSet.getString("FOOD_NAME"));
                 food.setDescription(resultSet.getString("DESCRIPTION"));
                 food.setPrice(resultSet.getInt("FOOD_PRICE"));
+                food.setPricefee(resultSet.getInt("FOOD_PRICE_FEE"));
                 food.setImage_path(resultSet.getString("FOOD_IMAGE"));
-                food.setImageByPath(new Image(food.getImage_path()));
+                File file=new File(food.getImage_path());
+                food.setImageByPath(new Image(file.toURI().toString()));
                 food.setAvailabale(resultSet.getBoolean("AVAILABLE"));
                 food.setCategory(food.getId_category());
 
@@ -308,4 +319,24 @@ public class FoodOperation extends BDD<Food> {
         }
         return total;
     }
+    public int getBenefitFood(int  o){
+        conn=connect();
+        int total = 0;
+        String query = "SELECT `FOOD_PRICE`-`FOOD_PRICE_FEE` as 'total' FROM food WHERE `ID_FOOD`=?";
+        try {
+
+            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            preparedStmt.setInt(1, o);
+            ResultSet resultSet = preparedStmt.executeQuery();
+            while (resultSet.next())
+                total = resultSet.getInt("total");
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return total;
+
+
+    }
+
 }

@@ -6,6 +6,7 @@
 .container{
 	-fx-background-color:#FBFBFB;
 	-fx-font-family: 'HSDream-Regular';
+
 	
 }
 .bar-top{
@@ -235,6 +236,12 @@
 	-fx-font-family: 'arial';
 
 }
+.table-view .column-table {
+	-fx-text-fill: #848484;
+	-fx-alignment: CENTER;
+	-fx-font-size:12;
+	-fx-font-family: 'HSDream-Regular';
+	}
 .table:focused{
 	-fx-background-color: transparent;
 }
@@ -350,6 +357,18 @@
     -fx-border-color: white;
    
 }
+.font1{
+	-fx-font-family: 'HSDream-Regular';
+	-fx-font-size: 13;
+	-fx-: red;
+	-fx-font-scale: bold;
+}
+.font5{
+	-fx-font-family: 'HSDream-Regular';
+	-fx-font-size: 9;
+	-fx-: red;
+	-fx-font-scale: bold;
+}
 .font2{
 	-fx-font-family: 'HSDream-Regular';
 	-fx-font-size: 22;
@@ -363,6 +382,10 @@
 .font3{
 	-fx-font-family: 'HSDream-Regular';
 	-fx-font-size: 12;
+}
+.font4{
+	-fx-font-family: 'HSDream-Regular';
+	-fx-font-size: 60;
 }
 .show-all-products{
 	-fx-background-color:#FBFBFB;

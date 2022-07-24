@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXCheckBox?>
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
@@ -17,7 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="700.0" prefWidth="1070.0" style="-fx-background-color: #F8F8F8;" stylesheets="@css/style.css" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.stroreKeeper.BillListController">
+<BorderPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="830.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="700.0" prefWidth="830.0" style="-fx-background-color: #F8F8F8;" stylesheets="@css/style.css" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.stroreKeeper.BillListController">
    <top>
       <AnchorPane prefHeight="70.0" prefWidth="900.0" style="-fx-background-color: FFF;" styleClass="bar-top" BorderPane.alignment="CENTER">
          <children>
@@ -34,7 +35,7 @@
          <children>
             <VBox layoutX="394.0" layoutY="189.0" maxHeight="1.7976931348623157E308" spacing="20.0" style="-fx-background-color: FFF;" styleClass="container-table" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="140.0">
                <children>
-                  <TableView fx:id="billTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="846.0" styleClass="table" VBox.vgrow="ALWAYS">
+                  <TableView fx:id="billTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="650.0" styleClass="table" VBox.vgrow="ALWAYS">
                     <columns>
                       <TableColumn prefWidth="85.0" styleClass="column-table" visible="false">
                            <graphic>
@@ -218,17 +219,21 @@
                </padding></VBox>
             <HBox layoutX="365.0" layoutY="44.0" prefHeight="70.0" prefWidth="200.0" spacing="10.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
                <children>
-                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                  <HBox alignment="CENTER_LEFT" prefHeight="151.0" prefWidth="517.0" spacing="10.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <Label styleClass="number-of-list" text="العدد" textFill="#777777">
+                        <Label text="العدد" textFill="#777777">
                            <font>
                               <Font size="26.0" />
                            </font>
                            <HBox.margin>
                               <Insets top="-82.0" />
                            </HBox.margin>
+                           <styleClass>
+                              <String fx:value="number-of-list" />
+                              <String fx:value="font" />
+                           </styleClass>
                         </Label>
-                        <Label fx:id="nbTotFact" styleClass="number-list" text="2513" textFill="#777777">
+                        <Label fx:id="nbTotFact" text="2513" textFill="#777777">
                            <font>
                               <Font size="26.0" />
                            </font>
@@ -238,14 +243,10 @@
                            <HBox.margin>
                               <Insets top="-82.0" />
                            </HBox.margin>
-                        </Label>
-                        <Label styleClass="sorted-by" text="فرز بـ" textFill="#686868">
-                           <font>
-                              <Font size="20.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets top="-82.0" />
-                           </HBox.margin>
+                           <styleClass>
+                              <String fx:value="number-list" />
+                              <String fx:value="font" />
+                           </styleClass>
                         </Label>
                         <ComboBox fx:id="listedByCombo" maxHeight="32.0" maxWidth="97.0" minHeight="32.0" minWidth="97.0" prefHeight="32.0" prefWidth="97.0" promptText="الكل" styleClass="search-input">
                            <HBox.margin>
@@ -253,7 +254,7 @@
                            </HBox.margin></ComboBox>
                         <VBox prefHeight="200.0" prefWidth="100.0">
                            <children>
-                              <TextField fx:id="txtSearchField" maxHeight="32.0" maxWidth="210.0" minHeight="32.0" minWidth="210.0" onAction="#txtSearchBill" prefHeight="32.0" prefWidth="210.0" promptText="بحث" styleClass="search-input">
+                              <TextField fx:id="txtSearchField" maxHeight="32.0" maxWidth="210.0" minHeight="32.0" minWidth="108.0" onAction="#txtSearchBill" prefHeight="32.0" prefWidth="108.0" promptText="بحث" styleClass="search-input">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
@@ -268,9 +269,9 @@
                         <Insets />
                      </HBox.margin>
                   </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="151.0" prefWidth="299.0" spacing="20.0">
+                  <HBox alignment="CENTER_LEFT" spacing="20.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#PayDebt" prefHeight="38.0" prefWidth="120.0" styleClass="printer-button" text="دفع الدين" textAlignment="CENTER" textFill="WHITE">
+                        <Button minWidth="120.0" mnemonicParsing="false" onAction="#PayDebt" prefHeight="38.0" prefWidth="120.0" styleClass="printer-button" text="دفع الدين" textAlignment="CENTER" textFill="WHITE">
                            <HBox.margin>
                               <Insets top="-85.0" />
                            </HBox.margin>

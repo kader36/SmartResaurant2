@@ -363,7 +363,8 @@ public class BillListController implements Initializable {
             Connection con = connet.connection();
 
             try {
-                String report = System.getProperty("user.dir") + "/SmartResaurant/src/Report/Factor.jrxml";
+                String report = System.getProperty("user.dir") + "/Report/Fa.jrxml";
+                System.out.println(report);
                 JasperDesign jasperDesign = JRXmlLoader.load(report);
                 String sqlCmd = "SELECT settings.Name,settings.PhoneNambe1,settings.PhoneNambe2,settings.Adress,provider.PROVIDER_FIRST_NAME,provider.PROVIDER_LAST_NAME,provider.PROVIDER_PHONE_NUMBER,provider.PROVIDER_ADRESS,product.PRODUCT_NAME,product.STORAGE_UNIT,store_bill_product.PRICE,store_bill_product.PRODUCT_QUANTITY,store_bill.PAID_UP,store_bill.STORE_BILL_DATE ,settings.Logo,store_bill.Total,employer.EMPLOYER_NAME,employer.EMPLOYER_LAST_NAME\n" +
                         "FROM `store_bill_product`,product,provider,settings,users,employer,store_bill WHERE product.ID_PRODUCT=store_bill_product.ID_PRODUCT and store_bill.ID_USER_OPERATION=users.ID_USER and store_bill.ID_PROVIDER_OPERATION=provider.ID_PROVIDER and users.ID_EMPLOYER=employer.ID_EMPLOYER and store_bill_product.ID_STORE_BILL=store_bill.ID_STORE_BILL and store_bill.ID_STORE_BILL=" + storeBill.getNumber();
@@ -374,8 +375,7 @@ public class BillListController implements Initializable {
                 Connection connection = null;
 
                 JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, con);
-                JasperViewer.viewReport(jasperPrint,false);
-                //JasperPrintManager.printReport(jasperPrint,false);
+                JasperPrintManager.printReport(jasperPrint,false);
                 //JasperExportManager.exportReportToPdfFile(jasperPrint,System.getProperty("user.dir") + "/SmartResaurant/simpel.pdf");
             } catch (JRException e) {
                 e.printStackTrace();
@@ -398,7 +398,8 @@ public class BillListController implements Initializable {
             Connection con = connet.connection();
 
             try {
-                String report = System.getProperty("user.dir") + "/SmartResaurant/src/Report/Factor.jrxml";
+                String report = System.getProperty("user.dir") + "/Report/Fa.jrxml";
+                System.out.println(report);
                 JasperDesign jasperDesign = JRXmlLoader.load(report);
                 String sqlCmd = "SELECT settings.Name,settings.PhoneNambe1,settings.PhoneNambe2,settings.Adress,provider.PROVIDER_FIRST_NAME,provider.PROVIDER_LAST_NAME,provider.PROVIDER_PHONE_NUMBER,provider.PROVIDER_ADRESS,product.PRODUCT_NAME,product.STORAGE_UNIT,store_bill_product.PRICE,store_bill_product.PRODUCT_QUANTITY,store_bill.PAID_UP,store_bill.STORE_BILL_DATE ,settings.Logo,store_bill.Total,employer.EMPLOYER_NAME,employer.EMPLOYER_LAST_NAME\n" +
                         "FROM `store_bill_product`,product,provider,settings,users,employer,store_bill WHERE product.ID_PRODUCT=store_bill_product.ID_PRODUCT and store_bill.ID_USER_OPERATION=users.ID_USER and store_bill.ID_PROVIDER_OPERATION=provider.ID_PROVIDER and users.ID_EMPLOYER=employer.ID_EMPLOYER and store_bill_product.ID_STORE_BILL=store_bill.ID_STORE_BILL and store_bill.ID_STORE_BILL=" + storeBill.getNumber();
@@ -409,7 +410,7 @@ public class BillListController implements Initializable {
                 Connection connection = null;
 
                 JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, con);
-                JasperExportManager.exportReportToPdfFile(jasperPrint,System.getProperty("user.dir") + "/SmartResaurant/simpel.pdf");
+                JasperExportManager.exportReportToPdfFile(jasperPrint,System.getProperty("user.dir") + "/simpel.pdf");
             } catch (JRException e) {
                 e.printStackTrace();
             }
@@ -431,7 +432,8 @@ public class BillListController implements Initializable {
             Connection con = connet.connection();
 
             try {
-                String report = System.getProperty("user.dir") + "/SmartResaurant/src/Report/Factor.jrxml";
+                String report =System.getProperty("user.dir") + "/Report/Fa.jrxml";
+                System.out.println(report);
                 JasperDesign jasperDesign = JRXmlLoader.load(report);
                 String sqlCmd = "SELECT settings.Name,settings.PhoneNambe1,settings.PhoneNambe2,settings.Adress,provider.PROVIDER_FIRST_NAME,provider.PROVIDER_LAST_NAME,provider.PROVIDER_PHONE_NUMBER,provider.PROVIDER_ADRESS,product.PRODUCT_NAME,product.STORAGE_UNIT,store_bill_product.PRICE,store_bill_product.PRODUCT_QUANTITY,store_bill.PAID_UP,store_bill.STORE_BILL_DATE ,settings.Logo,store_bill.Total,employer.EMPLOYER_NAME,employer.EMPLOYER_LAST_NAME\n" +
                         "FROM `store_bill_product`,product,provider,settings,users,employer,store_bill WHERE product.ID_PRODUCT=store_bill_product.ID_PRODUCT and store_bill.ID_USER_OPERATION=users.ID_USER and store_bill.ID_PROVIDER_OPERATION=provider.ID_PROVIDER and users.ID_EMPLOYER=employer.ID_EMPLOYER and store_bill_product.ID_STORE_BILL=store_bill.ID_STORE_BILL and store_bill.ID_STORE_BILL=" + storeBill.getNumber();

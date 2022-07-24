@@ -18,7 +18,7 @@ public class FoodOrderOperation extends BDD<FoodOrder> {
         String query = "INSERT INTO `food_order`(`ID_ORDER`, `ID_FOOD`,`ORDER_QUANTITY`) VALUES (?,?,?)";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
-            preparedStmt.setInt(1,OrdersOperation.lastId);
+            preparedStmt.setInt(1,o.getId_order());
             preparedStmt.setInt(2,o.getId_food());
             preparedStmt.setInt(3,o.getQuantity());
             int insert = preparedStmt.executeUpdate();

@@ -74,15 +74,13 @@ public class MoneyWithdrawalOperationsBDD extends BDD<MoneyWithdrawal> {
             ResultSet resultSet = preparedStmt.executeQuery();
 
             while (resultSet.next()) {
-                operationsList.add(
-                        new MoneyWithdrawal(
-
-                                resultSet.getString("USER_NAME"),
-                                resultSet.getDouble("MONEY_WITHDRAWN"),
-                                resultSet.getDate("DATE"),
-                                resultSet.getString("NOTE")
-                        )
-                );
+               MoneyWithdrawal moneyWithdrawal=new MoneyWithdrawal();
+               moneyWithdrawal.setDatabaseID(resultSet.getInt("ID"));
+                moneyWithdrawal.setUserName(resultSet.getString("USER_NAME"));
+                moneyWithdrawal.setNote(resultSet.getString("NOTE"));
+                moneyWithdrawal.setMoneyWithdrawn(resultSet.getDouble("MONEY_WITHDRAWN"));
+                moneyWithdrawal.setDate(resultSet.getDate("DATE"));
+                operationsList.add(moneyWithdrawal);
             }
         conn.close();
         }catch (SQLException e){

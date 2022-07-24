@@ -9,8 +9,18 @@ public class Tables {
     private String numberTab;
     private String Bloquer;
     private String active;
+    private String OrderActive;
     private CheckBox activeCheckBox;
+    private int OrderId;
     // add total sum.
+
+    public int getOrderId() {
+      return OrderId;
+    }
+
+    public void setOrderId(int orderId) {
+        this.OrderId = orderId;
+    }
 
     public Tables() {
     }
@@ -80,5 +90,13 @@ public class Tables {
 
     public void setBloquer(String bloquer) {
         Bloquer = bloquer;
+    }
+
+    public String getOrderActive() {
+        return OrderActive;
+    }
+
+    public void setOrderActive(String orderActive) {
+        OrderActive = orderActive;
     }
 }

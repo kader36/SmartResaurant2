@@ -105,6 +105,8 @@ public class DashboardController implements Initializable {
     private AreaChart<?, ?> areachart;
     @FXML
     private Label Incomee;
+    @FXML
+    private Label Benefit;
 
 
     StorBilleOperation storBilleOperation = new StorBilleOperation();
@@ -120,13 +122,16 @@ public class DashboardController implements Initializable {
     private ObservableList<PieChart.Data> datapiechart ;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        totalAmountCalculation();
-        IncomeCalculation("day");
-        masarif("day");
-        AreaChartDay();
-        credetCalcule();
-        ProductFinished();
-        chargepiechart();
+
+            totalAmountCalculation();
+            IncomeCalculation("day");
+            masarif("day");
+            AreaChartDay();
+            credetCalcule();
+            ProductFinished();
+            chargepiechart();
+            BenefitDay("day");
+
 
     }
 
@@ -207,26 +212,19 @@ public class DashboardController implements Initializable {
                     index2=index1;
                     max1=number;
                     index1=j;
-                    System.out.println("max1="+max1);
-                    System.out.println("max2="+max2);
-                    System.out.println("max2="+max3);
-                    System.out.println("===========");
+
                 }else {
                     if(number > max2){
                         max3=max2;
                         index3=index2;
                         max2=number;
                         index2=j;
-                        System.out.println("max1="+max2);
-                        System.out.println("max2="+max3);
-                        System.out.println("===========");
+
                     }else {
                         if(number > max3){
                             max3=number;
                             index3=j;
-                            System.out.println("max2="+max2);
-                            System.out.println("max3="+max3);
-                            System.out.println("===========");
+
                         }
 
                     }
@@ -442,18 +440,45 @@ public class DashboardController implements Initializable {
         IncomeCalculation("day");
         masarif("day");
         AreaChartDay();
+        BenefitDay("day");
     }
     @FXML
     void Month(ActionEvent event){
         IncomeCalculation("month");
         masarif("month");
         AreaChartMonth();
+        BenefitDay("month");
     }
     @FXML
     void Year(ActionEvent event){
         IncomeCalculation("year");
         masarif("yeaa");
         AreaChartYear();
+        BenefitDay("yeaa");
+    }
+    void BenefitDay( String sm){
+        int total=0,mul=0;
+
+        OrdersOperation ordersOperation1=new OrdersOperation();
+        FoodOperation foodOperation=new FoodOperation();
+        ArrayList<Orders> list = new ArrayList<>();
+        ArrayList<FoodOrder> listfood = new ArrayList<>();
+        FoodOrderOperation foodOrderOperation=new FoodOrderOperation();
+        if(sm.equals("day"))
+        list=ordersOperation1.getelementDay();
+        else if(sm.equals("month"))
+            list=ordersOperation1.getelementMonth();
+        else
+            list=ordersOperation1.getelementYear();
+
+        for(Orders orders:list){
+            listfood=foodOrderOperation.getElement(orders);
+            for (FoodOrder food:listfood){
+                mul=foodOperation.getBenefitFood(food.getId_food())*food.getQuantity();
+                total+=mul;
+            }
+        }
+        Benefit.setText(String.valueOf(total)+",00");
     }
 
 }

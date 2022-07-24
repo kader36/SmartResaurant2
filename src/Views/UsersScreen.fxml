@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="830.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="700.0" prefWidth="830.0" style="-fx-background-color: #F8F8F8;" stylesheets="@css/style.css" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.EmployerController">
+   <top>
+      <AnchorPane fx:id="" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="11.0" prefWidth="1000.0" style="-fx-background-color: FFF;" styleClass="bar-top" BorderPane.alignment="CENTER">
+         <children>
+            <Label layoutX="55.0" layoutY="52.0" prefHeight="68.0" prefWidth="167.0" styleClass="font-hs-dream" text="قائمة الموظفين " textFill="#777777" AnchorPane.bottomAnchor="-18.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="20.0">
+               <font>
+                  <Font size="22.0" />
+               </font>
+               <padding>
+                  <Insets bottom="40.0" />
+               </padding>
+            </Label>
+         </children>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </AnchorPane>
+   </top>
+   <center>
+      <AnchorPane prefHeight="638.0" prefWidth="830.0" styleClass="container" BorderPane.alignment="CENTER">
+         <children>
+            <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <HBox prefHeight="116.0" prefWidth="900.0" spacing="10.0">
+                     <children>
+                        <HBox maxWidth="1.7976931348623157E308" prefHeight="129.0" prefWidth="612.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <VBox prefHeight="129.0" prefWidth="614.0">
+                                 <children>
+                                    <HBox prefHeight="45.0" prefWidth="612.0">
+                                       <children>
+                                          <Label styleClass="font1" text="فرز بـ" textFill="#686868">
+                                             <font>
+                                                <Font size="20.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets />
+                                             </HBox.margin>
+                                          </Label>
+                                          <ComboBox fx:id="comboListCategory" maxHeight="32.0" maxWidth="97.0" minHeight="32.0" minWidth="97.0" prefHeight="32.0" prefWidth="97.0" promptText="الكل" styleClass="search-input">
+                                             <HBox.margin>
+                                                <Insets left="5.0" right="5.0" />
+                                             </HBox.margin>
+                                          </ComboBox>
+                                          <TextField fx:id="txt_search" maxHeight="32.0" maxWidth="210.0" minHeight="32.0" minWidth="159.0" prefHeight="32.0" prefWidth="159.0" promptText="بحث" style="-fx-font-family: HSDream-Regular;" styleClass="input-popup">
+                                             <font>
+                                                <Font name="HSDream-Regular" size="15.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets left="5.0" right="5.0" />
+                                             </HBox.margin>
+                                          </TextField>
+                                          <Button mnemonicParsing="false" onAction="#Present" prefHeight="35.0" prefWidth="85.0" styleClass="more-button" text="حاضر">
+                                             <HBox.margin>
+                                                <Insets left="5.0" right="5.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                          <Button mnemonicParsing="false" onAction="#absent" prefHeight="35.0" prefWidth="85.0" styleClass="printer-button" text="غائب" textFill="WHITE">
+                                             <HBox.margin>
+                                                <Insets left="5.0" right="5.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                          <Button mnemonicParsing="false" onAction="#Added_Value" prefHeight="35.0" prefWidth="110.0" styleClass="add-product-all" text="دفع قيمة مسبقا " textFill="WHITE">
+                                             <HBox.margin>
+                                                <Insets left="5.0" right="5.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="47.0" prefWidth="815.0">
+                                       <children>
+                                          <DatePicker fx:id="dateTime" onAction="#dateAction">
+                                             <HBox.margin>
+                                                <Insets right="10.0" />
+                                             </HBox.margin>
+                                          </DatePicker>
+                                          <Label fx:id="txt_dateTime" styleClass="sorted-by" text="Label" textFill="#6b6b6b">
+                                             <HBox.margin>
+                                                <Insets left="5.0" right="10.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                           <cursor>
+                              <Cursor fx:constant="DEFAULT" />
+                           </cursor>
+                        </HBox>
+                        <HBox alignment="TOP_RIGHT" prefHeight="129.0" prefWidth="214.0" spacing="20.0">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#showListUsers" prefHeight="36.0" prefWidth="100.0" styleClass="add-product-all" text="المستخدمين" textAlignment="CENTER" textFill="WHITE">
+                                 <graphic>
+                                    <ImageView fitHeight="15.0" fitWidth="11.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Images/providers.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                              <VBox HBox.hgrow="NEVER">
+                                 <children>
+                                    <Button contentDisplay="RIGHT" maxHeight="35.0" minHeight="35.0" minWidth="81.0" mnemonicParsing="false" onAction="#showhideVbox" prefHeight="35.0" styleClass="more-button" text="المزيد" textFill="#42b3c5">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                       <graphic>
+                                          <ImageView fitHeight="14.0" fitWidth="8.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../Images/3-dots-png-1.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin>
+                                    </Button>
+                                    <VBox fx:id="vboxOption" styleClass="container-edit-delete">
+                                       <children>
+                                          <Button mnemonicParsing="false" onAction="#updateProduct" styleClass="button-edit-delete" text="تعديل">
+                                             <VBox.margin>
+                                                <Insets top="7.0" />
+                                             </VBox.margin>
+                                             <font>
+                                                <Font name="HSDream-Regular" size="16.0" />
+                                             </font>
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor>
+                                             <graphic>
+                                                <ImageView fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../Images/edit-2.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                          </Button>
+                                          <Button mnemonicParsing="false" onAction="#deleteProduct" styleClass="button-edit-delete" text="حذف">
+                                             <VBox.margin>
+                                                <Insets bottom="7.0" />
+                                             </VBox.margin>
+                                             <font>
+                                                <Font name="HSDream-Regular" size="16.0" />
+                                             </font>
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor>
+                                             <graphic>
+                                                <ImageView fitHeight="12.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../Images/plus.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                          </Button>
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </VBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
+                  </HBox>
+                  <HBox prefHeight="437.0" prefWidth="900.0" spacing="10.0">
+                     <children>
+                        <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="532.0" prefHeight="500.0" prefWidth="532.0" style="-fx-background-color: FFF;" styleClass="container-table" HBox.hgrow="ALWAYS">
+                           <children>
+                              <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="453.0" prefWidth="654.0">
+                                 <children>
+                                    <TableView fx:id="employerTableView" fixedCellSize="0.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="416.0" prefWidth="600.0" styleClass="table">
+                                      <columns>
+                                          <TableColumn fx:id="id" prefWidth="34.0" resizable="false" text="id" visible="false" />
+                                        <TableColumn fx:id="col_name" maxWidth="7000.0" styleClass="column-table" text="الاسم" />
+                                          <TableColumn fx:id="col_last_name" maxWidth="7000.0" prefWidth="79.0" styleClass="column-table" text="اللقب" />
+                                          <TableColumn fx:id="col_phone_number" editable="false" maxWidth="10000.0" prefWidth="79.0" resizable="false" sortable="false" styleClass="column-table" text="رقم الهاتف" />
+                                          <TableColumn fx:id="col_job" maxWidth="7000.0" prefWidth="61.0" styleClass="column-table" text="الوظيفة " />
+                                          <TableColumn fx:id="col_salary" maxWidth="10000.0" prefWidth="77.0" resizable="false" styleClass="column-table" text="الراتب الشهري" />
+                                          <TableColumn fx:id="col_salary_day" maxWidth="7000.0" prefWidth="63.0" resizable="false" styleClass="column-table" text="الراتب اليومي " />
+                                          <TableColumn fx:id="col_work_strat" maxWidth="10000.0" prefWidth="88.0" styleClass="column-table" text="تاريخ التوظيف" />
+                                          <TableColumn fx:id="Present" prefWidth="72.0" resizable="false" styleClass="column-table" text="الحضور" />
+                                      </columns>
+                                    </TableView>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="48.0" prefWidth="612.0" styleClass="container-table">
+                                 <children>
+                                    <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="30.0" prefWidth="762.0" spacing="15.0" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <Button maxHeight="28.0" maxWidth="214.0" minHeight="28.0" minWidth="70.0" mnemonicParsing="false" onAction="#payMonth" prefHeight="28.0" prefWidth="214.0" styleClass="save-button" text="صب الراتب الشهري للموطف" textFill="WHITE">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                             <graphic>
+                                                <ImageView fitHeight="16.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../Images/abk.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor>
+                                             <HBox.margin>
+                                                <Insets left="8.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                          <Button maxHeight="30.0" maxWidth="146.0" minHeight="30.0" minWidth="80.0" mnemonicParsing="false" onAction="#printRaport" prefHeight="30.0" prefWidth="146.0" styleClass="printer-button" text="طباعة التقارير" textFill="WHITE">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <graphic>
+                                                <ImageView fitHeight="16.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../Images/printer.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor>
+                                             <HBox.margin>
+                                                <Insets />
+                                             </HBox.margin>
+                                          </Button>
+                                       </children>
+                                       <padding>
+                                          <Insets left="10.0" />
+                                       </padding>
+                                       <HBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </HBox.margin>
+                                    </HBox>
+                                    <HBox alignment="CENTER" prefHeight="50.0" prefWidth="366.0" spacing="15.0">
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding>
+                                    </HBox>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </VBox.margin>
+                              </HBox>
+                           </children>
+                           <padding>
+                              <Insets top="10.0" />
+                           </padding>
+                        </VBox>
+                        <VBox alignment="TOP_CENTER" maxWidth="364.0" minWidth="200.0" prefHeight="500.0" prefWidth="200.0" style="-fx-background-color: white;" styleClass="container-table">
+                           <children>
+                              <VBox alignment="CENTER" minWidth="190.0" prefHeight="490.0" prefWidth="190.0" styleClass="container-table">
+                                 <children>
+                                    <Label prefHeight="24.0" prefWidth="145.0" styleClass="font-hs-dream" text="إضافة موظف جديد" textFill="#717171">
+                                       <font>
+                                          <Font name="HSDream-Regular" size="18.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets bottom="20.0" left="50.0" right="10.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <Label styleClass="font1" text="يمكنك اضافة موظف  جديد لقائمة الموظفين ">
+                                       <VBox.margin>
+                                          <Insets bottom="20.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <TextField fx:id="txt_name" minWidth="150.0" promptText="الاسم ">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="50.0" right="50.0" top="5.0" />
+                                       </VBox.margin>
+                                       <font>
+                                          <Font name="HSDream-Regular" size="13.0" />
+                                       </font>
+                                    </TextField>
+                                    <TextField fx:id="txt_last_name" minWidth="150.0" prefHeight="26.0" prefWidth="251.0" promptText="اللقب ">
+                                       <font>
+                                          <Font name="HSDream-Regular" size="13.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="50.0" right="50.0" top="5.0" />
+                                       </VBox.margin>
+                                    </TextField>
+                                    <TextField fx:id="txt_phone_number" minWidth="150.0" promptText="رقم الهاتف ">
+                                       <font>
+                                          <Font name="HSDream-Regular" size="13.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="50.0" right="50.0" top="5.0" />
+                                       </VBox.margin>
+                                    </TextField>
+                                    <TextField fx:id="txt_job" minWidth="150.0" promptText="الوظيفة">
+                                       <font>
+                                          <Font name="HSDream-Regular" size="13.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="50.0" right="50.0" top="5.0" />
+                                       </VBox.margin>
+                                    </TextField>
+                                    <TextField fx:id="txt_salary" minWidth="150.0" promptText="الراتب الشهري">
+                                       <font>
+                                          <Font name="HSDream-Regular" size="13.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="50.0" right="50.0" top="5.0" />
+                                       </VBox.margin>
+                                    </TextField>
+                                    <TextField fx:id="txt_salaryDay" minWidth="150.0" promptText="الراتب اليومي ">
+                                       <font>
+                                          <Font name="HSDream-Regular" size="13.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="50.0" right="50.0" top="5.0" />
+                                       </VBox.margin>
+                                    </TextField>
+                                    <DatePicker fx:id="dateJob" minWidth="150.0" prefHeight="26.0" prefWidth="152.0" promptText="تاريخ بداية العمل">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="50.0" right="50.0" top="5.0" />
+                                       </VBox.margin>
+                                    </DatePicker>
+                                    <Button mnemonicParsing="false" onAction="#insertProduct" prefHeight="27.0" prefWidth="120.0" styleClass="add-product-all" text="إضافة موظف جديد" textFill="WHITE">
+                                       <font>
+                                          <Font name="HSDream-Regular" size="14.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets top="20.0" />
+                                       </VBox.margin>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Button>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets left="5.0" right="5.0" />
+                                 </VBox.margin>
+                              </VBox>
+                           </children>
+                           <padding>
+                              <Insets bottom="5.0" top="5.0" />
+                           </padding>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>

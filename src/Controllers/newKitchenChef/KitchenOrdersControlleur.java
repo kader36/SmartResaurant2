@@ -1,9 +1,12 @@
 package Controllers.newKitchenChef;
 
 import BddPackage.FoodOperation;
-import Controllers.Tables.OrdersServer;
+import BddPackage.TabelsOperation;
+import Controllers.Tables.TabelActiveController;
+import Models.ClientSocket;
 import Models.Food;
 import Models.Orders;
+import Models.Tables;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
@@ -22,11 +25,13 @@ import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-import java.io.IOException;
+import java.io.*;
+import java.net.Socket;
 import java.net.URL;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 
 public class KitchenOrdersControlleur implements Initializable {
 
@@ -104,9 +109,9 @@ public class KitchenOrdersControlleur implements Initializable {
         if (ordersIdsQueue.isEmpty() == false){
             // load the current order.
             curentOrderId = ordersIdsQueue.element();
-            for (int orderIndex = 0; orderIndex < OrdersServer.ordersList.size(); orderIndex++) {
-                if (String.valueOf(OrdersServer.ordersList.get(orderIndex).getId()).equals(curentOrderId)){
-                    curentOrder = OrdersServer.ordersList.get(orderIndex);
+            for (int orderIndex = 0; orderIndex < ClientSocket.ordersList.size(); orderIndex++) {
+                if (String.valueOf(ClientSocket.ordersList.get(orderIndex).getId()).equals(curentOrderId)){
+                    curentOrder = ClientSocket.ordersList.get(orderIndex);
                 }
             }
 
@@ -139,8 +144,8 @@ public class KitchenOrdersControlleur implements Initializable {
                         curentOrder.getFoodsList().get(foodItemsIndex).getId_food()
                 );
                 // create the image.
-               // File file = new File(curentFood.getImage_path());
-                Image image = new Image(curentFood.getImage_path());
+                File file = new File(curentFood.getImage_path());
+                Image image = new Image(file.toURI().toString());
 
                 tableGridItemControlleur.loadData(
                         image,
@@ -190,19 +195,52 @@ public class KitchenOrdersControlleur implements Initializable {
 
     // method to confirm the order.
     void confirmOrder() throws IOException {
+        Tables tables = new Tables();
+        tables.setId(curentOrder.getId_table());
+        TabelsOperation tabelsOperation = new TabelsOperation();
+        tabelsOperation.ActivOrderTabel(tables);
 
         orderGridView.getChildren().clear();
-        curentOrderId=ordersIdsQueue.element();
+        curentOrderId = ordersIdsQueue.element();
         // do what when the order is confirmed ?????
         // load the next order.
-        if (ordersIdsQueue.isEmpty() == false){
+        if (ordersIdsQueue.isEmpty() == false) {
             ordersIdsQueue.poll();
             loadData();
-        if(ordersIdsQueue.isEmpty()){
-            // reset the view
-            orerTotalPriceLabel.setText("");
-            tableNumberLabel.setText("");
+            if (ordersIdsQueue.isEmpty()) {
+                // reset the view
+                orerTotalPriceLabel.setText("");
+                tableNumberLabel.setText("");
+            }
         }
+        TabelActiveController.newOrder.setValue(!TabelActiveController.newOrder.getValue());
+
+        Socket serverSocket;
+
+        try {
+            String port=readfile(new File(System.getProperty("user.dir") + "/BD/port.txt"));
+            serverSocket = new Socket("127.0.0.1", Integer.parseInt(port));
+            System.out.println("waiting for messages 5000");
+
+            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(serverSocket.getOutputStream()));
+            DataInputStream in = new DataInputStream(new BufferedInputStream(serverSocket.getInputStream()));
+
+            out.write("confirmOrder");
+            out.newLine();
+            out.flush();
+
+        } catch (Exception e) {
+
         }
+    }
+    private static String readfile(File fileReader){
+        String txt="";
+        try { Scanner scanner = new Scanner( fileReader);
+            String text = scanner.useDelimiter(";").next();
+            txt=text;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return txt;
     }
 }

@@ -71,7 +71,7 @@ public class AvailabaleFoodsControlleur implements Initializable {
 
         for (int foodIndex = 0; foodIndex < foodsList.size(); foodIndex++) {
 
-            if (tableOrderColumn == 5){
+            if (tableOrderColumn == 4){
                 tableOrderColumn = 0;
                 tableOrderRow = tableOrderRow +1;
             }

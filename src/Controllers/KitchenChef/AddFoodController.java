@@ -17,6 +17,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.SnapshotParameters;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.DropShadow;
@@ -33,6 +37,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -63,10 +68,14 @@ public class AddFoodController implements Initializable {
     private TextField foodPrice;
 
     @FXML
+    private TextField foodPricefee;
+
+
+    @FXML
     private ImageView picFood;
 
     @FXML
-    private  TableView<IngredientsFood> table_food;
+    private TableView<IngredientsFood> table_food;
 
     @FXML
     private TableColumn<?, ?> col_Product_Name;
@@ -82,19 +91,19 @@ public class AddFoodController implements Initializable {
 
 
     @FXML
-    private  Button saveTableProductsBtn;
+    private Button saveTableProductsBtn;
 
     @FXML
     private ImageView cancelTableProduct;
 
     @FXML
-    private  Button reportTableProductsBtn;
+    private Button reportTableProductsBtn;
 
     @FXML
-    private  Button exportCsvTableProductsBtn;
+    private Button exportCsvTableProductsBtn;
 
     @FXML
-    private  Button exportPdfTableProductsBtn;
+    private Button exportPdfTableProductsBtn;
 
     @FXML
     private JFXListView<String> listViewProduct;
@@ -119,7 +128,7 @@ public class AddFoodController implements Initializable {
 
     private ObservableList<String> dataTableView = FXCollections.observableArrayList();
     private ArrayList<String> list_Product = new ArrayList<>();
-    public  ArrayList<String> list_ProductCompose = new ArrayList<>();
+    public ArrayList<String> list_ProductCompose = new ArrayList<>();
     private ObservableList<String> dataCombo;
     private ArrayList<Product> list_ProductsObject = new ArrayList<>();
     private ArrayList<ProductComposite> list_ProductsComposeObject = new ArrayList<>();
@@ -176,6 +185,7 @@ public class AddFoodController implements Initializable {
             list_ProductsObject.add(listProductFromBD);
         }
     }
+
     private void chargeListProductCompose() {
         dataCombo = FXCollections.observableArrayList();
         ProductCompositeOperation productOperation = new ProductCompositeOperation();
@@ -187,24 +197,24 @@ public class AddFoodController implements Initializable {
     }
 
     String getUnitProductByCobo(String comboChose) {
-        ProductOperation productOperation=new ProductOperation();
-        Product product=productOperation.GetProduct(comboChose);
+        ProductOperation productOperation = new ProductOperation();
+        Product product = productOperation.GetProduct(comboChose);
 
         return product.getUnity_Food();
     }
 
-    int getIdProductByCobo(String comboChose,int type) {
-        if(type==0){
-          ProductOperation productOperation=new ProductOperation();
-          Product product=productOperation.GetProduct(comboChose);
-            System.out.println("id product ="+product.getId());
-                    return product.getId();
+    int getIdProductByCobo(String comboChose, int type) {
+        if (type == 0) {
+            ProductOperation productOperation = new ProductOperation();
+            Product product = productOperation.GetProduct(comboChose);
+            System.out.println("id product =" + product.getId());
+            return product.getId();
 
-        }else {
-            ProductCompositeOperation productCompositeOperation=new ProductCompositeOperation();
-            ProductComposite productComposite=productCompositeOperation.GetProductComposite(comboChose);
-            System.out.println("id product compose ="+productComposite.getId());
-                    return productComposite.getId();
+        } else {
+            ProductCompositeOperation productCompositeOperation = new ProductCompositeOperation();
+            ProductComposite productComposite = productCompositeOperation.GetProductComposite(comboChose);
+            System.out.println("id product compose =" + productComposite.getId());
+            return productComposite.getId();
         }
 
     }
@@ -242,13 +252,12 @@ public class AddFoodController implements Initializable {
 
     @FXML
     void addPicFood(ActionEvent event) {
-        panefood.setVisible(false);
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("اختر صورة");
         Stage stage = (Stage) addPicBtn.getScene().getWindow();
         fileChooser.getExtensionFilters().addAll(
                 //new FileChooser.ExtensionFilter()
-                new FileChooser.ExtensionFilter("JPG", "*.jpg", "*.png", "*.svg","*.jpeg")
+                new FileChooser.ExtensionFilter("JPG", "*.jpg", "*.png", "*.svg", "*.jpeg")
                 //new FileChooser.ExtensionFilter("PNG", "*.png")
         );
         picFood.setFitHeight(100);
@@ -256,7 +265,7 @@ public class AddFoodController implements Initializable {
         File file = fileChooser.showOpenDialog(stage.getScene().getWindow());
         if (file != null) {
             Image image = new Image(file.toURI().toString());
-            pathImage = file.toURI().toString();
+            pathImage = file.getAbsolutePath();
             Rectangle clip = new Rectangle();
             clip.setWidth(200);
             clip.setHeight(100);
@@ -274,8 +283,6 @@ public class AddFoodController implements Initializable {
             picFood.setEffect(new DropShadow(3, Color.BLACK));
             picFood.setImage(myimage);
             picFood.setImage(image);
-            System.out.println("setWidth" + picFood.getFitWidth());
-            System.out.println("setHeight" + picFood.getFitHeight());
         } else {
             picFood.setImage(null);
         }
@@ -357,7 +364,7 @@ public class AddFoodController implements Initializable {
         }
     }
 
-    public  void refresh() {
+    public void refresh() {
         dataTable.setAll(listProducts);
         table_food.setItems(dataTable);
         saveTableProductsBtn.setDisable(false);
@@ -365,7 +372,7 @@ public class AddFoodController implements Initializable {
     }
 
 
-     void setDisableReports() {
+    void setDisableReports() {
         reportTableProductsBtn.setDisable(true);
         exportCsvTableProductsBtn.setDisable(true);
         exportPdfTableProductsBtn.setDisable(true);
@@ -411,143 +418,146 @@ public class AddFoodController implements Initializable {
     void saveTableProducts(ActionEvent event) {
         dataTable = FXCollections.observableArrayList();
         dataTable.setAll(table_food.getItems());
-        if (table_food.getItems().size() == 0) {
+        if (foodPrice.getText().equals("") || foodPricefee.getText().isEmpty()) {
             Alert alertWarning = new Alert(Alert.AlertType.WARNING);
             alertWarning.setHeaderText("تحذير ");
-            alertWarning.setContentText("الرجاء ملأ مكونات الوجبة قبل الحفظ");
+            alertWarning.setContentText("الرجاء ادخال سعر الوجبة قبل الحفظ");
             Button okkButton = (Button) alertWarning.getDialogPane().lookupButton(ButtonType.OK);
             okkButton.setText("حسنا");
             alertWarning.showAndWait();
             return;
         } else {
-            if (foodPrice.getText().equals("")) {
+            if (foodName.getText().equals("")) {
                 Alert alertWarning = new Alert(Alert.AlertType.WARNING);
                 alertWarning.setHeaderText("تحذير ");
-                alertWarning.setContentText("الرجاء ادخال سعر الوجبة قبل الحفظ");
+                alertWarning.setContentText("الرجاء ادخال اسم الوجبة قبل الحفظ");
                 Button okkButton = (Button) alertWarning.getDialogPane().lookupButton(ButtonType.OK);
                 okkButton.setText("حسنا");
                 alertWarning.showAndWait();
                 return;
             } else {
-                if (foodName.getText().equals("")) {
+
+                if (picFood.getImage() == null) {
                     Alert alertWarning = new Alert(Alert.AlertType.WARNING);
                     alertWarning.setHeaderText("تحذير ");
-                    alertWarning.setContentText("الرجاء ادخال اسم الوجبة قبل الحفظ");
+                    alertWarning.setContentText("الرجاء ادخال صورة الوجبة قبل الحفظ");
                     Button okkButton = (Button) alertWarning.getDialogPane().lookupButton(ButtonType.OK);
                     okkButton.setText("حسنا");
                     alertWarning.showAndWait();
                     return;
                 } else {
-
-                    if (picFood.getImage() == null) {
+                    Food f = new Food();
+                    f.setName(foodName.getText());
+                    if (foodOperation.isExist(f)) {
                         Alert alertWarning = new Alert(Alert.AlertType.WARNING);
-                        alertWarning.setHeaderText("تحذير ");
-                        alertWarning.setContentText("الرجاء ادخال صورة الوجبة قبل الحفظ");
+                        alertWarning.setHeaderText("تحذير");
+                        alertWarning.setContentText("هذه الوجبة موجودة");
                         Button okkButton = (Button) alertWarning.getDialogPane().lookupButton(ButtonType.OK);
                         okkButton.setText("حسنا");
                         alertWarning.showAndWait();
                         return;
-                    } else {
-                        Food f = new Food();
-                        f.setName(foodName.getText());
-                        if (foodOperation.isExist(f)) {
-                            Alert alertWarning = new Alert(Alert.AlertType.WARNING);
-                            alertWarning.setHeaderText("تحذير");
-                            alertWarning.setContentText("هذه الوجبة موجودة");
-                            Button okkButton = (Button) alertWarning.getDialogPane().lookupButton(ButtonType.OK);
-                            okkButton.setText("حسنا");
-                            alertWarning.showAndWait();
-                            return;
-                        }
-                        Alert alertConfirmation = new Alert(Alert.AlertType.CONFIRMATION);
-                        alertConfirmation.setHeaderText("تأكيد الحفظ");
-                        alertConfirmation.setContentText("هل انت متأكد من عملية حفظ الوجبة");
-                        Button okButton = (Button) alertConfirmation.getDialogPane().lookupButton(ButtonType.OK);
-                        okButton.setText("موافق");
-
-                        Button cancel = (Button) alertConfirmation.getDialogPane().lookupButton(ButtonType.CANCEL);
-                        cancel.setText("الغاء");
-
-                        alertConfirmation.showAndWait().ifPresent(response -> {
-                            if (response == ButtonType.CANCEL) {
-                                alertConfirmation.close();
-                            } else if (response == ButtonType.OK) {
-                                // inert food
-                                byte[]photo=null;
-                                try {
-
-                                    String url=pathImage;
-                                    url = url.substring(5, url.length());
-                                    BufferedImage bImage = ImageIO.read(new File(url));
-                                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                                    ImageIO.write(bImage, "jpg", bos );
-                                    photo=bos.toByteArray();
-
-                                } catch (IOException e) {
-                                    System.err.println("file reading error");
-                                }
-                                Food food = new Food();
-                                int idCategory = getIdCategory(IdFoodCategory.getSelectionModel().getSelectedItem().toString());
-                                food.setId(getIdFood());
-                                food.setName(foodName.getText());
-                                food.setDescription(Des.getText());
-                                food.setImage_path(pathImage);
-                                food.setPrice(Integer.parseInt(foodPrice.getText()));
-                                food.setIMAGE(photo);
-                                // TODO must to change food of category
-                                food.setId_category(idCategory);
-                                boolean bool=foodOperation.insert(food);
-                                try {
-                                    Thread.sleep(100);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
-
-                                // insert ingredients
-                                if(bool==true) {
-                                    for (IngredientsFood ingredientsFood : dataTable) {
-                                        IngredientsFoodProductCompose ingredientsFoodProductCompose = new IngredientsFoodProductCompose();
-                                        ingredientsFoodProductCompose.setQuantity(ingredientsFood.getQuantity());
-                                        ingredientsFoodProductCompose.setId_food(food.getId());
-                                        ingredientsFood.setId_food(food.getId());
-
-                                        if (ingredientsFood.getType() == 0) {
-                                            ingredientsFood.setId_product(getIdProductByCobo(ingredientsFood.getProduct_name(), 0));
-                                            ingredientsFoodOperation.insert(ingredientsFood);
-                                            System.out.println("**");
-                                        } else {
-                                            ingredientsFoodProductCompose.setId_productCopmpose(getIdProductByCobo(ingredientsFood.getProduct_name(), 1));
-                                            ingredientsProductCompsiteOperation.insert(ingredientsFoodProductCompose);
-                                            System.out.println("***");
-                                        }
-
-
-                                    }
-                                    dataTable.clear();
-                                    listProducts.clear();
-                                }
-                                try {
-                                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/foods.fxml"));
-                                    BorderPane temp = loader.load();
-                                    FoodsController foodsController = loader.getController();
-                                    foodsController.Init(temp);
-                                    mainPane.getChildren().setAll(temp);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        });
                     }
+                    Alert alertConfirmation = new Alert(Alert.AlertType.CONFIRMATION);
+                    alertConfirmation.setHeaderText("تأكيد الحفظ");
+                    alertConfirmation.setContentText("هل انت متأكد من عملية حفظ الوجبة");
+                    Button okButton = (Button) alertConfirmation.getDialogPane().lookupButton(ButtonType.OK);
+                    okButton.setText("موافق");
+
+                    Button cancel = (Button) alertConfirmation.getDialogPane().lookupButton(ButtonType.CANCEL);
+                    cancel.setText("الغاء");
+
+                    alertConfirmation.showAndWait().ifPresent(response -> {
+                        if (response == ButtonType.CANCEL) {
+                            alertConfirmation.close();
+                        } else if (response == ButtonType.OK) {
+
+                            // inert food
+                            byte[] photo = null;
+                            try {
+                                BufferedImage bImage = ImageIO.read(new File(pathImage));
+                                BufferedImage resizing = new BufferedImage(200, 200, bImage.getType());
+                                Graphics2D graphics2D = resizing.createGraphics();
+                                graphics2D.drawImage(bImage, 0, 0, 200, 200, null);
+                                graphics2D.dispose();
+                                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                                ImageIO.write(resizing, "jpg", bos);
+                                photo = bos.toByteArray();
+                            } catch (IOException e) {
+                                System.err.println("file reading error");
+                            }
+                            Food food = new Food();
+                            int idCategory = getIdCategory(IdFoodCategory.getSelectionModel().getSelectedItem().toString());
+                            food.setId(getIdFood());
+                            food.setName(foodName.getText());
+                            food.setDescription(Des.getText());
+                            food.setImage_path(System.getProperty("user.dir") + "/Image/" + food.getName() + ".jpg");
+                            food.setPrice(Integer.parseInt(foodPrice.getText()));
+                            food.setPricefee(Integer.parseInt(foodPricefee.getText()));
+                            food.setIMAGE(photo);
+                            // TODO must to change food of category
+                            food.setId_category(idCategory);
+                            boolean bool = foodOperation.insert(food);
+                            //Uplode Image
+                            File origen = new File(pathImage);
+                            File resizing = new File(System.getProperty("user.dir") + "/Image/" + food.getName() + ".jpg");
+                            ResizingImage(origen, resizing, 200, 200, "jpg");
+                            // insert ingredients
+                            if (bool == true) {
+                                for (IngredientsFood ingredientsFood : dataTable) {
+                                    IngredientsFoodProductCompose ingredientsFoodProductCompose = new IngredientsFoodProductCompose();
+                                    ingredientsFoodProductCompose.setQuantity(ingredientsFood.getQuantity());
+                                    ingredientsFoodProductCompose.setId_food(food.getId());
+                                    ingredientsFood.setId_food(food.getId());
+
+                                    if (ingredientsFood.getType() == 0) {
+                                        ingredientsFood.setId_product(getIdProductByCobo(ingredientsFood.getProduct_name(), 0));
+                                        ingredientsFoodOperation.insert(ingredientsFood);
+                                        System.out.println("**");
+                                    } else {
+                                        ingredientsFoodProductCompose.setId_productCopmpose(getIdProductByCobo(ingredientsFood.getProduct_name(), 1));
+                                        ingredientsProductCompsiteOperation.insert(ingredientsFoodProductCompose);
+                                        System.out.println("***");
+                                    }
+
+
+                                }
+                                dataTable.clear();
+                                listProducts.clear();
+                            }
+                            try {
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/foods.fxml"));
+                                BorderPane temp = loader.load();
+                                FoodsController foodsController = loader.getController();
+                                foodsController.Init(temp);
+                                temp.setMaxHeight(mainPane.getMaxHeight());
+                                temp.setMaxWidth(mainPane.getMaxWidth());
+                                mainPane.getChildren().setAll(temp);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
                 }
             }
         }
+    }
 
+    private void ResizingImage(File OrigenImage, File resizingImage, int with, int hieght, String format) {
+        try {
+            BufferedImage origen = ImageIO.read(OrigenImage);
+            BufferedImage resizing = new BufferedImage(with, hieght, origen.getType());
+            Graphics2D graphics2D = resizing.createGraphics();
 
+            graphics2D.drawImage(origen, 0, 0, with, hieght, null);
+            graphics2D.dispose();
+            ImageIO.write(resizing, format, resizingImage);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void chargeListCategory() {
         dataCombo = FXCollections.observableArrayList();
-
         FoodCategoryOperation foodCategoryOperation = new FoodCategoryOperation();
         ArrayList<FoodCategory> foodCategory = foodCategoryOperation.getAll();
         for (FoodCategory listProviderFromDB : foodCategory) {
@@ -578,20 +588,6 @@ public class AddFoodController implements Initializable {
 
     }
 
-    @FXML
-    void exportCsvTableProducts(ActionEvent event) {
-
-    }
-
-    @FXML
-    void exportPdfTableProducts(ActionEvent event) {
-
-    }
-
-    @FXML
-    void reportTableProducts(ActionEvent event) {
-
-    }
 
     private int getIdFood() {
         int id = 0;
@@ -607,20 +603,20 @@ public class AddFoodController implements Initializable {
         }
 
 
-
         return id;
     }
+
     @FXML
-    void AfficheProductCompose(ActionEvent event){
-        PrductComposeItemControlleur.listProduct=list_ProductCompose;
+    void AfficheProductCompose(ActionEvent event) {
+        PrductComposeItemControlleur.listProduct = list_ProductCompose;
         drawerSlider.setVisible(true);
-        if (drawerSlider.isShown()){
+        if (drawerSlider.isShown()) {
             drawerSlider.close();
             drawerSlider.setVisible(false);
-        }else {
+        } else {
             try {
                 FXMLLoader loader = new FXMLLoader();
-                AnchorPane box=loader.load(getClass().getClassLoader().getResource("Views/KitchenChef/ProducteComposeItem.fxml"));
+                AnchorPane box = loader.load(getClass().getClassLoader().getResource("Views/KitchenChef/ProducteComposeItem.fxml"));
                 box.setMaxHeight(Screen.getPrimary().getVisualBounds().getHeight());
                 box.setMaxWidth(Screen.getPrimary().getVisualBounds().getWidth());
 
@@ -631,5 +627,6 @@ public class AddFoodController implements Initializable {
             }
         }
     }
+
 
 }

@@ -107,7 +107,10 @@ public class FoodBuyController implements Initializable {
              ArrayList<FoodOrder> listfood =new ArrayList<>();
              OrdersOperation ordersOperation=new OrdersOperation();
              list=ordersOperation.getAllOrder();
+             if(list.size()!=0)
              orders.setId(list.get(list.size()-1).getId()+1);
+             else
+                 orders.setId(1);
              orders.setId_table(99);
              orders.setPrice(Total);
              for (int i = 0; i < listfactur.size(); i++) {
@@ -125,10 +128,13 @@ public class FoodBuyController implements Initializable {
              txt_total.setText("00");
              Total=0;
              listfactur.clear();
+             Thread thread=new Thread(()->{
+
+
              Connet connet = new Connet();
              Connection con = connet.connection();
              try {
-                 String report = System.getProperty("user.dir") + "/SmartResaurant/src/Report/print.jrxml";
+                 String report = System.getProperty("user.dir") + "/Report/importer.jrxml";
                  JasperDesign jasperDesign = JRXmlLoader.load(report);
                  String sqlCmd = "SELECT orders.ORDER_TIME,orders.ORDER_PRICE,food_order.ORDER_QUANTITY,food.FOOD_NAME,food.FOOD_PRICE,orders.ID_TABLE_ORDER ,settings.Name,settings.PhoneNambe1,settings.PhoneNambe2,settings.Adress\n" +
                          "FROM `orders`,food_order,food,settings\n" +
@@ -140,12 +146,14 @@ public class FoodBuyController implements Initializable {
                  Connection connection = null;
 
                  JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, con);
-
                  JasperPrintManager.printReport(jasperPrint,false);
+                 //JasperViewer.viewReport(jasperPrint);
 
              } catch (JRException e) {
                  e.printStackTrace();
              }
+             });
+             thread.start();
              Alert alertWarning = new Alert(Alert.AlertType.INFORMATION);
              alertWarning.setContentText("تم اضافة الطلب بنجاح");
              Button okButton = (Button) alertWarning.getDialogPane().lookupButton(ButtonType.OK);

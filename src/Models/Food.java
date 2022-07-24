@@ -18,6 +18,7 @@ public class Food {
     private String name;
     private String description;
     private int price;
+    private int pricefee;
     private String image_path;
     private ImageView image = new ImageView();
     //private VBox imageVBox;
@@ -55,7 +56,15 @@ public class Food {
 
     }
 
-    public Food(int id, int id_category, String name,String description,
+    public int getPricefee() {
+        return pricefee;
+    }
+
+    public void setPricefee(int pricefee) {
+        this.pricefee = pricefee;
+    }
+
+    public Food(int id, int id_category, String name, String description,
                 int price, String image_path, int rating, boolean availabale) {
         this.id = id;
         this.id_category = id_category;
@@ -136,7 +145,8 @@ public class Food {
     }
 
     public ImageView getImage() {
-         ImageView image=new ImageView(this.image_path);
+        File file=new File(image_path);
+         ImageView image=new ImageView(file.toURI().toString());
          image.setFitHeight(80);
          image.setFitWidth(140);
         Rectangle clip = new Rectangle();

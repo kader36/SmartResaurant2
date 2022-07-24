@@ -14,8 +14,8 @@ public class EmployerOperation extends BDD<Employer> {
         conn=connect();
         boolean ins = false;
         String query = "INSERT INTO `employer`( `EMPLOYER_NAME`, `EMPLOYER_LAST_NAME`, `EMPLOYER_PHONE_NUMBER`,\n" +
-                "`EMPLOYER_JOB`, `SALARY`) \n" +
-                "VALUES (?,?,?,?,?)";
+                "`EMPLOYER_JOB`, `SALARY`,SalarDay,EMPLOYER_WORK_START) \n" +
+                "VALUES (?,?,?,?,?,?,?)";
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             preparedStmt.setString(1,o.getFirst_name());
@@ -23,6 +23,8 @@ public class EmployerOperation extends BDD<Employer> {
             preparedStmt.setString(   3,o.getPhone_number());
             preparedStmt.setString(4,o.getJob());
             preparedStmt.setInt(   5,o.getSalary());
+            preparedStmt.setInt(   6,o.getSalaryDay());
+            preparedStmt.setString(   7,o.getWork_strat());
             int insert = preparedStmt.executeUpdate();
             if(insert != -1) ins = true;
             conn.close();
@@ -87,17 +89,20 @@ public class EmployerOperation extends BDD<Employer> {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             ResultSet resultSet = preparedStmt.executeQuery();
             while (resultSet.next()) {
-               Employer employer=new Employer();
-                employer.setId(resultSet.getInt("ID_EMPLOYER"));
-                employer.setFirst_name(resultSet.getString("EMPLOYER_NAME"));
-                employer.setLast_name(resultSet.getString("EMPLOYER_LAST_NAME"));
-                employer.setPhone_number(resultSet.getString("EMPLOYER_PHONE_NUMBER"));
-                employer.setJob(resultSet.getString("EMPLOYER_JOB"));
-                employer.setSalary(resultSet.getInt("SALARY"));
-                employer.setWork_strat(resultSet.getDate("EMPLOYER_WORK_START"));
-                employer.setWork_end(resultSet.getDate("EMPLOYER_WORK_END"));
+                if(resultSet.getInt("ID_EMPLOYER")!=1){
+                    Employer employer=new Employer();
+                    employer.setId(resultSet.getInt("ID_EMPLOYER"));
+                    employer.setFirst_name(resultSet.getString("EMPLOYER_NAME"));
+                    employer.setLast_name(resultSet.getString("EMPLOYER_LAST_NAME"));
+                    employer.setPhone_number(resultSet.getString("EMPLOYER_PHONE_NUMBER"));
+                    employer.setJob(resultSet.getString("EMPLOYER_JOB"));
+                    employer.setSalary(resultSet.getInt("SALARY"));
+                    employer.setWork_strat(resultSet.getString("EMPLOYER_WORK_START"));
+                    employer.setWork_end(resultSet.getDate("EMPLOYER_WORK_END"));
+                    employer.setSalaryDay(resultSet.getInt("SalarDay"));
 
-                list.add(employer);
+                    list.add(employer);
+                }
             }
             conn.close();
         } catch (SQLException e) {

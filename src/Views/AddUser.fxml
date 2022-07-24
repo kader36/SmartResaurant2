@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<DialogPane maxHeight="683.0" maxWidth="440.0" minHeight="399.0" minWidth="440.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="559.0" prefWidth="440.0" styleClass="container" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AdduserController">
+   <content>
+      <BorderPane prefHeight="425.0" prefWidth="440.0">
+         <center>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="container-table" BorderPane.alignment="CENTER">
+               <children>
+                  <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Label styleClass="font2" text="إضافة مستخدم جديد" textFill="#979393">
+                           <VBox.margin>
+                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label text="يمكنك إضافة مستخدم جديد لتسجيل الدخول على البرنامج" textAlignment="CENTER" textFill="#868686">
+                           <VBox.margin>
+                              <Insets bottom="20.0" left="5.0" right="5.0" top="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <TextField fx:id="txt_username" promptText="الاسم المستخدم">
+                           <VBox.margin>
+                              <Insets bottom="10.0" left="35.0" right="35.0" top="20.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <PasswordField fx:id="txt_password" promptText="كلمة المرور">
+                           <VBox.margin>
+                              <Insets bottom="10.0" left="35.0" right="35.0" top="20.0" />
+                           </VBox.margin>
+                        </PasswordField>
+                        <PasswordField fx:id="txt_passwordconfirm" promptText="تاكيد كلمة المرور">
+                           <VBox.margin>
+                              <Insets bottom="10.0" left="35.0" right="35.0" top="20.0" />
+                           </VBox.margin>
+                        </PasswordField>
+                        <ComboBox fx:id="txt_type" prefWidth="414.0" promptText="دور المستخدم" styleClass="select-provider">
+                           <VBox.margin>
+                              <Insets bottom="10.0" left="35.0" right="35.0" top="20.0" />
+                           </VBox.margin>
+                        </ComboBox>
+                        <ComboBox fx:id="txt_employe" prefHeight="26.0" prefWidth="378.0" promptText="اسم الموظف" styleClass="select-provider">
+                           <VBox.margin>
+                              <Insets bottom="10.0" left="35.0" right="35.0" top="20.0" />
+                           </VBox.margin>
+                        </ComboBox>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <JFXButton onAction="#insertUser" styleClass="save-button-small" text="إضافة مستحدم جديد" textFill="WHITE">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                              </JFXButton>
+                              <JFXButton fx:id="cancelButtonUser" styleClass="cancle-button-small" text="الغاء الامر" textFill="WHITE">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                              </JFXButton>
+                           </children>
+                        </HBox>
+                        <Label style="-fx-border-color: green; -fx-background-color: #fff;" styleClass="font2" text="تم إضافة المستخدم بنجاح" textFill="#01ab20" visible="false">
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
+         </center>
+      </BorderPane>
+   </content>
+</DialogPane>

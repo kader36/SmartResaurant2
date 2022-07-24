@@ -31,7 +31,7 @@ public class ValidateController {
                 int i = Integer.parseInt(txt_number.getText());
                 txt_number.setText(String.valueOf(i));
             }catch (Exception e){
-                System.out.println("err");
+                System.out.println("errinputNumberValue");
                 txt_number.setText("");
             }
         });
@@ -46,5 +46,16 @@ public class ValidateController {
             if (newValue.matches("[0]{1}[0-9]{10}")) return;
             txt_number.setText(oldValue);
         });
+    }
+    public void inputNumberValueDouble(TextField txt_number) {
+        txt_number.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.length() > 13) {
+                txt_number.setText(oldValue.replaceAll("[^\\d]", ""));
+                return;
+            }
+            if (newValue.matches("[0-9]*[.][1-9]*")) return;
+            txt_number.setText(oldValue);
+        });
+
     }
 }

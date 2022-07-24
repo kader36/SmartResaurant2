@@ -63,7 +63,7 @@ public class TablesListController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-         bloquer.getItems().addAll("الجناح العائلي ", "الطابق الارضي", "الطابق العلوي");
+
         // set the button on action.
         addTableButton.setOnAction(actionEvent -> {
             addTable(Integer.parseInt(tableNameTextField.getText()));
@@ -89,8 +89,11 @@ public class TablesListController implements Initializable {
         ArrayList<Tables> tablesFromDatabase = databseConnector.getAll();
 
         for (int index = 0; index < tablesFromDatabase.size(); index++) {
-            originaltableList.add(tablesFromDatabase.get(index));
-            tablewViewTableList.add(tablesFromDatabase.get(index));
+            if(tablesFromDatabase.get(index).getId()!=99){
+                originaltableList.add(tablesFromDatabase.get(index));
+                tablewViewTableList.add(tablesFromDatabase.get(index));
+            }
+
         }
 
         // setting the table view.
@@ -146,11 +149,11 @@ public class TablesListController implements Initializable {
         boolean bool=tabelsOperation.isExist(tables);
         if(!bool){
             temporarytableList.add(
-                    new Tables(tableNumber,tableNumber,String.valueOf(false),bloquer.getSelectionModel().getSelectedItem())
+                    new Tables(tableNumber,tableNumber,String.valueOf(false),"")
             );
             // add it to the table
             tablewViewTableList.add(
-                    new Tables(tableNumber,tableNumber,String.valueOf(false),bloquer.getSelectionModel().getSelectedItem())
+                    new Tables(tableNumber,tableNumber,String.valueOf(false),"")
             );
 
             tablesTableView.setItems(tablewViewTableList);

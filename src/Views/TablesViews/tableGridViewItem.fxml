@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -11,11 +12,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="174.0" prefWidth="343.0" style="-fx-background-color: white; -fx-border-color: grey; -fx-border-radius: 0.5;" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Tables.TableGridItemControlleur">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="174.0" prefWidth="250.0" style="-fx-background-color: white; -fx-border-color: grey; -fx-border-radius: 0.5;" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Tables.TableGridItemControlleur">
    <children>
       <VBox alignment="CENTER" layoutX="30.0" layoutY="15.0" prefHeight="162.0" prefWidth="303.0" styleClass="container-table" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="1.0">
          <children>
-            <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" styleClass="container-table">
+            <HBox alignment="CENTER_RIGHT" prefHeight="151.0" prefWidth="325.0" styleClass="container-table">
                <children>
                   <VBox alignment="CENTER" prefHeight="100.0" prefWidth="238.0">
                      <children>
@@ -25,23 +26,33 @@
                                  <font>
                                     <Font size="20.0" />
                                  </font>
+                                 <HBox.margin>
+                                    <Insets top="2.0" />
+                                 </HBox.margin>
                               </Text>
                               <Text fx:id="txt_order" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="font2" text="الطاولة رقم ">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
+                                 <HBox.margin>
+                                    <Insets top="2.0" />
+                                 </HBox.margin>
                               </Text>
                            </children>
                         </HBox>
-                        <Label contentDisplay="RIGHT" nodeOrientation="RIGHT_TO_LEFT" prefHeight="84.0" prefWidth="232.0" styleClass="font-hs-dream" text="يمكنك من خلال الضفط على دفع المستحقات&#10; من افراغ الطاولة و أخد مستحقاتها&#10;">
+                        <Label contentDisplay="RIGHT" nodeOrientation="RIGHT_TO_LEFT" prefHeight="220.0" prefWidth="173.0" text="يمكنك من خلال الضفط على دفع &#10;المستحقات من افراغ الطاولة و أخد &#10;مستحقاتها&#10;">
                            <VBox.margin>
                               <Insets bottom="2.0" left="2.0" right="2.0" />
-                           </VBox.margin></Label>
+                           </VBox.margin>
+                           <styleClass>
+                              <String fx:value="font-hs-dream" />
+                              <String fx:value="font1" />
+                           </styleClass></Label>
                      </children>
                   </VBox>
-                  <ImageView fitHeight="113.0" fitWidth="91.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="50.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../Images/table.png" />
+                        <Image url="@../../Images/table1.png" />
                      </image>
                      <HBox.margin>
                         <Insets left="10.0" right="10.0" />
@@ -54,13 +65,13 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="310.0" styleClass="container-table">
                <children>
-                  <Button fx:id="detailsButton" mnemonicParsing="false" onAction="#openDrawer" prefHeight="26.0" prefWidth="122.0" styleClass="remove-picture-food" text="تفاصيل الطلب" textFill="WHITE">
+                  <Button fx:id="detailsButton" mnemonicParsing="false" onAction="#openDrawer" prefHeight="26.0" prefWidth="90.0" styleClass="remove-picture-food" text="تفاصيل الطلب" textFill="WHITE">
                      <HBox.margin>
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                      </HBox.margin></Button>
-                  <HBox alignment="CENTER_LEFT" prefHeight="53.0" prefWidth="180.0">
+                  <HBox alignment="CENTER_LEFT" prefHeight="48.0" prefWidth="131.0">
                      <children>
-                        <Text fx:id="orderPrice" fill="#e40000" nodeOrientation="LEFT_TO_RIGHT" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-text-alignment: right;" styleClass="font2" text="3500 " wrappingWidth="130.00000374019146">
+                        <Text fx:id="orderPrice" fill="#e40000" nodeOrientation="LEFT_TO_RIGHT" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-text-alignment: right;" styleClass="font" text="3500 " wrappingWidth="92.00000374019146">
                            <font>
                               <Font size="25.0" />
                            </font>
@@ -68,7 +79,7 @@
                               <Insets bottom="3.0" right="10.0" top="3.0" />
                            </HBox.margin>
                         </Text>
-                        <Label prefHeight="20.0" prefWidth="38.0" styleClass="font2" text="DA" textAlignment="CENTER" textFill="#e40000" />
+                        <Label prefHeight="20.0" prefWidth="40.0" styleClass="font" text="DA" textAlignment="CENTER" textFill="#e40000" />
                      </children>
                   </HBox>
                </children>

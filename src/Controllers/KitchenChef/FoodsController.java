@@ -58,7 +58,6 @@ public class FoodsController implements Initializable {
     private Label totalFood;
 
     @FXML
-
     private VBox vboxOption;
 
     @FXML
@@ -102,7 +101,9 @@ public class FoodsController implements Initializable {
             BorderPane temp = loader.load();
             AddFoodController addFoodController = loader.getController();
             addFoodController.Init(temp);
-            mainPane.getChildren().setAll(temp);
+            temp.setMaxWidth(mainPane.getMaxWidth());
+            temp.setMaxHeight(mainPane.getMaxHeight());
+            this.mainPane.getChildren().setAll(temp);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -182,6 +183,8 @@ public class FoodsController implements Initializable {
             BorderPane temp = loader.load();
             EditFoodController editFoodController = loader.getController();
             editFoodController.Init(temp);
+            temp.setMaxHeight(mainPane.getMaxHeight());
+            temp.setMaxWidth(mainPane.getMaxWidth());
             mainPane.getChildren().setAll(temp);
         } catch (IOException e) {
             e.printStackTrace();

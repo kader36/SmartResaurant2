@@ -41,6 +41,9 @@ public class MoneyWithdrawllController implements Initializable {
     private TableView<MoneyWithdrawal> monywithdrawlOperationsTableView;
 
     @FXML
+    private TableColumn<MoneyWithdrawal, String> id;
+
+    @FXML
     private TableColumn<MoneyWithdrawal, CheckBox> checkColumn;
 
     @FXML
@@ -57,14 +60,11 @@ public class MoneyWithdrawllController implements Initializable {
 
 
     //variables.
-    // temporary data that will be add to table view but not to data base.
-    ObservableList<MoneyWithdrawal> temporaryMoneyWithdrawalOperations = FXCollections.observableArrayList();
+
 
     // original data that we get from data base.
     ObservableList<MoneyWithdrawal> originalMoneyWithdrawalOperations = FXCollections.observableArrayList();
 
-    // data that is curently in the table.
-    ObservableList<MoneyWithdrawal> tableMoneyWithdrawalOperations = FXCollections.observableArrayList();
 
     long millis=System.currentTimeMillis();
 
@@ -77,13 +77,9 @@ public class MoneyWithdrawllController implements Initializable {
 
         txtValidate();
         //set the button on action methods.
-        saveButton.setOnAction(actionEvent -> {
-            saveOperationsToDatabase();
-        });
 
-        quitButton.setOnAction(actionEvent -> {
-            clearData();
-        });
+
+
 
         removeButton.setOnAction(actionEvent -> {
             removeOperation();
@@ -96,12 +92,6 @@ public class MoneyWithdrawllController implements Initializable {
                         noteTextField.getText(),
                         "user"
                 );
-                Alert alertWarning = new Alert(Alert.AlertType.INFORMATION);
-                alertWarning.setHeaderText("تاكيد العملية ");
-                alertWarning.setContentText("تم اضافة العملية بنجاح ");
-                Button okButton = (Button) alertWarning.getDialogPane().lookupButton(ButtonType.OK);
-                okButton.setText("حسنا");
-                alertWarning.showAndWait();
             }else{
                 Alert alertWarning = new Alert(Alert.AlertType.WARNING);
                 alertWarning.setHeaderText("تحذير ");
@@ -120,11 +110,8 @@ public class MoneyWithdrawllController implements Initializable {
         // get the data from database and add it to the original data.
         MoneyWithdrawalOperationsBDD databaseConenctor = new MoneyWithdrawalOperationsBDD();
         ArrayList<MoneyWithdrawal> operationsList = databaseConenctor.getAll();
+            originalMoneyWithdrawalOperations.addAll(operationsList);
 
-        for (int index = 0; index < operationsList.size(); index++) {
-            originalMoneyWithdrawalOperations.add(operationsList.get(index));
-            tableMoneyWithdrawalOperations.add(operationsList.get(index));
-        }
 
         // set the data that we got to the tabel.
         //checkColumn.setCellValueFactory( new PropertyValueFactory<MoneyWithdrawal,CheckBox>("activeCheckBox"));
@@ -132,36 +119,21 @@ public class MoneyWithdrawllController implements Initializable {
         withdrawedMoneyColumn.setCellValueFactory( new PropertyValueFactory<MoneyWithdrawal,String>("moneyWithdrawnDA"));
         noteColumn.setCellValueFactory( new PropertyValueFactory<MoneyWithdrawal,String>("note"));
         dateColumn.setCellValueFactory( new PropertyValueFactory<MoneyWithdrawal,Date>("date"));
+        id.setCellValueFactory( new PropertyValueFactory<MoneyWithdrawal,String>("databaseID"));
         monywithdrawlOperationsTableView.setItems(originalMoneyWithdrawalOperations);
         
     }
 
 
-    // saveData method.
 
-    void saveOperationsToDatabase(){
-
-        // add the new operations to the database.
-
-        // clear the list to not do a duplication later.
-        temporaryMoneyWithdrawalOperations.clear();
-        // set the new original data.
-        monywithdrawlOperationsTableView.setItems(originalMoneyWithdrawalOperations);
-
-    }
 
 
     // quit data method.
     void clearData(){
-        temporaryMoneyWithdrawalOperations.clear();
-        tableMoneyWithdrawalOperations.clear();
-        // delete the temp from the table view.
-        for (int index = 0; index < temporaryMoneyWithdrawalOperations.size(); index++) {
-            tableMoneyWithdrawalOperations.remove(temporaryMoneyWithdrawalOperations.get(index));
-        }
-        for (int index = 0; index < originalMoneyWithdrawalOperations.size(); index++) {
-            tableMoneyWithdrawalOperations.add(originalMoneyWithdrawalOperations.get(index));
-        }
+        ArrayList list=new ArrayList();
+        MoneyWithdrawalOperationsBDD moneyWithdrawalOperationsBDD=new MoneyWithdrawalOperationsBDD();
+        list=moneyWithdrawalOperationsBDD.getAll();
+        originalMoneyWithdrawalOperations.setAll(list);
         monywithdrawlOperationsTableView.setItems(originalMoneyWithdrawalOperations);
 
     }
@@ -178,40 +150,34 @@ public class MoneyWithdrawllController implements Initializable {
         moneyWithdrawal.setUserName(CurrentUser.getEmloyer_name());
         moneyWithdrawal.setNote(note);
         databaseConenctor.insert(moneyWithdrawal);
-        temporaryMoneyWithdrawalOperations.add(
-                new MoneyWithdrawal( CurrentUser.getEmloyer_name(),moneySum,new java.sql.Date(millis) ,note)
-        );
-        // add it to the table
-        tableMoneyWithdrawalOperations.add(
-                new MoneyWithdrawal(CurrentUser.getEmloyer_name(),moneySum,new java.sql.Date(millis) ,note)
-        );
 
-        monywithdrawlOperationsTableView.setItems(tableMoneyWithdrawalOperations);
+        clearData();
     }
 
 
 
     // remove a money withdrawal operation.
     void removeOperation(){
+        Alert alertConfirmation = new Alert(Alert.AlertType.CONFIRMATION);
+        alertConfirmation.setHeaderText("تأكيد الحفظ");
+        alertConfirmation.setContentText("هل انت متأكد من عملية حفظ الوجبة");
+        Button okButton = (Button) alertConfirmation.getDialogPane().lookupButton(ButtonType.OK);
+        okButton.setText("موافق");
 
-        MoneyWithdrawalOperationsBDD databaseConnector = new MoneyWithdrawalOperationsBDD();
-        for (int index = 0; index < tableMoneyWithdrawalOperations.size(); index++) {
-            if (tableMoneyWithdrawalOperations.get(index).getActiveCheckBox().isSelected() == true){
-                // delete in the database.
-                databaseConnector.delete(tableMoneyWithdrawalOperations.get(index));
+        Button cancel = (Button) alertConfirmation.getDialogPane().lookupButton(ButtonType.CANCEL);
+        cancel.setText("الغاء");
+
+        alertConfirmation.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.CANCEL) {
+                alertConfirmation.close();
+            } else if (response == ButtonType.OK) {
+                MoneyWithdrawal moneyWithdrawal = monywithdrawlOperationsTableView.getSelectionModel().getSelectedItem();
+                MoneyWithdrawalOperationsBDD databaseConnector = new MoneyWithdrawalOperationsBDD();
+                databaseConnector.delete(moneyWithdrawal);
                 // delete in the lists.
-                originalMoneyWithdrawalOperations.remove(
-                        tableMoneyWithdrawalOperations.get(index)
-                );
-                temporaryMoneyWithdrawalOperations.remove(
-                        tableMoneyWithdrawalOperations.get(index)
-                );
-                tableMoneyWithdrawalOperations.remove(
-                        tableMoneyWithdrawalOperations.get(index)
-                );
+            }});
+        clearData();
 
-            }
-        }
     }
 
     private void txtValidate() {

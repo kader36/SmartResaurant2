@@ -1,10 +1,12 @@
 package Controllers.KitchenChef;
 
 import BddPackage.ProductCompositeOperation;
+import BddPackage.UnityOperation;
 import Controllers.ValidateController;
 import Controllers.newKitchenChef.UpdateProductComposeController;
 import Models.Product;
 import Models.ProductComposite;
+import Models.Unity;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -75,12 +77,20 @@ public class ProductCompositeController implements Initializable {
     private ObservableList<ProductComposite> dataTable = FXCollections.observableArrayList();
     private ArrayList<ProductComposite> list_Products = new ArrayList<>();
     private ProductCompositeOperation productOperation = new ProductCompositeOperation();
+    private ObservableList<String> dataunity ;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         txtValidate();
         vboxOption.setVisible(false);
-        STORAGE_UNIT.getItems().addAll("كيلوغرام","غرام","لتر","وحدة");
-        Unity_Food.getItems().addAll("غرام","لتر","ميللتر","وحدة");
+        dataunity = FXCollections.observableArrayList();
+
+        UnityOperation unityOperation = new UnityOperation();
+        ArrayList<Unity> unities = unityOperation.getAll();
+        for (Unity listProviderFromDB : unities) {
+            dataunity.add(listProviderFromDB.getName());
+        }
+        STORAGE_UNIT.setItems(dataunity);
+        Unity_Food.setItems(dataunity);
         col_id.setCellValueFactory(new PropertyValueFactory<>("id"));
         col_name.setCellValueFactory(new PropertyValueFactory<>("name"));
         col_quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
@@ -147,7 +157,6 @@ public class ProductCompositeController implements Initializable {
         Unity_Food.getSelectionModel().clearSelection();
     }
     private void txtValidate() {
-        validateController.inputTextValueType(txt_name);
         validateController.inputNumberValue(txt_tot_quantity);
         validateController.inputNumberValue(txt_Coefficient);
         validateController.inputNumberValue(txt_LESS_QUANTITY);

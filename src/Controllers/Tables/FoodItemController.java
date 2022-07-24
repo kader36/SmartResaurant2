@@ -68,15 +68,14 @@ public class FoodItemController implements Initializable {
 
         this.itemName.setText(name);
         File file = new File(imagePAth);
-        Image image = new Image(imagePAth);
+        Image image = new Image(file.toURI().toString());
         this.itemImage.setImage(image);
-        itemImage.setFitWidth(120);
-        itemImage.setFitHeight(90);
+        itemImage.setFitWidth(100);
+        itemImage.setFitHeight(75);
         itemImage.setPreserveRatio(false);
         Rectangle clip = new Rectangle();
-        clip.setWidth(120);
-        clip.setHeight(80);
-
+        clip.setWidth(100);
+        clip.setHeight(75);
         clip.setArcHeight(25);
         clip.setArcWidth(25);
         clip.setStroke(Color.BLACK);

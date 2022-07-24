@@ -20,7 +20,9 @@ import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.design.JRDesignQuery;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -81,7 +83,8 @@ public class TableOrderDetailsControlleur implements Initializable {
             Food food=new Food();
             FoodOperation foodOperation=new FoodOperation();
             food=foodOperation.getFoodByID(list.get(foodIndex).getId_food());
-            Image image=new Image(food.getImage_path());
+            File file = new File(food.getImage_path());
+            Image image = new Image(file.toURI().toString());
 
 
 
@@ -136,10 +139,14 @@ public class TableOrderDetailsControlleur implements Initializable {
         // close the drawer.
         TablesController.drawerOpening.setValue(! TablesController.drawerOpening.getValue());
 
+
         TabelsOperation tabelsOperation=new TabelsOperation();
         Tables table=new Tables();
         table.setId(curentOrder.getId_table());
         tabelsOperation.ActivTabel(table);
+        tabelsOperation.desActivOrderTabel(table);
+        //refresh tapor tabels
+        TabelActiveController.newOrder.setValue(!TabelActiveController.newOrder.getValue());
     }
 
     // method to cancle.
@@ -154,7 +161,7 @@ public class TableOrderDetailsControlleur implements Initializable {
         Connet connet = new Connet();
              Connection con = connet.connection();
              try {
-                 String report = System.getProperty("user.dir") + "/SmartResaurant/src/Report/print.jrxml";
+                 String report = System.getProperty("user.dir") + "/Report/print.jrxml";
                  JasperDesign jasperDesign = JRXmlLoader.load(report);
                  String sqlCmd = "SELECT orders.ORDER_TIME,orders.ORDER_PRICE,food_order.ORDER_QUANTITY,food.FOOD_NAME,food.FOOD_PRICE,orders.ID_TABLE_ORDER ,settings.Name,settings.PhoneNambe1,settings.PhoneNambe2,settings.Adress\n" +
                          "FROM `orders`,food_order,food,settings\n" +
@@ -166,7 +173,8 @@ public class TableOrderDetailsControlleur implements Initializable {
                  Connection connection = null;
 
                  JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, con);
-                 JasperPrintManager.printReport(jasperPrint,false);
+                 JasperViewer.viewReport(jasperPrint,false);
+                // JasperPrintManager.printReport(jasperPrint,false);
                  //JasperExportManager.exportReportToPdfFile(jasperPrint,System.getProperty("user.dir") + "/SmartResaurant/simpel.pdf");
              } catch (JRException e) {
                  e.printStackTrace();

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXDrawer?>
 <?import com.jfoenix.controls.JFXListView?>
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
@@ -19,59 +18,83 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="mainPane" cacheShape="false" centerShape="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" scaleShape="false" style="-fx-background-color: #F8F8F8;" stylesheets="@css/style.css" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.KitchenChef.EditFoodController">
-   <top>
-      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="80.0" style="-fx-background-color: #FFF;" styleClass="bar-top" BorderPane.alignment="CENTER">
-         <children>
-            <Label layoutX="55.0" layoutY="27.0" styleClass="font-hs-dream" text="إضافة وجبة" textFill="#828282" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="27.0">
-               <font>
-                  <Font size="22.0" />
-               </font>
-            </Label>
-         </children>
-         <BorderPane.margin>
-            <Insets />
-         </BorderPane.margin>
-      </AnchorPane>
-   </top>
+<BorderPane fx:id="mainPane" cacheShape="false" centerShape="false" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="830.0" nodeOrientation="RIGHT_TO_LEFT" scaleShape="false" style="-fx-background-color: #F8F8F8;" stylesheets="@css/style.css" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.KitchenChef.EditFoodController">
    <center>
-      <AnchorPane cacheShape="false" centerShape="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="701.0" prefWidth="1065.0" scaleShape="false" snapToPixel="false" styleClass="container" BorderPane.alignment="CENTER">
+      <AnchorPane cacheShape="false" centerShape="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="701.0" prefWidth="830.0" scaleShape="false" snapToPixel="false" style="-fx-background-color: #F8F8F8;" styleClass="container" BorderPane.alignment="CENTER">
          <children>
             <VBox layoutX="307.0" layoutY="15.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="604.0" prefWidth="666.0" style="-fx-background-color: FFF;" styleClass="container-table" AnchorPane.bottomAnchor="82.0" AnchorPane.leftAnchor="307.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="32.0">
                <children>
                   <AnchorPane prefHeight="140.0" prefWidth="716.0">
                      <children>
-                        <HBox layoutX="21.0" layoutY="28.0" prefHeight="26.0" prefWidth="220.0">
+                        <VBox alignment="CENTER_LEFT" prefHeight="121.0" prefWidth="235.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="481.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <Label styleClass="font-hs-dream" text="إسم الوجبة" textFill="#2d8b9a">
-                                 <font>
-                                    <Font name="HSDream-Regular" size="15.0" />
-                                 </font>
-                              </Label>
-                              <TextField fx:id="foodName" focusTraversable="false" prefHeight="26.0" prefWidth="142.0" promptText="أدخل إسم الوجبة">
-                                 <HBox.margin>
-                                    <Insets left="10.0" />
-                                 </HBox.margin>
-                              </TextField>
+                              <HBox maxWidth="120.0" minWidth="120.0" prefWidth="120.0">
+                                 <children>
+                                    <Label styleClass="font-hs-dream" text="رقم الوجبة" textFill="#2d8b9a">
+                                       <font>
+                                          <Font name="HSDream-Regular" size="15.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lbl_nb_food" styleClass="font-hs-dream" text="02" textFill="#444444">
+                                       <font>
+                                          <Font name="HSDream-Regular" size="15.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets left="5.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="30.0" prefWidth="220.0">
+                                 <children>
+                                    <Label prefHeight="20.0" prefWidth="73.0" styleClass="font-hs-dream" text="إسم الوجبة" textFill="#2d8b9a">
+                                       <font>
+                                          <Font name="HSDream-Regular" size="15.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="foodName" focusTraversable="false" prefHeight="26.0" prefWidth="150.0" promptText="أدخل إسم الوجبة">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                    </TextField>
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="30.0" prefWidth="200.0">
+                                 <children>
+                                    <Label prefHeight="20.0" prefWidth="51.0" styleClass="font-hs-dream" text="سعر البيع " textFill="#2d8b9a">
+                                       <font>
+                                          <Font name="HSDream-Regular" size="15.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets left="2.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <TextField fx:id="foodPrice" focusTraversable="false" prefHeight="26.0" prefWidth="150.0" promptText="أدخل السعر">
+                                       <HBox.margin>
+                                          <Insets left="30.0" />
+                                       </HBox.margin>
+                                    </TextField>
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="30.0" prefWidth="200.0">
+                                 <children>
+                                    <Label prefHeight="20.0" prefWidth="66.0" styleClass="font-hs-dream" text="سعر التكلفة" textFill="#2d8b9a">
+                                       <font>
+                                          <Font name="HSDream-Regular" size="15.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets left="2.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <TextField fx:id="prixfee" focusTraversable="false" prefHeight="24.0" prefWidth="150.0" promptText="ادخل سعر التكلفة ">
+                                       <HBox.margin>
+                                          <Insets left="15.0" />
+                                       </HBox.margin>
+                                    </TextField>
+                                 </children>
+                              </HBox>
                            </children>
-                        </HBox>
-                        <HBox layoutX="18.0" layoutY="95.0" prefHeight="26.0" prefWidth="209.0">
-                           <children>
-                              <Label styleClass="font-hs-dream" text="السعر" textFill="#2d8b9a">
-                                 <font>
-                                    <Font name="HSDream-Regular" size="15.0" />
-                                 </font>
-                                 <HBox.margin>
-                                    <Insets left="2.0" />
-                                 </HBox.margin>
-                              </Label>
-                              <TextField fx:id="foodPrice" focusTraversable="false" prefHeight="24.0" prefWidth="144.0" promptText="أدخل السعر">
-                                 <HBox.margin>
-                                    <Insets left="38.0" />
-                                 </HBox.margin>
-                              </TextField>
-                           </children>
-                        </HBox>
+                        </VBox>
                         <Button fx:id="addPicBtn" layoutX="432.0" layoutY="37.0" mnemonicParsing="false" onAction="#addPicFood" prefHeight="24.0" prefWidth="77.0" styleClass="add-picture-food" text="إضافة صورة" textFill="WHITE">
                            <cursor>
                               <Cursor fx:constant="HAND" />
@@ -92,36 +115,6 @@
                               <Image url="@../Images/panini.png" />
                            </image>
                         </ImageView>
-                        <HBox layoutX="21.0" layoutY="-1.0">
-                           <children>
-                              <Label styleClass="font-hs-dream" text="رقم الوجبة" textFill="#2d8b9a">
-                                 <font>
-                                    <Font name="HSDream-Regular" size="15.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="lbl_nb_food" styleClass="font-hs-dream" text="02" textFill="#444444">
-                                 <font>
-                                    <Font name="HSDream-Regular" size="15.0" />
-                                 </font>
-                                 <HBox.margin>
-                                    <Insets left="5.0" />
-                                 </HBox.margin>
-                              </Label>
-                           </children>
-                        </HBox>
-                        <HBox layoutX="19.0" layoutY="62.0" prefHeight="26.0" prefWidth="220.0">
-                           <children>
-                              <Label styleClass="font-hs-dream" text="الصنف " textFill="#2d8b9a">
-                                 <font>
-                                    <Font name="HSDream-Regular" size="15.0" />
-                                 </font>
-                                 <HBox.margin>
-                                    <Insets right="20.0" />
-                                 </HBox.margin>
-                              </Label>
-                              <Label fx:id="FoodCategory" alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="153.0" text="Label" />
-                           </children>
-                        </HBox>
                         <Label layoutX="302.0" layoutY="1.0" styleClass="font-hs-dream" text="وصف الوجبة " textFill="#2d8b9a">
                            <font>
                               <Font name="HSDream-Regular" size="15.0" />
@@ -259,58 +252,53 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
             </VBox>
-            <VBox alignment="TOP_CENTER" prefHeight="610.0" prefWidth="292.0" AnchorPane.bottomAnchor="76.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="767.0" AnchorPane.topAnchor="2.0">
+            <VBox alignment="TOP_CENTER" prefHeight="623.0" prefWidth="182.0" AnchorPane.bottomAnchor="76.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="638.0" AnchorPane.topAnchor="2.0">
                <children>
                   <Button mnemonicParsing="false" onAction="#AfficheProductCompose" styleClass="add-picture-food" text="المنتوجات المركبة " textFill="WHITE">
                      <VBox.margin>
                         <Insets bottom="4.0" />
                      </VBox.margin>
                   </Button>
-                  <AnchorPane prefHeight="600.0" prefWidth="270.0" style="-fx-background-color: white;" styleClass="select-product-factory">
+                  <JFXListView fx:id="listViewProduct" prefHeight="420.0" prefWidth="206.0" styleClass="list-view-products" />
+                  <TextField fx:id="txt_search" onAction="#searchProduct" prefHeight="21.0" prefWidth="246.0" promptText="بحث عن منتوج">
+                     <font>
+                        <Font name="HSDream-Regular" size="13.0" />
+                     </font>
+                  </TextField>
+                  <AnchorPane maxHeight="106.0" minHeight="56.0" prefHeight="106.0" prefWidth="266.0" styleClass="add-delete-quantity-product-anchor">
                      <children>
-                        <JFXListView fx:id="listViewProduct" layoutX="9.0" layoutY="60.0" prefHeight="420.0" prefWidth="254.0" styleClass="list-view-products" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="8.0" />
-                        <TextField fx:id="txt_search" layoutX="22.0" layoutY="24.0" onAction="#searchProduct" prefHeight="21.0" prefWidth="246.0" promptText="بحث عن منتوج" AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="21.0">
+                        <Button layoutX="16.0" layoutY="43.0" mnemonicParsing="false" onAction="#insertProductFood" prefWidth="115.0" styleClass="add-product-factory" text="اضافة الى الوجبة" textFill="WHITE" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="12.0">
                            <font>
                               <Font name="HSDream-Regular" size="13.0" />
                            </font>
-                        </TextField>
-                        <AnchorPane layoutX="3.0" maxHeight="106.0" minHeight="56.0" prefHeight="106.0" prefWidth="266.0" styleClass="add-delete-quantity-product-anchor" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Button>
+                        <Button layoutX="145.0" layoutY="43.0" mnemonicParsing="false" onAction="#deleteProductFood" prefWidth="115.0" styleClass="remove-product-from-factory" text="حذف من الوجبة" textFill="WHITE" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="12.0">
+                           <font>
+                              <Font name="HSDream-Regular" size="13.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Button>
+                        <VBox layoutX="82.0" layoutY="16.0" prefHeight="32.0" prefWidth="235.0" AnchorPane.leftAnchor="13.0" AnchorPane.topAnchor="10.0">
                            <children>
-                              <Button layoutX="16.0" layoutY="43.0" mnemonicParsing="false" onAction="#insertProductFood" prefWidth="115.0" styleClass="add-product-factory" text="اضافة الى الوجبة" textFill="WHITE" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="12.0">
+                              <TextField fx:id="txt_quantity" focusTraversable="false" prefHeight="25.0" prefWidth="115.0" promptText="أدخل الكمية">
                                  <font>
-                                    <Font name="HSDream-Regular" size="13.0" />
+                                    <Font name="HSDream-Regular" size="12.0" />
                                  </font>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </Button>
-                              <Button layoutX="145.0" layoutY="43.0" mnemonicParsing="false" onAction="#deleteProductFood" prefWidth="115.0" styleClass="remove-product-from-factory" text="حذف من الوجبة" textFill="WHITE" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="12.0">
-                                 <font>
-                                    <Font name="HSDream-Regular" size="13.0" />
-                                 </font>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </Button>
-                              <VBox layoutX="82.0" layoutY="16.0" prefHeight="32.0" prefWidth="235.0" AnchorPane.leftAnchor="13.0" AnchorPane.topAnchor="10.0">
-                                 <children>
-                                    <TextField fx:id="txt_quantity" focusTraversable="false" prefHeight="25.0" prefWidth="115.0" promptText="أدخل الكمية">
-                                       <font>
-                                          <Font name="HSDream-Regular" size="12.0" />
-                                       </font>
-                                    </TextField>
-                                 </children>
-                              </VBox>
+                              </TextField>
                            </children>
-                        </AnchorPane>
-                        <JFXDrawer fx:id="drawerSlider" prefHeight="606.0" prefWidth="272.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        </VBox>
                      </children>
                   </AnchorPane>
                </children>
             </VBox>
          </children>
          <BorderPane.margin>
-            <Insets />
+            <Insets top="20.0" />
          </BorderPane.margin>
       </AnchorPane>
    </center>

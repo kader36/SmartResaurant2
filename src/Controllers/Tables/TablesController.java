@@ -77,6 +77,7 @@ public class TablesController implements Initializable {
     public ArrayList<TableGainedMoney> tablesGainedMoney = new ArrayList<>();
 
 
+
     // variables.
     public ArrayList<Orders> tabelsOrder = new ArrayList<Orders>();
     public static BooleanProperty drawerOpening = new SimpleBooleanProperty();
@@ -101,6 +102,11 @@ public class TablesController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         lodeData();
         CalculeTotal();
+        newOrder.addListener((observableValue, aBoolean, t1) -> {
+            tablesGridPane.getChildren().clear();
+            lodeData();
+            CalculeTotal();
+        });
         // the variable that we will listen to.
          drawerOpening.setValue(false); // drawer opening/closing.
         // newOrder.setValue(false); // new order coming from the tablet.

@@ -1,18 +1,19 @@
 import Controllers.Tables.OrdersServer;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.io.IOException;
+import java.net.InetAddress;
 
 public class Main extends Application {
     Parent root;
@@ -20,21 +21,16 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        // lunch the serve thread to listen to new orders from the tablet application.
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd ");
-        Date date = new Date(System.currentTimeMillis());
-        GregorianCalendar ge=new GregorianCalendar();
-        long millis=System.currentTimeMillis();
+            InetAddress address = InetAddress.getLocalHost();
+            String key=address+"x1x"+address;
 
-        System.out.println("1...."+dateFormat.format(date));
-        System.out.println("date...."+date.getMonth()+1);
-        System.out.println("date...."+ge.getTime());
-        Thread serverThread = new Thread(() -> {
-            OrdersServer.startListeningToOrders();
-        });
-        serverThread.start();
+            System.out.println(key);
+
+        // lunch the serve thread to listen to new orders from the tablet application.
         try {
-            root = FXMLLoader.load(getClass().getClassLoader().getResource("Views/login.fxml"));
+           root = FXMLLoader.load(getClass().getClassLoader().getResource("Views/login.fxml"));
+            Image image =new Image("/Images/logo.png");
+            primaryStage.getIcons().add(image);
             Scene scene = new Scene(root);
             primaryStage.initStyle(StageStyle.TRANSPARENT);
             primaryStage.setScene(scene);
@@ -58,9 +54,24 @@ public class Main extends Application {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent e) {
+
+                try {
+                    OrdersServer.serverSocket.close();
+                    System.out.println("socket close");
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                Platform.exit();
+                System.exit(0);
+            }
+        });
     }
         public static void main(String[] args)
         {
+
             launch(args);
 
 

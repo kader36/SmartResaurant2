@@ -21,6 +21,7 @@ public class SettingsOperation extends BDD<Settings> {
         try {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             preparedStmt.setString(1, o1.getName());
+            System.out.println(o1.getName());
             preparedStmt.setString(2, o1.getPhonenamber1());
             preparedStmt.setString(3, o1.getPhonenamber2());
             preparedStmt.setString(4, o1.getAdress());

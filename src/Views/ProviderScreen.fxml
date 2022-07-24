@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
@@ -16,7 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #F8F8F8;" stylesheets="@css/style.css" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.stroreKeeper.ProviderController">
+<BorderPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="830.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="700.0" prefWidth="850.0" style="-fx-background-color: #F8F8F8;" stylesheets="@css/style.css" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.stroreKeeper.ProviderController">
    <center>
       <AnchorPane styleClass="container" BorderPane.alignment="CENTER">
          <children>
@@ -203,15 +204,19 @@
                <children>
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <Label styleClass="number-of-list" text="العدد" textFill="#777777">
+                        <Label minWidth="30.0" text="العدد" textFill="#777777">
                            <font>
                               <Font size="26.0" />
                            </font>
                            <HBox.margin>
                               <Insets top="-80.0" />
                            </HBox.margin>
+                           <styleClass>
+                              <String fx:value="number-of-list" />
+                              <String fx:value="font" />
+                           </styleClass>
                         </Label>
-                        <Label fx:id="lbl_provider_number" styleClass="number-list" text="2513" textFill="#777777">
+                        <Label fx:id="lbl_provider_number" prefHeight="20.0" prefWidth="20.0" text="2513" textFill="#777777">
                            <font>
                               <Font size="26.0" />
                            </font>
@@ -221,14 +226,10 @@
                            <HBox.margin>
                               <Insets top="-80.0" />
                            </HBox.margin>
-                        </Label>
-                        <Label styleClass="sorted-by" text="فرز بـ" textFill="#686868">
-                           <font>
-                              <Font size="20.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets top="-80.0" />
-                           </HBox.margin>
+                           <styleClass>
+                              <String fx:value="number-list" />
+                              <String fx:value="font" />
+                           </styleClass>
                         </Label>
                         <ComboBox fx:id="listedbyCombo" maxHeight="32.0" maxWidth="97.0" minHeight="32.0" minWidth="97.0" prefHeight="32.0" prefWidth="97.0" promptText="الكل" styleClass="search-input">
                            <HBox.margin>
@@ -267,7 +268,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Button>
-                        <Button fx:id="addProvider" maxHeight="35.0" maxWidth="150.0" minHeight="35.0" minWidth="150.0" mnemonicParsing="false" onAction="#addNewProvider" prefHeight="35.0" prefWidth="150.0" styleClass="add-new-item" text="اضافة مورد جديد " textFill="WHITE">
+                        <Button fx:id="addProvider" maxHeight="30.0" maxWidth="120.0" minHeight="30.0" minWidth="140.0" mnemonicParsing="false" onAction="#addNewProvider" prefHeight="30.0" prefWidth="120.0" text="اضافة مورد جديد " textFill="WHITE">
                            <font>
                               <Font size="16.0" />
                            </font>
@@ -283,7 +284,11 @@
                            </cursor>
                            <HBox.margin>
                               <Insets top="-80.0" />
-                           </HBox.margin></Button>
+                           </HBox.margin>
+                           <styleClass>
+                              <String fx:value="add-new-item" />
+                              <String fx:value="font" />
+                           </styleClass></Button>
                         <VBox prefHeight="200.0" prefWidth="100.0">
                            <children>
                               <VBox prefHeight="101.0" prefWidth="81.0">

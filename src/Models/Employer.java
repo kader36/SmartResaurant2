@@ -1,5 +1,9 @@
 package Models;
 
+import BddPackage.Work_hoursOpertion;
+import Controllers.EmployerController;
+
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Employer {
@@ -9,14 +13,17 @@ public class Employer {
     private String last_nameANDfirst_name;
     private String  phone_number;
     private String job;
-    private Date work_strat;
+    private String work_strat;
     private Date work_end;
     private String adress;
     private int salary;
-    private String numberphone;
+    private int SalaryDay;
+    private String Present;
+    private ArrayList<Work_hours> work_hours_ArrayList;
 
 
     public Employer() {
+
     }
 
 
@@ -27,6 +34,16 @@ public class Employer {
 
     public void setId(int id) {
         this.id = id;
+        Work_hours work_hours=new Work_hours();
+        work_hours.setID_employer(this.id);
+        work_hours.setDate_work(EmployerController.txtdatetime);
+        Work_hoursOpertion work_hoursOpertion=new Work_hoursOpertion();
+        Work_hours work_hours1=new Work_hours();
+        work_hours1=work_hoursOpertion.getwork_hours(work_hours);
+        String at=work_hours1.getAttendance();
+        Present=at;
+        work_hours_ArrayList=work_hoursOpertion.getAllWork(work_hours);
+
     }
 
     public String getFirst_name() {
@@ -64,11 +81,11 @@ public class Employer {
         this.job = email;
     }
 
-    public Date getWork_strat() {
+    public String getWork_strat() {
         return work_strat;
     }
 
-    public void setWork_strat(Date work_strat) {
+    public void setWork_strat(String work_strat) {
         this.work_strat = work_strat;
     }
 
@@ -98,5 +115,29 @@ public class Employer {
 
     public String getLast_nameANDfirst_name() {
         return last_nameANDfirst_name;
+    }
+
+    public int getSalaryDay() {
+        return SalaryDay;
+    }
+
+    public void setSalaryDay(int salaryDay) {
+        SalaryDay = salaryDay;
+    }
+
+    public String getPresent() {
+        return Present;
+    }
+
+    public void setPresent(String present) {
+        Present = present;
+    }
+
+    public ArrayList<Work_hours> getWork_hours_ArrayList() {
+        return work_hours_ArrayList;
+    }
+
+    public void setWork_hours_ArrayList(ArrayList<Work_hours> work_hours_ArrayList) {
+        this.work_hours_ArrayList = work_hours_ArrayList;
     }
 }

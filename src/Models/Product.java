@@ -10,6 +10,7 @@ public class Product {
     private int Coefficient;
     private int less_quantity;
     private double tot_quantity;
+    private String name_quantity;
 
     public Product() {
     }
@@ -80,5 +81,8 @@ public class Product {
 
     public void setTot_quantity(double tot_quantity) {
         this.tot_quantity = tot_quantity;
+        this.name_quantity = tot_quantity+" "+this.storage_Unit;
+        System.out.println("eeeee="+name_quantity);
     }
+
 }

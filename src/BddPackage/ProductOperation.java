@@ -90,7 +90,7 @@ public class ProductOperation extends BDD<Product> {
         return del;
     }
 
-    @Override
+    @Overridea
     public boolean isExist(Product o) {
         return false;
     }
@@ -139,12 +139,29 @@ public class ProductOperation extends BDD<Product> {
     public ArrayList<Product> getProductFinished() {
         ArrayList<Product> list = new ArrayList<>();
         String query = "SELECT * FROM `product` WHERE QUANTITY <= `LESS_QUANTITY`;";
+        conn=connect();
+        PreparedStatement preparedStmt = null;
         try {
-
-            chargeData(list, query);
+            preparedStmt = conn.prepareStatement(query);
+        ResultSet resultSet = preparedStmt.executeQuery();
+        while (resultSet.next()) {
+            Product product = new Product();
+            product.setId(resultSet.getInt("ID_PRODUCT"));
+            product.setId_category(resultSet.getInt("ID_PRODUCT_CATEGORY"));
+            product.setName(resultSet.getString("PRODUCT_NAME"));
+            product.setStorage_Unit(resultSet.getString("STORAGE_UNIT"));
+            product.setUnity_Food(resultSet.getString("Unity_Food"));
+            product.setCoefficient(resultSet.getInt("coefficient"));
+            product.setLess_quantity(resultSet.getInt("LESS_QUANTITY"));
+            product.setTot_quantity(resultSet.getDouble("QUANTITY"));
+            //product.setLess_quantity(resultSet.getInt("LESS_QUANTITY"));
+            list.add(product);
+        }
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         return list;
     }
 
@@ -157,6 +174,7 @@ public class ProductOperation extends BDD<Product> {
             product.setId(resultSet.getInt("ID_PRODUCT"));
             product.setId_category(resultSet.getInt("ID_PRODUCT_CATEGORY"));
             product.setName(resultSet.getString("PRODUCT_NAME"));
+            product.setCategory_name(resultSet.getString("CATEGORY_NAME"));
             product.setStorage_Unit(resultSet.getString("STORAGE_UNIT"));
             product.setUnity_Food(resultSet.getString("Unity_Food"));
             product.setCoefficient(resultSet.getInt("coefficient"));

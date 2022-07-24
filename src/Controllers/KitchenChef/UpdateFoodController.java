@@ -101,7 +101,6 @@ public class UpdateFoodController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         ValidateController validateController = new ValidateController();
-        validateController.inputTextValueType(txt_food_name);
         validateController.inputNumberValueType(txt_food_Price);
         validateController.inputNumberValueType(txt_quantity_Product);
         foodOperation = new FoodOperation();
