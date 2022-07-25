@@ -1,4 +1,5 @@
 import BddPackage.SerialOperation;
+import Controllers.Key;
 import Controllers.Tables.OrdersServer;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -13,6 +14,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 
 public class Main extends Application {
@@ -23,7 +26,20 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         SerialOperation serialOperation=new SerialOperation();
        if(serialOperation.checking()==-1){
-           System.out.println("يرجى تفعيل البرنامج");
+           try {
+               File myObj = new File("C:/Users/" + System.getProperty("user.name") + "/Desktop/codeAdress.txt");
+               if (myObj.createNewFile()) {
+                   System.out.println("File created: " + myObj.getName());
+                   FileWriter myWriter = new FileWriter("C:/Users/" + System.getProperty("user.name") + "/Desktop/codeAdress.txt");
+                   myWriter.write(Key.printCpu());
+                   myWriter.close();
+               } else {
+                   System.out.println("File already exists.");
+               }
+
+           } catch (IOException e) {
+               throw new RuntimeException(e);
+           }
        }else {
            try {
                root = FXMLLoader.load(getClass().getClassLoader().getResource("Views/login.fxml"));

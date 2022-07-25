@@ -26,7 +26,7 @@ public class Key {
 
 
 
-    static String printCpu() {
+   public static String printCpu() {
         InetAddress localHost = null;
         try {
             localHost = InetAddress.getLocalHost();
@@ -52,6 +52,8 @@ public class Key {
         String macAddress = String.join("-", hexadecimal);
         System.out.println(macAddress);
         return macAddress;
+
+
 
     }
 }
