@@ -59,8 +59,6 @@ public class SerialOperation extends BDD<Serial>{
                         return  1;
                     }else{
                         DateFormat dateYear = new SimpleDateFormat("yyyy-MM-dd");
-                        System.out.println(Fin);
-                        System.out.println(dateYear.format(date));
                         if(Fin.toString().equals(dateYear.format(date).toString())){
                             st.executeUpdate("UPDATE `serial` SET `TrialBegin`=CURRENT_DATE() WHERE id=1;");
                         }

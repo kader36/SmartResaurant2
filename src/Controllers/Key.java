@@ -20,8 +20,6 @@ public class Key {
         }
         md5.update(StandardCharsets.UTF_8.encode("kader"+printCpu()));
         String macCrypted= String.format("%032x", new BigInteger(1, md5.digest()));
-        System.out.println(macCrypted);
-        System.out.println("Hello world!");
         return macCrypted;
 
     }
