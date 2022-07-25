@@ -1,5 +1,4 @@
 import BddPackage.SerialOperation;
-import Controllers.Key;
 import Controllers.Tables.OrdersServer;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -14,8 +13,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 
 public class Main extends Application {
@@ -25,7 +22,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         SerialOperation serialOperation=new SerialOperation();
-       if(serialOperation.checking()==-1){
+      /* if(serialOperation.checking()==-1){
            try {
                File myObj = new File("C:/Users/" + System.getProperty("user.name") + "/Desktop/codeAdress.txt");
                if (myObj.createNewFile()) {
@@ -41,8 +38,8 @@ public class Main extends Application {
                throw new RuntimeException(e);
            }
        }else {
-           try {
-               root = FXMLLoader.load(getClass().getClassLoader().getResource("Views/login.fxml"));
+         */  try {
+               root = FXMLLoader.load(getClass().getClassLoader().getResource("Views/Active.fxml"));
                Image image =new Image("/Images/logo.png");
                primaryStage.getIcons().add(image);
                Scene scene = new Scene(root);
@@ -82,7 +79,7 @@ public class Main extends Application {
                    System.exit(0);
                }
            });
-       }
+     //  }
 
         // lunch the serve thread to listen to new orders from the tablet application.
 

@@ -4,10 +4,7 @@ import Controllers.Key;
 import Models.Serial;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,6 +34,21 @@ public class SerialOperation extends BDD<Serial>{
     @Override
     public ArrayList<Serial> getAll() {
         return null;
+    }
+    public boolean update(Serial o1) {
+        conn=connect();
+        boolean upd = false;
+        String query = "UPDATE `serial` SET `serialpc`=? WHERE id=1;";
+        try {
+            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            preparedStmt.setString(1, o1.getSerial());
+            int update = preparedStmt.executeUpdate();
+            if (update != -1) upd = true;
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return upd;
     }
     public int checking()throws IOException {
         Key key=new Key();

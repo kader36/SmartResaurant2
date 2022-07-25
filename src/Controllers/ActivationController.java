@@ -1,44 +1,48 @@
 package Controllers;
 
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.net.UnknownHostException;
+import BddPackage.SerialOperation;
+import Models.Serial;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextField;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.stage.Stage;
 
 public class ActivationController {
-    public void getmac() {
-        InetAddress ip;
-        try {
+    @FXML
+    private JFXTextField code;
 
-            ip = InetAddress.getLocalHost();
-            System.out.println("Current IP address : " + ip.getHostAddress());
+    @FXML
+    private JFXButton btnclose;
 
-            NetworkInterface network = NetworkInterface.getByInetAddress(ip);
+    @FXML
+    private Label error;
+    @FXML
+    private Label error1;
 
-            byte[] mac = network.getHardwareAddress();
-
-            System.out.print("Current MAC address : ");
-
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < mac.length; i++) {
-                sb.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? "-" : ""));
-            }
-            System.out.println(sb.toString());
-
-        } catch (UnknownHostException e) {
-
-            e.printStackTrace();
-
-        } catch (SocketException e){
-
-            e.printStackTrace();
-
+    @FXML
+    void Active(ActionEvent event) {
+        Key  key=new Key();
+        String macAdress= key.macAdress();
+        if(code.getText().equals(macAdress)){
+            SerialOperation serialOperation=new SerialOperation();
+            Serial serial=new Serial();
+            serial.setSerial(macAdress);
+            serialOperation.update(serial);
+            error.setVisible(true);
+        }else {
+            error1.setVisible(true);
         }
 
     }
 
+    @FXML
+    void close(ActionEvent event){
+        Stage stage = (Stage) btnclose.getScene().getWindow();
+        stage.close();
 
-
+    }
 }
 
 
