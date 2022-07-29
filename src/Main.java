@@ -1,3 +1,4 @@
+import BddPackage.SerialOperation;
 import Controllers.Tables.OrdersServer;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -13,7 +14,6 @@ import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 
 import java.io.IOException;
-import java.net.InetAddress;
 
 public class Main extends Application {
     Parent root;
@@ -21,53 +21,55 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-            InetAddress address = InetAddress.getLocalHost();
-            String key=address+"x1x"+address;
+        SerialOperation serialOperation=new SerialOperation();
+       if(serialOperation.checking()==-1){
+           System.out.println("يرجى تفعيل البرنامج");
+       }else {
+           try {
+               root = FXMLLoader.load(getClass().getClassLoader().getResource("Views/login.fxml"));
+               Image image =new Image("/Images/logo.png");
+               primaryStage.getIcons().add(image);
+               Scene scene = new Scene(root);
+               primaryStage.initStyle(StageStyle.TRANSPARENT);
+               primaryStage.setScene(scene);
+               primaryStage.show();
+               scene.setFill(Color.TRANSPARENT);
+               root.setOnMousePressed(new EventHandler<MouseEvent>() {
+                   @Override
+                   public void handle(MouseEvent event) {
+                       xOffset = event.getSceneX();
+                       yOffset = event.getSceneY();
+                   }
+               });
+               root.setOnMouseDragged(new EventHandler<MouseEvent>() {
+                   @Override
+                   public void handle(MouseEvent event) {
+                       primaryStage.setX(event.getScreenX() - xOffset);
+                       primaryStage.setY(event.getScreenY() - yOffset);
+                   }
+               });
 
-            System.out.println(key);
+           } catch (Exception e) {
+               e.printStackTrace();
+           }
+           primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+               @Override
+               public void handle(WindowEvent e) {
+
+                   try {
+                       OrdersServer.serverSocket.close();
+                       System.out.println("socket close");
+                   } catch (IOException ex) {
+                       ex.printStackTrace();
+                   }
+                   Platform.exit();
+                   System.exit(0);
+               }
+           });
+       }
 
         // lunch the serve thread to listen to new orders from the tablet application.
-        try {
-           root = FXMLLoader.load(getClass().getClassLoader().getResource("Views/login.fxml"));
-            Image image =new Image("/Images/logo.png");
-            primaryStage.getIcons().add(image);
-            Scene scene = new Scene(root);
-            primaryStage.initStyle(StageStyle.TRANSPARENT);
-            primaryStage.setScene(scene);
-            primaryStage.show();
-                scene.setFill(Color.TRANSPARENT);
-            root.setOnMousePressed(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    xOffset = event.getSceneX();
-                    yOffset = event.getSceneY();
-                }
-            });
-            root.setOnMouseDragged(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    primaryStage.setX(event.getScreenX() - xOffset);
-                    primaryStage.setY(event.getScreenY() - yOffset);
-                }
-            });
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent e) {
-
-                try {
-                    OrdersServer.serverSocket.close();
-                    System.out.println("socket close");
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-                Platform.exit();
-                System.exit(0);
-            }
-        });
     }
         public static void main(String[] args)
         {
